@@ -10,3 +10,20 @@ A 3D game made in Python with moderngl
 - These flat valleys, known as "islands" have stealth mechanics, and will fall down if you move to suddenly
 - Islands also just fall randomly, and your emergency jetpacks will fly you back to your ship
 - These "flybacks" use buckets of power, and some samples will be irreperably damaged
+
+# Complexity
+- Full 3D written from scratch in GLSL
+  - Perspective camera
+  - Phong shading
+  - Oren-Nayar reflectance
+  - Z-buffering
+  - Distance fog
+  - Bump mapping
+- Chunks and chunk loading
+- Procedural generation
+  - Based on Worley noise
+  - Possible deformation calculated ahead of time
+- A motion planner for flybacks
+  - Based around virtual potential fields
+  - Powered by a reverse-mode autodiff engine
+  - Used by a 5D planner
