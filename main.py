@@ -1,5 +1,7 @@
 # Kaidun (by HktOverload)
 
+from http.client import MOVED_PERMANENTLY
+from turtle import onkey
 import numpy as np
 import moderngl_window as mglw
 
@@ -40,25 +42,43 @@ class GameWindow(mglw.WindowConfig):
             'keypress': {},
             'keyrelease': {},
         }
+        # Event handlers / Keyboard / Movement
+        movement = {
+            'w': (0, 0, +0.5),
+            'a': (+0.5, 0, 0),
+            's': (0, 0, -0.5),
+            'd': (-0.5, 0, 0),
+        }
+        movementOnKeypress, movementOnKeyrelease = {}, {}
+        def moveOnKeypress(x, y, z):
+            return lambda: \
+                self.updateCameraMove(*(
+                    float(i) \
+                        for i in (x, y, z)
+                ))
+        def moveOnKeyrelease(x, y, z):
+            return lambda: \
+                self.updateCameraMove(*(
+                    (0.0 if i == 0 else None) \
+                        for i in (x, y, z)
+                ))
+        for k, args in movement.items():
+            movementOnKeypress[k] = moveOnKeypress(*args)
+            movementOnKeyrelease[k] = moveOnKeyrelease(*args)
         # Event handlers / Keyboard
         keypress = {
-            'w': lambda: \
-                self.updateCameraMove(0.0, 0.0, +0.5),
+            **movementOnKeypress,
         }
         keyrelease = {
-            'w': lambda: \
-                self.updateCameraMove(0.0, 0.0, None),
+            **movementOnKeyrelease,
         }
         for k, v in keypress.items():
-            seq = k if isinstance(k, tuple) else (k,)
-            for k in seq:
-                key = getattr(self.wnd.keys, k.upper())
-                self.handlers['keypress'][key] = v
+            key = getattr(self.wnd.keys, k.upper())
+            self.handlers['keypress'][key] = v
         for k, v in keyrelease.items():
-            seq = k if isinstance(k, tuple) else (k,)
-            for k in seq:
-                key = getattr(self.wnd.keys, k.upper())
-                self.handlers['keyrelease'][key] = v
+            key = getattr(self.wnd.keys, k.upper())
+            self.handlers['keyrelease'][key] = v
+        print(self.handlers['keypress'])
     
     def render(self, *_):
         self.forwardToGPU()
@@ -77,6 +97,7 @@ class GameWindow(mglw.WindowConfig):
         self.prog['cam_ctr'] = self.cam_ctr
 
     def frame(self):
+        #: print(self.dcam)
         self.cam_ctr = (
             self.cam_ctr[0] + self.dcam[0],
             self.cam_ctr[1] + self.dcam[1],
@@ -84,6 +105,7 @@ class GameWindow(mglw.WindowConfig):
         )
     
     def updateCameraMove(self, x, y, z):
+        print(x, y, z)
         self.dcam = (
             (self.dcam[0] + x) if x != None else 0.0,
             (self.dcam[1] + y) if y != None else 0.0,
