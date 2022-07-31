@@ -26,34 +26,45 @@ class GameWindow(mglw.WindowConfig):
                 -0.5, 0.3, 0.3,
             ], dtype='f4')
         )
-        self.prog['cam_ctr'].value = (0.0, 1.0, -2.0)
         self.vao = self.ctx.vertex_array(
             self.prog,
             [
                 (self.vertBuf, '3f', 'vert')
             ]
         )
+        # Camera
+        self.cam_ctr = (0.0, 1.0, -2.0)
+        self.dcam = (0.0, 0.0, 0.0)
         # Event handlers
         self.handlers = {
-            'keypress': {
-                'a': lambda: print('tacos'),
-            },
-            'keyrelease': {
-                'a': lambda: print('no tacos'),
-            },
+            'keypress': {},
+            'keyrelease': {},
         }
-        self.handlers['keypress'] = {
-            getattr(self.wnd.keys, k.upper()): v \
-                for k, v in self.handlers['keypress'].items()
+        # Event handlers / Keyboard
+        keypress = {
+            'w': lambda: \
+                self.updateCameraMove(0.0, 0.0, +0.5),
         }
-        self.handlers['keyrelease'] = {
-            getattr(self.wnd.keys, k.upper()): v \
-                for k, v in self.handlers['keyrelease'].items()
+        keyrelease = {
+            'w': lambda: \
+                self.updateCameraMove(0.0, 0.0, None),
         }
+        for k, v in keypress.items():
+            seq = k if isinstance(k, tuple) else (k,)
+            for k in seq:
+                key = getattr(self.wnd.keys, k.upper())
+                self.handlers['keypress'][key] = v
+        for k, v in keyrelease.items():
+            seq = k if isinstance(k, tuple) else (k,)
+            for k in seq:
+                key = getattr(self.wnd.keys, k.upper())
+                self.handlers['keyrelease'][key] = v
     
     def render(self, *_):
+        self.forwardToGPU()
         self.ctx.clear(0.0, 0.0, 0.0)
         self.vao.render()
+        self.frame()
 
     def key_event(self, key, action, _):
         if action == self.wnd.keys.ACTION_PRESS:
@@ -61,5 +72,22 @@ class GameWindow(mglw.WindowConfig):
         elif action == self.wnd.keys.ACTION_RELEASE:
             handler = 'keyrelease'
         self.handlers[handler].get(key, lambda: None)()
+
+    def forwardToGPU(self):
+        self.prog['cam_ctr'] = self.cam_ctr
+
+    def frame(self):
+        self.cam_ctr = (
+            self.cam_ctr[0] + self.dcam[0],
+            self.cam_ctr[1] + self.dcam[1],
+            self.cam_ctr[2] + self.dcam[2],
+        )
+    
+    def updateCameraMove(self, x, y, z):
+        self.dcam = (
+            (self.dcam[0] + x) if x != None else 0.0,
+            (self.dcam[1] + y) if y != None else 0.0,
+            (self.dcam[2] + z) if z != None else 0.0,
+        )
 
 mglw.run_window_config(GameWindow)
