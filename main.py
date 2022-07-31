@@ -33,6 +33,7 @@ class GameWindow(mglw.WindowConfig):
         )
     
     def render(self, *_):
+        self.ctx.clear(0.0, 0.0, 0.0)
         self.vao.render()
 
 mglw.run_window_config(GameWindow)
