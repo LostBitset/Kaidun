@@ -20,11 +20,13 @@ class GameWindow(mglw.WindowConfig):
         )
         self.vertBuf = self.ctx.buffer(
             np.array([
-                0.2, -0.8,
-                0.4, 0.9,
-                -0.5, 0.3,
+                0.2, -0.8, 0.0,
+                0.4, 0.9, 0.5,
+                -0.5, 0.3, 0.3,
             ], dtype='f4')
         )
+        self.prog['cam_ctr'].value = (0.0, 0.0, -2.0)
+        self.prog['flen'].value = 1.0
         self.vao = self.ctx.vertex_array(
             self.prog,
             [
