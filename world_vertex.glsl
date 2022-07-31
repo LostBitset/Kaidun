@@ -28,10 +28,11 @@ vec3 camspace_tr() {
 }
 
 mat3x4 perspective(in mat3 rot, in vec3 tr) {
+    vec3 tr2 = rot * tr;
     return mat3x4(
-        rot[0][0], rot[1][0], rot[2][0], tr.x,
-        rot[0][1], rot[1][1], rot[2][1], tr.y,
-        rot[0][2], rot[1][2], rot[2][2], tr.z
+        rot[0][0], rot[1][0], rot[2][0], tr2.x,
+        rot[0][1], rot[1][1], rot[2][1], tr2.y,
+        rot[0][2], rot[1][2], rot[2][2], tr2.z
     );
 }
 

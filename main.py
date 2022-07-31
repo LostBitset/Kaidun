@@ -36,36 +36,43 @@ class GameWindow(mglw.WindowConfig):
         )
         # Camera
         self.cam_ctr = (0.0, 1.0, -2.0)
-        self.dcam = (0.0, 0.0, 0.0)
+        self.d_cam_ctr = (0.0, 0.0, 0.0)
         self.cam_rot = (0.0, 0.0, 0.0) # (yaw, pitch, roll)
+        self.d_cam_rot = (0.0, 0.0, 0.0)
         # Event handlers
         self.handlers = {
             'keypress': {},
             'keyrelease': {},
         }
         # Event handlers / Keyboard / Movement
-        speed = 0.2
+        tspeed, rspeed = 0.2, 0.1
         movement = {
-            'w': (0, 0, +speed),
-            'a': (+speed, 0, 0),
-            's': (0, 0, -speed),
-            'd': (-speed, 0, 0),
-            'e': (0, +speed, 0),
-            'c': (0, -speed, 0)
+            'w':        (0, 0, +tspeed, 0, 0, 0),
+            'a':        (+tspeed, 0, 0, 0, 0, 0),
+            's':        (0, 0, -tspeed, 0, 0, 0),
+            'd':        (-tspeed, 0, 0, 0, 0, 0),
+            'e':        (0, +tspeed, 0, 0, 0, 0),
+            'c':        (0, -tspeed, 0, 0, 0, 0),
+            'up':       (0, 0, 0, +rspeed, 0, 0),
+            'down':     (0, 0, 0, -rspeed, 0, 0),
+            'left':     (0, 0, 0, 0, +rspeed, 0),
+            'right':    (0, 0, 0, 0, -rspeed, 0),
+            'o':        (0, 0, 0, 0, 0, +rspeed),
+            'p':        (0, 0, 0, 0, 0, -rspeed),
         }
         movementOnKeypress, movementOnKeyrelease = {}, {}
-        def moveOnKeypress(x, y, z):
+        def moveOnKeypress(*args):
             return lambda: \
-                self.updateCameraMove(*(
+                self.updateCameraMove(*[
                     float(i) \
-                        for i in (x, y, z)
-                ))
-        def moveOnKeyrelease(x, y, z):
+                        for i in args
+                ])
+        def moveOnKeyrelease(*args):
             return lambda: \
-                self.updateCameraMove(*(
+                self.updateCameraMove(*[
                     (0.0 if i == 0 else None) \
-                        for i in (x, y, z)
-                ))
+                        for i in args
+                ])
         for k, args in movement.items():
             movementOnKeypress[k] = moveOnKeypress(*args)
             movementOnKeyrelease[k] = moveOnKeyrelease(*args)
@@ -82,6 +89,7 @@ class GameWindow(mglw.WindowConfig):
         for k, v in keyrelease.items():
             key = getattr(self.wnd.keys, k.upper())
             self.handlers['keyrelease'][key] = v
+        self.handlers['keypress']['up'] = lambda: print('tacos?')
     
     def render(self, *_):
         self.setupShaderInvocation()
@@ -107,16 +115,26 @@ class GameWindow(mglw.WindowConfig):
 
     def frame(self):
         self.cam_ctr = (
-            self.cam_ctr[0] + self.dcam[0],
-            self.cam_ctr[1] + self.dcam[1],
-            self.cam_ctr[2] + self.dcam[2],
+            self.cam_ctr[0] + self.d_cam_ctr[0],
+            self.cam_ctr[1] + self.d_cam_ctr[1],
+            self.cam_ctr[2] + self.d_cam_ctr[2],
+        )
+        self.cam_rot = (
+            self.cam_rot[0] + self.d_cam_rot[0],
+            self.cam_rot[1] + self.d_cam_rot[1],
+            self.cam_rot[2] + self.d_cam_rot[2],
         )
     
-    def updateCameraMove(self, x, y, z):
-        self.dcam = (
-            (self.dcam[0] + x) if x != None else 0.0,
-            (self.dcam[1] + y) if y != None else 0.0,
-            (self.dcam[2] + z) if z != None else 0.0,
+    def updateCameraMove(self, x, y, z, a, b, c):
+        self.d_cam_ctr = (
+            (self.d_cam_ctr[0] + x) if x != None else 0.0,
+            (self.d_cam_ctr[1] + y) if y != None else 0.0,
+            (self.d_cam_ctr[2] + z) if z != None else 0.0,
+        )
+        self.d_cam_rot = (
+            (self.d_cam_rot[0] + a) if a != None else 0.0,
+            (self.d_cam_rot[1] + b) if b != None else 0.0,
+            (self.d_cam_rot[2] + c) if c != None else 0.0,
         )
 
 mglw.run_window_config(GameWindow)
