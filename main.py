@@ -36,10 +36,10 @@ class GameWindow(mglw.WindowConfig):
         # Event handlers
         self.handlers = {
             'keypress': {
-                'A': lambda: print('tacos'),
+                'a': lambda: print('tacos'),
             },
             'keyrelease': {
-                'A': lambda: print('no tacos'),
+                'a': lambda: print('no tacos'),
             },
         }
         self.handlers['keypress'] = {
