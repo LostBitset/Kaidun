@@ -26,6 +26,9 @@ class GameWindow(mglw.WindowConfig):
                 0.2, -0.8, 0.0,
                 0.4, 0.9, 0.5,
                 -0.5, 0.3, 0.3,
+                1.2, 0.2, 1.0,
+                1.4, 1.9, 1.5,
+                0.5, 1.3, 1.3,
             ], dtype='f4')
         )
         self.vao = self.ctx.vertex_array(
@@ -45,7 +48,7 @@ class GameWindow(mglw.WindowConfig):
             'keyrelease': {},
         }
         # Event handlers / Keyboard / Movement
-        tspeed, rspeed = 0.2, 0.1
+        tspeed, rspeed = 0.1, 0.03
         movement = {
             'w':        (0, 0, +tspeed, 0, 0, 0),
             'a':        (+tspeed, 0, 0, 0, 0, 0),
