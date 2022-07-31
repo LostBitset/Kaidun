@@ -81,7 +81,6 @@ class GameWindow(mglw.WindowConfig):
         for k, v in keyrelease.items():
             key = getattr(self.wnd.keys, k.upper())
             self.handlers['keyrelease'][key] = v
-        print(self.handlers['keypress'])
     
     def render(self, *_):
         self.forwardToGPU()
@@ -100,7 +99,6 @@ class GameWindow(mglw.WindowConfig):
         self.prog['cam_ctr'] = self.cam_ctr
 
     def frame(self):
-        #: print(self.dcam)
         self.cam_ctr = (
             self.cam_ctr[0] + self.dcam[0],
             self.cam_ctr[1] + self.dcam[1],
@@ -108,7 +106,6 @@ class GameWindow(mglw.WindowConfig):
         )
     
     def updateCameraMove(self, x, y, z):
-        print(x, y, z)
         self.dcam = (
             (self.dcam[0] + x) if x != None else 0.0,
             (self.dcam[1] + y) if y != None else 0.0,
