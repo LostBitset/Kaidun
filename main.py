@@ -37,6 +37,7 @@ class GameWindow(mglw.WindowConfig):
         # Camera
         self.cam_ctr = (0.0, 1.0, -2.0)
         self.dcam = (0.0, 0.0, 0.0)
+        self.cam_rot = (0.0, 0.0, 0.0) # (yaw, pitch, roll)
         # Event handlers
         self.handlers = {
             'keypress': {},
@@ -83,7 +84,7 @@ class GameWindow(mglw.WindowConfig):
             self.handlers['keyrelease'][key] = v
     
     def render(self, *_):
-        self.forwardToGPU()
+        self.setupShaderInvocation()
         self.ctx.clear(0.0, 0.0, 0.0)
         self.vao.render()
         self.frame()
@@ -95,8 +96,14 @@ class GameWindow(mglw.WindowConfig):
             handler = 'keyrelease'
         self.handlers[handler].get(key, lambda: None)()
 
-    def forwardToGPU(self):
-        self.prog['cam_ctr'] = self.cam_ctr
+    def setupShaderInvocation(self):
+        self.prog['cam_ctr'].value = self.cam_ctr
+        (
+            self.prog['cam_yaw'].value,
+            self.prog['cam_pitch'].value,
+            self.prog['cam_roll'].value,
+        ) = \
+            self.cam_rot
 
     def frame(self):
         self.cam_ctr = (
