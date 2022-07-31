@@ -37,4 +37,3 @@ class GameWindow(mglw.WindowConfig):
         self.vao.render()
 
 mglw.run_window_config(GameWindow)
- 
