@@ -9,7 +9,7 @@ class GameWindow(mglw.WindowConfig):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        # OpenGL shader code
+        # OpenGL / Shader code
         with open('world_vertex.glsl', 'r') as f:
             vertex_shader = f.read()
         with open('world_fragment.glsl', 'r') as f:
@@ -18,7 +18,7 @@ class GameWindow(mglw.WindowConfig):
             vertex_shader=vertex_shader,
             fragment_shader=fragment_shader,
         )
-        # OpenGL data
+        # OpenGL / Vertex data
         self.vertBuf = self.ctx.buffer(
             np.array([
                 0.2, -0.8, 0.0,
