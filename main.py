@@ -43,11 +43,11 @@ class GameWindow(mglw.WindowConfig):
             },
         }
         self.handlers['keypress'] = {
-            getattr(self.wnd.keys, k.lower()): v \
+            getattr(self.wnd.keys, k.upper()): v \
                 for k, v in self.handlers['keypress'].items()
         }
         self.handlers['keyrelease'] = {
-            getattr(self.wnd.keys, k.lower()): v \
+            getattr(self.wnd.keys, k.upper()): v \
                 for k, v in self.handlers['keyrelease'].items()
         }
     
