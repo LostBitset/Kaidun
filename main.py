@@ -43,11 +43,14 @@ class GameWindow(mglw.WindowConfig):
             'keyrelease': {},
         }
         # Event handlers / Keyboard / Movement
+        speed = 0.2
         movement = {
-            'w': (0, 0, +0.5),
-            'a': (+0.5, 0, 0),
-            's': (0, 0, -0.5),
-            'd': (-0.5, 0, 0),
+            'w': (0, 0, +speed),
+            'a': (+speed, 0, 0),
+            's': (0, 0, -speed),
+            'd': (-speed, 0, 0),
+            'e': (0, +speed, 0),
+            'c': (0, -speed, 0)
         }
         movementOnKeypress, movementOnKeyrelease = {}, {}
         def moveOnKeypress(x, y, z):
