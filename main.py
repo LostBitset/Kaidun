@@ -2,7 +2,6 @@
 
 import numpy as np
 import moderngl_window as mglw
-#: import moderngl
 
 class GameWindow(mglw.WindowConfig):
     gl_version = (3, 3)
@@ -10,6 +9,7 @@ class GameWindow(mglw.WindowConfig):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        # OpenGL shader code
         with open('world_vertex.glsl', 'r') as f:
             vertex_shader = f.read()
         with open('world_fragment.glsl', 'r') as f:
@@ -18,6 +18,7 @@ class GameWindow(mglw.WindowConfig):
             vertex_shader=vertex_shader,
             fragment_shader=fragment_shader,
         )
+        # OpenGL data
         self.vertBuf = self.ctx.buffer(
             np.array([
                 0.2, -0.8, 0.0,
@@ -32,9 +33,33 @@ class GameWindow(mglw.WindowConfig):
                 (self.vertBuf, '3f', 'vert')
             ]
         )
+        # Event handlers
+        self.handlers = {
+            'keypress': {
+                'A': lambda: print('tacos'),
+            },
+            'keyrelease': {
+                'A': lambda: print('no tacos'),
+            },
+        }
+        self.handlers['keypress'] = {
+            getattr(self.wnd.keys, k): v \
+                for k, v in self.handlers['keypress'].items()
+        }
+        self.handlers['keyrelease'] = {
+            getattr(self.wnd.keys, k): v \
+                for k, v in self.handlers['keyrelease'].items()
+        }
     
     def render(self, *_):
         self.ctx.clear(0.0, 0.0, 0.0)
         self.vao.render()
+
+    def key_event(self, key, action, _):
+        if action == self.wnd.keys.ACTION_PRESS:
+            handler = 'keypress'
+        elif action == self.wnd.keys.ACTION_RELEASE:
+            handler = 'keyrelease'
+        self.handlers[handler].get(key, lambda: None)()
 
 mglw.run_window_config(GameWindow)
