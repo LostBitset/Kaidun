@@ -27,3 +27,11 @@ A 3D game made in Python with moderngl
   - Based around virtual potential fields
   - Powered by a reverse-mode autodiff engine
   - Used by a 5D planner
+
+# Requirements
+
+The following command installs everything you need (it works on Debian 11):
+
+```sh
+python -m pip install numpy glcontext moderngl moderngl_window glfw pynput
+```
