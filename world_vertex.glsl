@@ -28,7 +28,7 @@ mat3 camspace_rot() {
 }
 
 void camspace(inout vec3 v) {
-    v = cam_ctr - v;
+    v -= cam_ctr;
     v *= camspace_rot();
 }
 
@@ -40,6 +40,6 @@ void main() {
     vec3 v = vert;
     camspace(v);
     vec2 pos = v.xy / v.z;
-    gl_Position = vec4(pos, zbuffer_value(v.z), 1.0);
-    vert_color = vec3(-v.z, v.z, 0.0);
+    gl_Position = vec4(pos, vert.z, 1.0);
+    vert_color = vec3(-zbuffer_value(v.z), zbuffer_value(v.z), 1.0);
 }

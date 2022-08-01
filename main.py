@@ -52,6 +52,8 @@ class GameWindow(mglw.WindowConfig):
         self.d_cam_ctr = (0.0, 0.0, 0.0)
         self.cam_rot = (0.0, 0.0, 0.0) # (yaw, pitch, roll)
         self.d_cam_rot = (0.0, 0.0, 0.0)
+        self.cam_far = 4.0
+        self.cam_near = 1.0
         # Event handlers
         self.handlers = {
             'keypress': {},
@@ -107,7 +109,7 @@ class GameWindow(mglw.WindowConfig):
         self.setupShaderInvocation()
         self.ctx.clear(0.0, 0.0, 0.0)
         self.ctx.enable(moderngl.DEPTH_TEST)
-        self.ctx.depth_func = '<'
+        #self.ctx.depth_func = '<'
         self.vao.render()
         self.frame()
 
