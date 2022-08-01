@@ -18,7 +18,7 @@ mat3 camspace_rot() {
         /* 1 1 */ (sin(a)*sin(b)*sin(c))+(cos(a)*cos(c)),
         /* 1 2 */ sin(a)*cos(b),
         /* 2 0 */ (cos(a)*sin(b)*cos(c))+(sin(a)*sin(c)),
-        /* 2 1 */ (cos(a)*sin(b)*sin(c))+(sin(a)*cos(c)),
+        /* 2 1 */ (cos(a)*sin(b)*sin(c))-(sin(a)*cos(c)),
         /* 2 2 */ cos(a)*cos(b)
     );
 }
