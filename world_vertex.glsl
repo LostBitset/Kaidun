@@ -27,18 +27,9 @@ vec3 camspace() {
     return (vert - cam_ctr) * camspace_rot();
 }
 
-mat3x4 perspective() {
-    return mat3x4(
-        1.0, 0.0, 0.0, 0.0,
-        0.0, 1.0, 0.0, 0.0,
-        0.0, 0.0, 1.0, 0.0
-    );
-}
-
 void main() {
     vec4 camspace_h = vec4(camspace(), 1.0);
-    vec3 pos_h =  camspace_h * perspective();
-    vec2 pos = pos_h.xy / pos_h.z;
+    vec2 pos = camspace_h.xy / camspace_h.z;
     gl_Position = vec4(pos, vert.z, 1.0);
     vert_color = vert;
 }
