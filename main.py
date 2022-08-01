@@ -1,7 +1,5 @@
 # Kaidun (by HktOverload)
 
-from http.client import MOVED_PERMANENTLY
-from turtle import onkey
 import numpy as np
 import moderngl_window as mglw
 import moderngl
@@ -132,6 +130,7 @@ class GameWindow(mglw.WindowConfig):
         ) = \
             self.cam_rot
         self.prog['lighting_light_ctr'].value = self.light_ctr
+        self.prog['lighting_light_brightness'].value = self.brightness
 
     def frame(self):
         self.cam_ctr = (
@@ -145,6 +144,7 @@ class GameWindow(mglw.WindowConfig):
             self.cam_rot[2] + self.d_cam_rot[2],
         )
         self.light_ctr = self.cam_ctr
+        self.brightness += self.d_brightness
     
     def updateCameraMove(self, x, y, z, a, b, c):
         self.d_cam_ctr = (
