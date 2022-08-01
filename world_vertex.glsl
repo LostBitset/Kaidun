@@ -2,6 +2,8 @@
 
 #define PI 3.1415926538
 
+#define UP vec3(0.0, 0.0, 1.0)
+
 in vec3 vert;
 in vec3 aux_surf_normal;
 
@@ -56,8 +58,43 @@ void set_illum(out float illum) {
 }
 
 void update_illum_lambertian(inout float illum) {
+    illum *= surf_albedo / PI;
     vec3 to_i = normalize(lighting_light_ctr - vert);
     illum *= abs(dot(to_i, aux_surf_normal));
+}
+
+float atan2(in vec2 v) {
+    return atan(v.y, v.x);
+}
+
+vec3 proj_onto_surf_subspace(in vec3 v) {
+    vec3 normal = aux_surf_normal;
+    return cross(normal, cross(v, normal));
+}
+
+float angle3(in vec3 a, in vec3 b) {
+    float cosine_distance = dot(a, b) / (length(a) * length(b));
+    return acos(cosine_distance);
+}
+
+void update_illum_oren_nayar_ext(inout float illum) {
+    vec3 to_i = normalize(lighting_light_ctr - vert);
+    vec3 to_r = normalize(cam_ctr - vert);
+    float theta_i = acos(dot(to_i, aux_surf_normal));
+    float theta_r = acos(dot(to_r, aux_surf_normal));
+    float microfacet_var = surf_roughness * surf_roughness;
+    float alpha = max(theta_i, theta_r);
+    float beta = min(theta_i, theta_r);
+    vec3 proj2_i = proj_onto_surf_subspace(to_i);
+    vec3 proj2_r = proj_onto_surf_subspace(to_r);
+    float azimuthal_delta = angle3(proj2_i, proj2_r);
+    float azimuthal_part = max(0, cos(azimuthal_delta));
+    float fac = azimuthal_part * sin(alpha) * tan(beta);
+    float const_frac = microfacet_var / (microfacet_var + 0.33);
+    float scale_frac = microfacet_var / (microfacet_var + 0.09);
+    float a = 1.0 - (0.5 * const_frac);
+    float b = 0.45 * scale_frac;
+    illum *= a + (b * fac);
 }
 
 void update_illum_ambient(inout float illum) {
@@ -73,5 +110,6 @@ void main() {
     vert_color = vert;
     set_illum(illum);
     update_illum_lambertian(illum);
+    update_illum_oren_nayar_ext(illum);
     update_illum_ambient(illum);
 }

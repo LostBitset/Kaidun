@@ -72,6 +72,8 @@ class GameWindow(mglw.WindowConfig):
         self.d_brightness = 0.0
         self.prog['lighting_ambient'].value = 0.2
         self.prog['lighting_maxsc'].value = 1.15
+        # Lighting / Surface info
+        self.prog['surf_albedo'].value = 0.09
         # Event handlers
         self.handlers = {
             'keypress': {},
@@ -113,9 +115,9 @@ class GameWindow(mglw.WindowConfig):
         keypress = {
             **movementOnKeypress,
             'l': lambda: \
-                setattr(self, 'd_brightness', +0.2),
+                setattr(self, 'd_brightness', +1.0),
             'k': lambda: \
-                setattr(self, 'd_brightness', -0.2),
+                setattr(self, 'd_brightness', -1.0),
         }
         keyrelease = {
             **movementOnKeyrelease,
