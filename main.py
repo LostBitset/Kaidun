@@ -102,7 +102,6 @@ class GameWindow(mglw.WindowConfig):
         for k, v in keyrelease.items():
             key = getattr(self.wnd.keys, k.upper())
             self.handlers['keyrelease'][key] = v
-        self.handlers['keypress']['up'] = lambda: print('tacos?')
     
     def render(self, *_):
         self.setupShaderInvocation()
