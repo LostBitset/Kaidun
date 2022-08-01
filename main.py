@@ -52,8 +52,8 @@ class GameWindow(mglw.WindowConfig):
         self.d_cam_ctr = (0.0, 0.0, 0.0)
         self.cam_rot = (0.0, 0.0, 0.0) # (yaw, pitch, roll)
         self.d_cam_rot = (0.0, 0.0, 0.0)
-        self.cam_far = 4.0
-        self.cam_near = 1.0
+        self.prog['cam_near'].value = 1.0
+        self.prog['cam_dist'].value = 50.0
         # Event handlers
         self.handlers = {
             'keypress': {},
