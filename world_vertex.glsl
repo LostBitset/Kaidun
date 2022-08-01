@@ -33,7 +33,7 @@ void camspace(inout vec3 v) {
 }
 
 float zbuffer_value(float z) {
-    return sqrt(z - cam_near) / sqrt(cam_far - cam_near);
+    return (z - cam_near) / (cam_far - cam_near);
 }
 
 void main() {
