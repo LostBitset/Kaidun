@@ -13,7 +13,7 @@ A 3D game made in Python with moderngl
 
 # Complexity
 - [ ] Full 3D written from scratch in GLSL
-  - [ ] Perspective camera
+  - [X] Perspective camera
   - [ ] Gouraud shading
   - [ ] Oren-Nayar reflectance
   - [ ] Distance fog
