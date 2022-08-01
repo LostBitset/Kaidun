@@ -54,6 +54,10 @@ class GameWindow(mglw.WindowConfig):
         self.d_cam_rot = (0.0, 0.0, 0.0)
         self.prog['cam_near'].value = 1.0
         self.prog['cam_dist'].value = 50.0
+        # Lighting
+        self.light_ctr = (2.0, 2.0, 2.0)
+        self.prog['lighting_ambient'].value = 0.2
+        self.prog['lighting_light_brightness'].value = 2.0
         # Event handlers
         self.handlers = {
             'keypress': {},
@@ -128,6 +132,7 @@ class GameWindow(mglw.WindowConfig):
             self.prog['cam_roll'].value,
         ) = \
             self.cam_rot
+        self.prog['lighting_light_ctr'].value = self.light_ctr
 
     def frame(self):
         self.cam_ctr = (
@@ -140,6 +145,7 @@ class GameWindow(mglw.WindowConfig):
             self.cam_rot[1] + self.d_cam_rot[1],
             self.cam_rot[2] + self.d_cam_rot[2],
         )
+        self.light_ctr = self.cam_ctr
     
     def updateCameraMove(self, x, y, z, a, b, c):
         self.d_cam_ctr = (

@@ -2,6 +2,7 @@
 
 in vec3 vert;
 out vec3 vert_color;
+out float illum;
 
 uniform vec3 cam_ctr;
 uniform float cam_yaw;
@@ -9,6 +10,10 @@ uniform float cam_pitch;
 uniform float cam_roll;
 uniform float cam_near;
 uniform float cam_dist;
+
+uniform float lighting_ambient;
+uniform vec3 lighting_light_ctr;
+uniform float lighting_light_brightness;
 
 mat3 camspace_rot() {
     float a = cam_yaw;
@@ -36,6 +41,13 @@ float zbuffer_value(float z) {
     return sqrt(z - cam_near) / sqrt(cam_dist);
 }
 
+void set_illum(out float illum) {
+    vec3 deltas = vert - lighting_light_ctr;
+    float dist = length(deltas);
+    illum = lighting_light_brightness / (dist * dist);
+    illum = clamp(illum + lighting_ambient, 0.0, 1.0);
+}
+
 void main() {
     vec3 v = vert;
     camspace(v);
@@ -43,4 +55,5 @@ void main() {
     float z = zbuffer_value(v.z);
     gl_Position = vec4(pos, z, 1.0);
     vert_color = vert;
+    set_illum(illum);
 }
