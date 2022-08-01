@@ -109,7 +109,7 @@ class GameWindow(mglw.WindowConfig):
         self.setupShaderInvocation()
         self.ctx.clear(0.0, 0.0, 0.0)
         self.ctx.enable(moderngl.DEPTH_TEST)
-        #self.ctx.depth_func = '<'
+        self.ctx.depth_func = '<'
         self.vao.render()
         self.frame()
 
