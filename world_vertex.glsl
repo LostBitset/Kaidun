@@ -7,9 +7,13 @@ uniform vec3 cam_ctr;
 uniform float cam_yaw;
 uniform float cam_pitch;
 uniform float cam_roll;
+uniform float cam_near;
+uniform float cam_far;
 
 mat3 camspace_rot() {
-    float a = cam_yaw; float b = cam_pitch; float c = cam_roll;
+    float a = cam_yaw;
+    float b = cam_pitch;
+    float c = cam_roll;
     return mat3(
         /* 0 0 */ cos(b)*cos(c),
         /* 0 1 */ cos(b)*sin(c),
@@ -24,20 +28,18 @@ mat3 camspace_rot() {
 }
 
 void camspace(inout vec3 v) {
-    v -= cam_ctr;
+    v = cam_ctr - v;
     v *= camspace_rot();
 }
 
-float zbuffer_value(vec2 pos) {
-    vec3 up = vec3(0.0, 0.0, 1.0);
-    up *= camspace_rot();
-    return dot(vert, up);
+float zbuffer_value(float z) {
+    return sqrt(z - cam_near) / sqrt(cam_far - cam_near);
 }
 
 void main() {
     vec3 v = vert;
     camspace(v);
     vec2 pos = v.xy / v.z;
-    gl_Position = vec4(pos, zbuffer_value(pos), 1.0);
-    vert_color = vert;
+    gl_Position = vec4(pos, zbuffer_value(v.z), 1.0);
+    vert_color = vec3(-v.z, v.z, 0.0);
 }
