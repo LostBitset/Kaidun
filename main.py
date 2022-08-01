@@ -57,6 +57,7 @@ class GameWindow(mglw.WindowConfig):
         self.brightness = 3.0
         self.d_brightness = 0.0
         self.prog['lighting_ambient'].value = 0.2
+        self.prog['lighting_maxsc'].value = 1.15
         # Event handlers
         self.handlers = {
             'keypress': {},

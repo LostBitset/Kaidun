@@ -12,6 +12,7 @@ uniform float cam_near;
 uniform float cam_dist;
 
 uniform float lighting_ambient;
+uniform float lighting_maxsc;
 uniform vec3 lighting_light_ctr;
 uniform float lighting_light_brightness;
 
@@ -45,7 +46,7 @@ void set_illum(out float illum) {
     vec3 deltas = vert - lighting_light_ctr;
     float dist = length(deltas);
     illum = lighting_light_brightness / (dist * dist);
-    illum += lighting_ambient;
+    illum = clamp(illum + lighting_ambient, 0.0, lighting_maxsc);
 }
 
 void main() {
