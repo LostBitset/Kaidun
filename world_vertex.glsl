@@ -45,7 +45,7 @@ void set_illum(out float illum) {
     vec3 deltas = vert - lighting_light_ctr;
     float dist = length(deltas);
     illum = lighting_light_brightness / (dist * dist);
-    illum = clamp(illum + lighting_ambient, 0.0, 1.0);
+    illum += lighting_ambient;
 }
 
 void main() {
@@ -54,6 +54,6 @@ void main() {
     vec2 pos = v.xy / v.z;
     float z = zbuffer_value(v.z);
     gl_Position = vec4(pos, z, 1.0);
-    vert_color = vert;
+    vert_color = normalize(vert - vec3(0.5, 0.5, 0.5));
     set_illum(illum);
 }

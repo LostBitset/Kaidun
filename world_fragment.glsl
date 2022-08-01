@@ -6,5 +6,5 @@ in float illum;
 out vec3 color;
 
 void main() {
-    color = vec3(illum, illum, illum);
+    color = clamp((vert_color * illum), 0.0, 1.0);
 }
