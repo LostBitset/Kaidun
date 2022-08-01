@@ -4,6 +4,19 @@ import numpy as np
 import moderngl_window as mglw
 import moderngl
 
+def triNormal(tri):
+    a1 = tri[3] - tri[0]
+    a2 = tri[4] - tri[1]
+    a3 = tri[5] - tri[2]
+    b1 = tri[6] - tri[0]
+    b2 = tri[7] - tri[1]
+    b3 = tri[8] - tri[2]
+    return (
+        (a2*b3) - (a3*b2),
+        (a3*b1) - (a1*b3),
+        (a1*b2) - (a2*b1),
+    )
+
 class GameWindow(mglw.WindowConfig):
     gl_version = (3, 3)
     window_size = (3840//3, 2160//3)
@@ -19,22 +32,23 @@ class GameWindow(mglw.WindowConfig):
             vertex_shader=vertex_shader,
             fragment_shader=fragment_shader,
         )
-        L = [
-            0, 0, 0, 1, 0, 0, 1, 1, 0,
-            0, 0, 0, 0, 1, 0, 1, 1, 0,
-            0, 0, 1, 1, 0, 1, 1, 1, 1,
-            0, 0, 1, 0, 1, 1, 1, 1, 1,
+        cube = [
+            (0, 0, 0, 1, 0, 0, 1, 1, 0), (0, 0, 0, 0, 1, 0, 1, 1, 0),
+            (0, 0, 1, 1, 0, 1, 1, 1, 1), (0, 0, 1, 0, 1, 1, 1, 1, 1),
 
-            0, 0, 0, 0, 1, 0, 0, 1, 1,
-            0, 0, 0, 0, 0, 1, 0, 1, 1,
-            1, 0, 0, 1, 1, 0, 1, 1, 1,
-            1, 0, 0, 1, 0, 1, 1, 1, 1,
+            (0, 0, 0, 0, 1, 0, 0, 1, 1), (0, 0, 0, 0, 0, 1, 0, 1, 1),
+            (1, 0, 0, 1, 1, 0, 1, 1, 1), (1, 0, 0, 1, 0, 1, 1, 1, 1),
 
-            0, 0, 0, 0, 0, 1, 1, 0, 1,
-            0, 0, 0, 1, 0, 0, 1, 0, 1,
-            0, 1, 0, 0, 1, 1, 1, 1, 1,
-            0, 1, 0, 1, 1, 0, 1, 1, 1,
+            (0, 0, 0, 0, 0, 1, 1, 0, 1), (0, 0, 0, 1, 0, 0, 1, 0, 1),
+            (0, 1, 0, 0, 1, 1, 1, 1, 1), (0, 1, 0, 1, 1, 0, 1, 1, 1),
         ]
+        L = []
+        for tri in cube:
+            normal = triNormal(tri)
+            for i in range(0, 9, 3):
+                coord = tri[i : i + 3]
+                L.extend(coord)
+                L.extend(normal)
         # OpenGL / Vertex data
         self.vertBuf = self.ctx.buffer(
             np.array(L, dtype='f4')
@@ -42,7 +56,7 @@ class GameWindow(mglw.WindowConfig):
         self.vao = self.ctx.vertex_array(
             self.prog,
             [
-                (self.vertBuf, '3f', 'vert')
+                (self.vertBuf, '3f 3f', 'vert', 'aux_surf_normal')
             ]
         )
         # Camera

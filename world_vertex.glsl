@@ -3,6 +3,8 @@
 #define PI 3.1415926538
 
 in vec3 vert;
+in vec3 aux_surf_normal;
+
 out vec3 vert_color;
 out float illum;
 
@@ -55,7 +57,7 @@ void set_illum(out float illum) {
 
 void update_illum_lambertian(inout float illum) {
     vec3 to_i = normalize(lighting_light_ctr - vert);
-    illum *= abs(dot(to_i, vec3(sqrt(2.0), sqrt(2.0), 0.0))); // Lambertian component
+    illum *= abs(dot(to_i, aux_surf_normal));
 }
 
 void update_illum_ambient(inout float illum) {
