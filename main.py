@@ -54,8 +54,9 @@ class GameWindow(mglw.WindowConfig):
         self.prog['cam_dist'].value = 50.0
         # Lighting
         self.light_ctr = (2.0, 2.0, 2.0)
+        self.brightness = 3.0
+        self.d_brightness = 0.0
         self.prog['lighting_ambient'].value = 0.2
-        self.prog['lighting_light_brightness'].value = 2.0
         # Event handlers
         self.handlers = {
             'keypress': {},
@@ -96,9 +97,17 @@ class GameWindow(mglw.WindowConfig):
         # Event handlers / Keyboard
         keypress = {
             **movementOnKeypress,
+            'l': lambda: \
+                setattr(self, 'd_brightness', +0.2),
+            'k': lambda: \
+                setattr(self, 'd_brightness', -0.2),
         }
         keyrelease = {
             **movementOnKeyrelease,
+            'l': lambda: \
+                setattr(self, 'd_brightness', 0.0),
+            'k': lambda: \
+                setattr(self, 'd_brightness', 0.0),
         }
         for k, v in keypress.items():
             key = getattr(self.wnd.keys, k.upper())
