@@ -12,20 +12,21 @@ A 3D game made in Python with moderngl
 - These "flybacks" use buckets of power, and some samples will be irreperably damaged
 
 # Complexity
-- Full 3D written from scratch in GLSL
-  - Perspective camera
-  - Gouraud shading
-  - Oren-Nayar reflectance
-  - Distance fog
-  - Bump mapping
-- Chunks and chunk loading
-- Procedural generation
-  - Based on Worley noise
-  - Possible deformation calculated ahead of time
-- A motion planner for flybacks
-  - Based around virtual potential fields
-  - Powered by a reverse-mode autodiff engine
-  - Used by a 5D planner
+- [ ] Full 3D written from scratch in GLSL
+  - [ ] Perspective camera
+  - [ ] Gouraud shading
+  - [ ] Oren-Nayar reflectance
+  - [ ] Distance fog
+  - [ ] Bump mapping
+- [ ] Chunks and chunk loading
+- [ ] Procedural generation
+  - [ ] Based on Worley noise
+  - [ ] Possible deformation calculated ahead of time
+- [ ] A motion planner for flybacks
+  - [ ] Based around virtual potential fields
+  - [ ] Powered by a reverse-mode autodiff engine
+  - [ ] Used by a 5D planner
+  - [ ] With a fallback mode for flying out of local minima
 
 # Requirements
 
