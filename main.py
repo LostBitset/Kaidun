@@ -169,7 +169,7 @@ class GameWindow(mglw.WindowConfig):
             self.cam_rot[1] + self.d_cam_rot[1],
             self.cam_rot[2] + self.d_cam_rot[2],
         )
-        self.light_ctr = self.cam_ctr
+        self.light_ctr = (2.0, 2.0, 2.0)
         self.brightness += self.d_brightness
     
     def updateCameraMove(self, x, y, z, a, b, c):
