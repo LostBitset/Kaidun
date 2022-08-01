@@ -1,5 +1,7 @@
 #version 330
 
+#define PI 3.1415926538
+
 in vec3 vert;
 out vec3 vert_color;
 out float illum;
@@ -15,6 +17,9 @@ uniform float lighting_ambient;
 uniform float lighting_maxsc;
 uniform vec3 lighting_light_ctr;
 uniform float lighting_light_brightness;
+
+uniform float surf_albedo;
+uniform float surf_roughness;
 
 mat3 camspace_rot() {
     float a = cam_yaw;
@@ -46,6 +51,14 @@ void set_illum(out float illum) {
     vec3 deltas = vert - lighting_light_ctr;
     float dist = length(deltas);
     illum = lighting_light_brightness / (dist * dist);
+}
+
+void update_illum_lambertian(inout float illum) {
+    vec3 to_i = normalize(lighting_light_ctr - vert);
+    illum *= abs(dot(to_i, vec3(sqrt(2.0), sqrt(2.0), 0.0))); // Lambertian component
+}
+
+void update_illum_ambient(inout float illum) {
     illum = clamp(illum + lighting_ambient, 0.0, lighting_maxsc);
 }
 
@@ -57,4 +70,6 @@ void main() {
     gl_Position = vec4(pos, z, 1.0);
     vert_color = vert;
     set_illum(illum);
+    update_illum_lambertian(illum);
+    update_illum_ambient(illum);
 }
