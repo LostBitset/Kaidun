@@ -54,6 +54,6 @@ void main() {
     vec2 pos = v.xy / v.z;
     float z = zbuffer_value(v.z);
     gl_Position = vec4(pos, z, 1.0);
-    vert_color = normalize(vert - vec3(0.5, 0.5, 0.5));
+    vert_color = vert;
     set_illum(illum);
 }
