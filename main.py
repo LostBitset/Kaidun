@@ -20,16 +20,25 @@ class GameWindow(mglw.WindowConfig):
             vertex_shader=vertex_shader,
             fragment_shader=fragment_shader,
         )
+        L = [
+            0, 0, 0, 1, 0, 0, 1, 1, 0,
+            0, 0, 0, 0, 1, 0, 1, 1, 0,
+            0, 0, 1, 1, 0, 1, 1, 1, 1,
+            0, 0, 1, 0, 1, 1, 1, 1, 1,
+
+            0, 0, 0, 0, 1, 0, 0, 1, 1,
+            0, 0, 0, 0, 0, 1, 0, 1, 1,
+            1, 0, 0, 1, 1, 0, 1, 1, 1,
+            1, 0, 0, 1, 0, 1, 1, 1, 1,
+
+            0, 0, 0, 0, 0, 1, 1, 0, 1,
+            0, 0, 0, 1, 0, 0, 1, 0, 1,
+            0, 1, 0, 0, 1, 1, 1, 1, 1,
+            0, 1, 0, 1, 1, 0, 1, 1, 1,
+        ]
         # OpenGL / Vertex data
         self.vertBuf = self.ctx.buffer(
-            np.array([
-                0.2, -0.8, 0.0,
-                0.4, 0.9, 0.5,
-                -0.5, 0.3, 0.3,
-                1.2, 0.2, 1.0,
-                1.4, 1.9, 1.5,
-                0.5, 1.3, 1.3,
-            ], dtype='f4')
+            np.array(L, dtype='f4')
         )
         self.vao = self.ctx.vertex_array(
             self.prog,
