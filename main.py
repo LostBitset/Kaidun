@@ -11,11 +11,14 @@ class GameWindow(mglw.WindowConfig):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         # OpenGL / Shader code
+        with open('world_geometry.glsl', 'r') as f:
+            geometry_shader = f.read()
         with open('world_vertex.glsl', 'r') as f:
             vertex_shader = f.read()
         with open('world_fragment.glsl', 'r') as f:
             fragment_shader = f.read()  
         self.prog = self.ctx.program(
+            geometry_shader=geometry_shader,
             vertex_shader=vertex_shader,
             fragment_shader=fragment_shader,
         )
