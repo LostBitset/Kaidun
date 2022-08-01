@@ -4,6 +4,7 @@ from http.client import MOVED_PERMANENTLY
 from turtle import onkey
 import numpy as np
 import moderngl_window as mglw
+import moderngl
 
 class GameWindow(mglw.WindowConfig):
     gl_version = (3, 3)
@@ -106,6 +107,7 @@ class GameWindow(mglw.WindowConfig):
     def render(self, *_):
         self.setupShaderInvocation()
         self.ctx.clear(0.0, 0.0, 0.0)
+        self.ctx.enable(moderngl.DEPTH_TEST)
         self.vao.render()
         self.frame()
 

@@ -49,6 +49,6 @@ void main() {
     vec4 vert_h = vec4(vert, 1.0);
     vec3 pos_h = vert_h * persp;
     vec2 pos = pdiv2(pos_h);
-    gl_Position = vec4(pos, 0.0, 1.0);
-    vert_color = vec3(1.0, 0.0, 0.0);
+    gl_Position = vec4(pos, vert.z, 1.0);
+    vert_color = vert;
 }
