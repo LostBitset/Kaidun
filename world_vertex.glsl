@@ -23,32 +23,22 @@ mat3 camspace_rot() {
     );
 }
 
-vec3 camspace_tr() {
-    return -cam_ctr;
+vec3 camspace() {
+    return (vert - cam_ctr) * camspace_rot();
 }
 
-mat3x4 perspective(in mat3 rot, in vec3 tr) {
-    vec3 tr2 = rot * tr;
+mat3x4 perspective() {
     return mat3x4(
-        rot[0][0], rot[1][0], rot[2][0], tr2.x,
-        rot[0][1], rot[1][1], rot[2][1], tr2.y,
-        rot[0][2], rot[1][2], rot[2][2], tr2.z
+        1.0, 0.0, 0.0, 0.0,
+        0.0, 1.0, 0.0, 0.0,
+        0.0, 0.0, 1.0, 0.0
     );
 }
 
-vec3 pdiv3(in vec4 homogenous) {
-    return homogenous.xyz / homogenous.w;
-}
-
-vec2 pdiv2(in vec3 homogenous) {
-    return homogenous.xy / homogenous.z;
-}
-
 void main() {
-    mat3x4 persp = perspective(camspace_rot(), camspace_tr());
-    vec4 vert_h = vec4(vert, 1.0);
-    vec3 pos_h = vert_h * persp;
-    vec2 pos = pdiv2(pos_h);
+    vec4 camspace_h = vec4(camspace(), 1.0);
+    vec3 pos_h =  camspace_h * perspective();
+    vec2 pos = pos_h.xy / pos_h.z;
     gl_Position = vec4(pos, vert.z, 1.0);
     vert_color = vert;
 }
