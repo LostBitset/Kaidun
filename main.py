@@ -100,17 +100,5 @@ class GameWindow(mglw.WindowConfig):
 
     def frame(self):
         self.scene.getController().frame(self.gamedata)
-    
-    def updateCameraMove(self, x, y, z, a, b, c):
-        self.d_cam_ctr = (
-            (self.d_cam_ctr[0] + x) if x != None else 0.0,
-            (self.d_cam_ctr[1] + y) if y != None else 0.0,
-            (self.d_cam_ctr[2] + z) if z != None else 0.0,
-        )
-        self.d_cam_rot = (
-            (self.d_cam_rot[0] + a) if a != None else 0.0,
-            (self.d_cam_rot[1] + b) if b != None else 0.0,
-            (self.d_cam_rot[2] + c) if c != None else 0.0,
-        )
 
 mglw.run_window_config(GameWindow)
