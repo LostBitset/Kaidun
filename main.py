@@ -4,6 +4,8 @@ import numpy as np
 import moderngl_window as mglw
 import moderngl
 
+import scenes
+
 def triNormal(tri):
     a1 = tri[3] - tri[0]
     a2 = tri[4] - tri[1]
