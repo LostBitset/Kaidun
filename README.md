@@ -16,7 +16,7 @@ A 3D game made in Python with moderngl
   - [X] Perspective camera
   - [X] Gouraud shading
   - [X] Oren-Nayar reflectance
-  - [ ] Distance fog
+  - [X] Distance fog
   - [ ] Bump mapping
 - [ ] Chunks and chunk loading
 - [ ] Procedural generation
