@@ -67,7 +67,6 @@ class GameWindow(mglw.WindowConfig):
         # Lighting / Surface info
         self.prog['surf_albedo'].value = 0.09
         self.prog['surf_roughness'].value = 0.1
-        self.vertBuf.write(self.scene.buildGeometry("I'm a cube!"))
     
     def render(self, *_):
         self.setupShaderInvocation()
