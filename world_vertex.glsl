@@ -9,6 +9,8 @@ in vec3 aux_surf_normal;
 
 out vec3 vert_color;
 out float illum;
+out float fog_visibility_frac;
+out vec3 fog_component_rgb_partial;
 
 uniform vec3 cam_ctr;
 uniform float cam_yaw;
@@ -24,6 +26,9 @@ uniform float lighting_light_brightness;
 
 uniform float surf_albedo;
 uniform float surf_roughness;
+
+uniform vec3 fog_color;
+uniform float fog_attenuation_coef;
 
 mat3 camspace_rot() {
     float a = cam_yaw;
@@ -101,6 +106,19 @@ void update_illum_ambient(inout float illum) {
     illum = clamp(illum + lighting_ambient, 0.0, lighting_maxsc);
 }
 
+float distance_fog_amt(in float current_zbuffer) {
+    float contrast = exp(-fog_attenuation_coef * current_zbuffer);
+    return 1.0 - contrast;
+}
+
+vec3 distance_fog_rgb_partial(in float fog_amt) {
+    return fog_color * fog_amt;
+}
+
+float distance_fog_visibility_frac(in float fog_amt) {
+    return 1.0 - fog_amt;
+}
+
 void main() {
     vec3 v = vert;
     camspace(v);
@@ -112,4 +130,7 @@ void main() {
     update_illum_lambertian(illum);
     update_illum_oren_nayar_ext(illum);
     update_illum_ambient(illum);
+    float fog_amt = distance_fog_amt(z);
+    fog_component_rgb_partial = distance_fog_rgb_partial(fog_amt);
+    fog_visibility_frac = distance_fog_visibility_frac(fog_amt);
 }

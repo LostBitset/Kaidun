@@ -67,10 +67,14 @@ class GameWindow(mglw.WindowConfig):
         # Lighting / Surface info
         self.prog['surf_albedo'].value = 0.09
         self.prog['surf_roughness'].value = 0.1
+        # Distance fog
+        self.fog_color = (0.2, 0.2, 0.2)
+        self.prog['fog_color'].value = self.fog_color
+        self.prog['fog_attenuation_coef'].value = 0.002
     
     def render(self, *_):
         self.setupShaderInvocation()
-        self.ctx.clear(0.0, 0.0, 0.0)
+        self.ctx.clear(*self.fog_color)
         self.ctx.enable(moderngl.DEPTH_TEST)
         self.vao.render()
         self.frame()
