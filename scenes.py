@@ -71,6 +71,22 @@ class MovingCamera(SceneController):
         super().handle(gamedata, event)
 
 class CameraMotion(MovingCamera):
+
+    @classmethod
+    def updateCameraMove(gamedata, x, y, z, a, b, c):
+        dctr = gamedata['d_cam_ctr']
+        drot = gamedata['d_cam_rot']
+        gamedata['d_cam_ctr'] = (
+            (dctr[0] + x) if x != None else 0.0,
+            (dctr[1] + y) if y != None else 0.0,
+            (dctr[2] + z) if z != None else 0.0,
+        )
+        gamedata['d_cam_rot'] = (
+            (drot[0] + a) if a != None else 0.0,
+            (drot[1] + b) if b != None else 0.0,
+            (drot[2] + c) if c != None else 0.0,
+        )
+
     
     @classmethod
     def handle(cls, gamedata, event):
@@ -113,7 +129,7 @@ class CubeScene(Scene):
         (0, 0, 0, 0, 0, 1, 1, 0, 1), (0, 0, 0, 1, 0, 0, 1, 0, 1),
         (0, 1, 0, 0, 1, 1, 1, 1, 1), (0, 1, 0, 1, 1, 0, 1, 1, 1),
     ]
-    
+
     @classmethod
     def assembleCube(cls):
         L = []
@@ -131,7 +147,7 @@ class CubeScene(Scene):
 
     @classmethod
     def buildGeometry(cls, geometryState):
-        if geometryState == "I'm a cube":
+        if geometryState == "I'm a cube!":
             return cls.assembleCube()
         raise Exception(
             f"`{cls.__name__}` cannot have geometry state `{geometryState}`"

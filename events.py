@@ -10,13 +10,13 @@ class Event(object):
     def isKeypress(self, key=None):
         if self.kind != 'key_event/PRESS':
             return False
-        targetKey = self.getKeyCode()
+        targetKey = self.getKeyCode(key)
         return self.data['key'] == targetKey
 
     def isKeyrelease(self, key=None):
         if self.kind != 'key_event/RELEASE':
             return False
-        targetKey = self.getKeyCode()
+        targetKey = self.getKeyCode(key)
         return self.data['key'] == targetKey
 
     def getKeyCode(self, keyname):
