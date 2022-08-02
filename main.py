@@ -70,7 +70,7 @@ class GameWindow(mglw.WindowConfig):
         # Distance fog
         self.fog_color = (0.2, 0.2, 0.2)
         self.prog['fog_color'].value = self.fog_color
-        self.prog['fog_attenuation_coef'].value = 0.002
+        self.prog['fog_attenuation_coef'].value = 3.0
     
     def render(self, *_):
         self.setupShaderInvocation()
