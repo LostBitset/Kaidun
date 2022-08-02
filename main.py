@@ -80,36 +80,26 @@ class GameWindow(mglw.WindowConfig):
             kind = 'key_event/PRESS'
         elif action == self.wnd.keys.ACTION_RELEASE:
             kind = 'key_event/RELEASE'
-        self.scene.getController().handle(
+        controller = self.scene.getController(self.gamedata)
+        controller.handle(
             self.gamedata,
             events.Event(
                 kind,
                 {
                     'key': key,
                 },
-                self.wnd)
+                self.wnd,
+            ),
         )
 
     def setupShaderInvocation(self):
-        self.prog['cam_ctr'].value = self.cam_ctr
-        (
-            self.prog['cam_yaw'].value,
-            self.prog['cam_pitch'].value,
-            self.prog['cam_roll'].value,
-        ) = \
-            self.cam_rot
+        controller = self.scene.getController(self.gamedata)
+        updates = controller.shaderUpdates(self.gamedata)
+        for k, v in updates.items():
+            self.prog[k].value = v
 
     def frame(self):
-        self.cam_ctr = (
-            self.cam_ctr[0] + self.d_cam_ctr[0],
-            self.cam_ctr[1] + self.d_cam_ctr[1],
-            self.cam_ctr[2] + self.d_cam_ctr[2],
-        )
-        self.cam_rot = (
-            self.cam_rot[0] + self.d_cam_rot[0],
-            self.cam_rot[1] + self.d_cam_rot[1],
-            self.cam_rot[2] + self.d_cam_rot[2],
-        )
+        self.scene.getController().frame(self.gamedata)
     
     def updateCameraMove(self, x, y, z, a, b, c):
         self.d_cam_ctr = (
