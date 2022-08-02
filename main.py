@@ -49,9 +49,10 @@ class GameWindow(mglw.WindowConfig):
                 coord = tri[i : i + 3]
                 L.extend(coord)
                 L.extend(normal)
+        self.cube = np.array(L, dtype='f4')
         # OpenGL / Vertex data
         self.vertBuf = self.ctx.buffer(
-            np.array(L, dtype='f4')
+            np.zeros((216,), dtype='f4')
         )
         self.vao = self.ctx.vertex_array(
             self.prog,
@@ -148,6 +149,7 @@ class GameWindow(mglw.WindowConfig):
         self.handlers[handler].get(key, lambda: None)()
 
     def setupShaderInvocation(self):
+        self.vertBuf.write(self.cube)
         self.prog['cam_ctr'].value = self.cam_ctr
         (
             self.prog['cam_yaw'].value,
