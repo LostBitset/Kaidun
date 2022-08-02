@@ -15,7 +15,7 @@ A 3D game made in Python with moderngl
 - [ ] Full 3D written from scratch in GLSL
   - [X] Perspective camera
   - [X] Gouraud shading
-  - [ ] Oren-Nayar reflectance
+  - [X] Oren-Nayar reflectance
   - [ ] Distance fog
   - [ ] Bump mapping
 - [ ] Chunks and chunk loading
