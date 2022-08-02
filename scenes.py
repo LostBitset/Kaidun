@@ -73,7 +73,7 @@ class MovingCamera(SceneController):
 class CameraMotion(MovingCamera):
 
     @classmethod
-    def updateCameraMove(gamedata, x, y, z, a, b, c):
+    def updateCameraMove(cls, gamedata, x, y, z, a, b, c):
         dctr = gamedata['d_cam_ctr']
         drot = gamedata['d_cam_rot']
         gamedata['d_cam_ctr'] = (
@@ -108,15 +108,21 @@ class CameraMotion(MovingCamera):
         }
         for k, args in movement.items():
             if event.isKeypress(key=k):
-                cls.updateCameraMove(*[
-                    float(i) \
-                        for i in args
-                ])
+                cls.updateCameraMove(
+                    gamedata,
+                    *[
+                        float(i) \
+                            for i in args
+                    ],
+                )
             if event.isKeyrelease(key=k):
-                cls.updateCameraMove(*[
-                    (0.0 if i == 0 else None) \
-                        for i in args
-                ])
+                cls.updateCameraMove(
+                    gamedata,
+                    *[
+                        (0.0 if i == 0 else None) \
+                            for i in args
+                    ],
+                )
 
 class CubeScene(Scene):
     cube = [
