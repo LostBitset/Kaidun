@@ -143,7 +143,7 @@ class GameWindow(mglw.WindowConfig):
         self.vao.render()
         self.frame()
 
-    def key_event(self, key, action, _):
+    def key_event(self, key, action, *_):
         if action == self.wnd.keys.ACTION_PRESS:
             handler = 'keypress'
         elif action == self.wnd.keys.ACTION_RELEASE:

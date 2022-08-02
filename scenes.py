@@ -97,12 +97,12 @@ class CameraMotion(MovingCamera):
             'p':        (0, 0, 0, 0, 0, -rspeed),
         }
         for k, args in movement.items():
-            if ev.isKeypress(event, k):
+            if event.isKeypress(key=k):
                 cls.updateCameraMove(*[
                     float(i) \
                         for i in args
                 ])
-            if ev.isKeyrelease(event, k):
+            if event.isKeyrelease(key=k):
                 cls.updateCameraMove(*[
                     (0.0 if i == 0 else None) \
                         for i in args
