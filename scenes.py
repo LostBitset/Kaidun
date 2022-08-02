@@ -2,7 +2,9 @@
 
 import abc
 
-import events as ev
+import numpy as np
+
+import cpu_geom
 
 class Scene(abc.ABC):    
 
@@ -16,20 +18,22 @@ class Scene(abc.ABC):
     def buildGeometry(cls, geometryState):
         pass
 
+    @classmethod
+    @abc.abstractmethod
+    def getController(cls, gamedata):
+        pass
+
 class SceneController(abc.ABC):
 
     @classmethod
-    @abc.abstractmethod
     def shaderUpdates(cls, gamedata):
-        pass
+        return dict()
 
     @classmethod
-    @abc.abstractmethod
     def frame(cls, gamedata):
         pass
 
     @classmethod
-    @abc.abstractmethod
     def handle(cls, gamedata, event):
         pass
 
@@ -67,16 +71,6 @@ class MovingCamera(SceneController):
         super().handle(gamedata, event)
 
 class CameraMotion(MovingCamera):
-
-    @classmethod
-    def shaderUpdates(cls, gamedata):
-        return {
-            **super().shaderUpdates(gamedata),
-        }
-    
-    @classmethod
-    def frame(cls, gamedata):
-        super().frame(gamedata)
     
     @classmethod
     def handle(cls, gamedata, event):
@@ -107,3 +101,42 @@ class CameraMotion(MovingCamera):
                     (0.0 if i == 0 else None) \
                         for i in args
                 ])
+
+class CubeScene(Scene):
+    cube = [
+        (0, 0, 0, 1, 0, 0, 1, 1, 0), (0, 0, 0, 0, 1, 0, 1, 1, 0),
+        (0, 0, 1, 1, 0, 1, 1, 1, 1), (0, 0, 1, 0, 1, 1, 1, 1, 1),
+
+        (0, 0, 0, 0, 1, 0, 0, 1, 1), (0, 0, 0, 0, 0, 1, 0, 1, 1),
+        (1, 0, 0, 1, 1, 0, 1, 1, 1), (1, 0, 0, 1, 0, 1, 1, 1, 1),
+
+        (0, 0, 0, 0, 0, 1, 1, 0, 1), (0, 0, 0, 1, 0, 0, 1, 0, 1),
+        (0, 1, 0, 0, 1, 1, 1, 1, 1), (0, 1, 0, 1, 1, 0, 1, 1, 1),
+    ]
+    
+    @classmethod
+    def assembleCube(cls):
+        L = []
+        for tri in cls.cube:
+            normal = cpu_geom.triNormal(tri)
+            for i in range(0, 9, 3):
+                coord = tri[i : i + 3]
+                L.extend(coord)
+                L.extend(normal)
+        return np.array(L, dtype='f4')
+
+    @classmethod
+    def geometryState(cls, *_):
+        return "I'm a cube!"
+
+    @classmethod
+    def buildGeometry(cls, geometryState):
+        if geometryState == "I'm a cube":
+            return cls.assembleCube()
+        raise Exception(
+            f"`{cls.__name__}` cannot have geometry state `{geometryState}`"
+        )
+    
+    @classmethod
+    def getController(cls, *_):
+        return CameraMotion
