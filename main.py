@@ -29,6 +29,7 @@ class GameWindow(mglw.WindowConfig):
         # Setup gamedata and scene
         self.gamedata = dict()
         self.scene = scenes.CubeScene
+        self.geometryState = None
         # OpenGL / Shader code
         with open('world_vertex.glsl', 'r') as f:
             vertex_shader = f.read()
@@ -97,6 +98,12 @@ class GameWindow(mglw.WindowConfig):
         updates = controller.shaderUpdates(self.gamedata)
         for k, v in updates.items():
             self.prog[k].value = v
+        newGeometryState = self.scene.geometryState(self.gamedata)
+        if self.geometryState != newGeometryState:
+            self.vertBuf.write(
+                self.scene.buildGeometry(newGeometryState)
+            )
+            self.geometryState = newGeometryState
 
     def frame(self):
         self.scene.getController().frame(self.gamedata)
