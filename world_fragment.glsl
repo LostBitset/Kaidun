@@ -14,7 +14,7 @@ void add_distance_fog(inout vec3 input_color) {
 
 void main() {
     vec3 color_raw = vert_color;
-    add_distance_fog(color_raw);
     color_raw *= illum;
+    add_distance_fog(color_raw);
     color = clamp(color_raw, 0.0, 1.0);
 }
