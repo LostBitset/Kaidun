@@ -107,7 +107,7 @@ void update_illum_ambient(inout float illum) {
 }
 
 float distance_fog_amt(in float current_zbuffer) {
-    float contrast = exp(-fog_attenuation_coef * current_zbuffer);
+    float contrast = exp(fog_attenuation_coef * current_zbuffer);
     return 1.0 - contrast;
 }
 
