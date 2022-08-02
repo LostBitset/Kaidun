@@ -49,10 +49,13 @@ class GameWindow(mglw.WindowConfig):
             ]
         )
         # Camera
-        self.cam_ctr = (0.0, 1.0, -2.0)
-        self.d_cam_ctr = (0.0, 0.0, 0.0)
-        self.cam_rot = (0.0, 0.0, 0.0) # (yaw, pitch, roll)
-        self.d_cam_rot = (0.0, 0.0, 0.0)
+        zeroVec3 = (0.0, 0.0, 0.0)
+        self.gamedata.update({
+            'cam_ctr': (0.0, 1.0, -2.0),
+            'd_cam_ctr': zeroVec3,
+            'cam_rot': zeroVec3,
+            'd_cam_rot': zeroVec3,
+        })
         self.prog['cam_near'].value = 1.0
         self.prog['cam_dist'].value = 50.0
         # Lighting
