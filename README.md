@@ -25,7 +25,7 @@ A 3D game made in Python with moderngl
 - [ ] A motion planner for flybacks
   - [ ] Based around virtual potential fields
   - [ ] Powered by a reverse-mode autodiff engine
-  - [ ] Used by a 5D planner
+  - [ ] Used by a 5D planner if I have time
   - [ ] With a fallback mode for flying out of local minima
 
 # Requirements
