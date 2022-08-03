@@ -35,7 +35,9 @@ def showGL(app):
 def checkNoGLRoot(app):
     delta = time.time() - app.mglwRedrawTime
     if delta > app.maxTimeWithoutGLRoot:
-        print('***** KILLING MAIN TK ROOT *****')
+        print('*** No response from mglw render_callback ***')
+        print('*** (Assuming that mglw tk root no longer exists) ***')
+        print('*** Quitting cmu_112_graphics tk root... ***')
         app.quit()
 
 def timerFired(app):
