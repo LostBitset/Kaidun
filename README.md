@@ -20,9 +20,8 @@ A 3D game made in Python with moderngl
   - [ ] Procedurally generated heightmaps for terrain surfaces
   - [ ] Bump mapping
 - [ ] Chunks and chunk loading
-- [ ] Procedural generation
-  - [ ] Based on Worley noise
-  - [ ] Possible deformation calculated ahead of time
+- [ ] Procedural generation based on Worley noise
+- [ ] Mostly realistic avalanches
 - [ ] A motion planner for flybacks
   - [ ] Based around virtual potential fields
   - [ ] Powered by a reverse-mode autodiff engine
