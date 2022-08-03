@@ -96,7 +96,7 @@ void main() {
     update_illum_ambient_frag(illum_phong);
 
     vec3 color_raw = vert_color;
-    color_raw *= illum;
+    color_raw *= illum_phong;
     add_distance_fog(color_raw);
     color = clamp(color_raw, 0.0, 1.0);
 }
