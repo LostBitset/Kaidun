@@ -1,14 +1,41 @@
 #version 330
 
 in vec3 vert_color;
+// This is the initial illumination value
 in float illum;
-in vec3 illum_frag_phong_oren_nayar_to_i;
+// Normally the whole point of Phong Shading is to interpolate the surface
+// normal in order to accurately light smooth surfaces
+// For this, we're the only thing we're interpolating is the normalized
+// vector to the light source, so that we avoid the artifacts caused by
+// Gouraud shading
+// Normally, these artifacts are caused by the specular component, which
+// this just flat out doesn't have, but the Oren-Nayar model yields a similar
+// effect
+// It isn't technically Phong Shading, but it's close enough for me to
+// shove 'phong' into the variable names
+// I'm interpolating vectors that vary across the surface for lighting
+// calculations, just with the surface-to-light vector instead of the normal
+// Fine. This is pseudo-Phong shading, and 'phong' in the code is just shorthand
+flat in vec3 illum_frag_phong_oren_nayar_to_i;
 in vec3 illum_frag_phong_oren_nayar_to_r;
-in float illum_frag_phong_oren_nayar_const_frac;
-in float illum_frag_phong_oren_nayar_scale_frac;
-in float illum_frag_phong_lighting_ambient;
-in float illum_frag_phong_lighting_maxsc;
-in vec3 phong_surf_normal;
+flat in float illum_frag_phong_oren_nayar_coef_a;
+flat in float illum_frag_phong_oren_nayar_coef_b;
+// The ambient component has to be done here to avoid some strange artifacts
+// It might seem like the interpolated vector will always be in between the
+// points, but it's possible for it to line up and go above lighting_maxsc
+// (which is accessed as illum_frag_phong_lighting_maxsc here)
+// This manifests as bright spots closer to the vertices being less bright
+// (because they actually have to deal with lighting_maxsc)
+// and bright spots farther from the vertices being extra bright
+// Moving the ambient component into the fragment shader prevents this
+// issue from occuring
+// All must be subject to the rule of the almighty lighting_maxsc!!!
+flat in float illum_frag_phong_lighting_ambient;
+flat in float illum_frag_phong_lighting_maxsc;
+// See the comment about pseudo-Phong shading
+// I know this line is an oxymoron. Leave me alone.
+flat in vec3 phong_surf_normal;
+// Also interpolate distance fog values
 in float fog_visibility_frac;
 in vec3 fog_component_rgb_partial;
 
@@ -20,11 +47,15 @@ void update_illum_ambient_frag(inout float illum) {
     illum = clamp(illum + lighting_ambient, 0.0, lighting_maxsc);
 }
 
+// Project a 3D vector onto a subspace of R^3 defined as the plane
+// defined by the given normal vector, located at the origin
 vec3 proj_onto_surf_subspace(in vec3 v) {
     vec3 normal = aux_surf_normal;
     return cross(normal, cross(v, normal));
 }
 
+// Basically just a 3D version of atan2(b) - atan2(a)
+// Finds the angle between two 3-vectors
 float angle3(in vec3 a, in vec3 b) {
     float cosine_distance = dot(a, b) / (length(a) * length(b));
     return acos(cosine_distance);
@@ -42,10 +73,8 @@ void update_illum_oren_nayar_ext_frag(inout float illum) {
     float azimuthal_delta = angle3(proj2_i, proj2_r);
     float azimuthal_part = max(0, cos(azimuthal_delta));
     float fac = azimuthal_part * sin(alpha) * tan(beta);
-    float const_frac = illum_frag_phong_oren_nayar_const_frac;
-    float scale_frac = illum_frag_phong_oren_nayar_scale_frac;
-    float a = 1.0 - (0.5 * const_frac);
-    float b = 0.45 * scale_frac;
+    float a = illum_frag_phong_oren_nayar_coef_a;
+    float b = illum_frag_phong_oren_nayar_coef_b;
     illum *= a + (b * fac);
 }
 
