@@ -14,7 +14,7 @@ A 3D game made in Python with moderngl
 # Complexity
 - [ ] Full 3D written from scratch in GLSL
   - [X] Perspective camera
-  - [X] Gouraud shading
+  - [ ] Phong shading
   - [X] Oren-Nayar reflectance
   - [X] Distance fog
   - [ ] Procedurally generated heightmaps for terrain surfaces
