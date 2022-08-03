@@ -12,6 +12,7 @@ class GameGLFrame(OpenGLFrame):
         global appRef
         GL.glViewport(0, 0, appRef.width, appRef.height)
         GL.glClearColor(0.0, 1.0, 0.0, 0.0)
+        print('In initgl')
     
     def redraw(self):
         global appRef
@@ -59,11 +60,10 @@ def timerFired(app):
 
 def redrawAll(app, canvas, glctx=None):
     if glctx != None:
-        print('redrawAll (OpenGL ver)')
         GL.glClear(GL.GL_COLOR_BUFFER_BIT)
         showGL(app)
     else:
-        print('redrawAll (cmu_112_graphics ver)')
+        pass
 
 if __name__ == '__main__':
     runApp(
