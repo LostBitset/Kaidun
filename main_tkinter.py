@@ -6,8 +6,6 @@ import tkinter
 from OpenGL import GL
 from pyopengltk import OpenGLFrame
 
-gltkRedrawTime = time.time()
-
 class GameGLFrame(OpenGLFrame):
 
     def initgl(self):
