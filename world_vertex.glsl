@@ -9,13 +9,15 @@ in vec3 aux_surf_normal;
 
 out vec3 vert_color;
 out float illum;
-out vec3 illum_frag_phong_oren_nayar_to_i;
+flat out vec3 illum_frag_phong_oren_nayar_to_i;
 out vec3 illum_frag_phong_oren_nayar_to_r;
-out float illum_frag_phong_oren_nayar_const_frac;
-out float illum_frag_phong_oren_nayar_scale_frac;
-out float illum_frag_phong_lighting_ambient;
-out float illum_frag_phong_lighting_maxsc;
-out vec3 phong_surf_normal;
+flat out float illum_frag_phong_oren_nayar_coef_a;
+flat out float illum_frag_phong_oren_nayar_coef_b;
+flat out float illum_frag_phong_lighting_ambient;
+flat out float illum_frag_phong_lighting_maxsc;
+// See the comment about pseudo-Phong shading in the fragment shader
+// I know this line is an oxymoron. Leave me alone.
+flat out vec3 phong_surf_normal;
 out float fog_visibility_frac;
 out vec3 fog_component_rgb_partial;
 
@@ -76,10 +78,13 @@ void update_illum_lambertian(inout float illum) {
 }
 
 float get_oren_nayar_coef_a() {
+    float microfacet_var = surf_roughness * surf_roughness;
     float const_frac = microfacet_var / (microfacet_var + 0.33);
     return 1.0 - (0.5 * const_frac);
 }
-float get_oren_nayar_coef_a() {
+
+float get_oren_nayar_coef_b() {
+    float microfacet_var = surf_roughness * surf_roughness;
     float scale_frac = microfacet_var / (microfacet_var + 0.09);
     return 0.45 * scale_frac;
 }

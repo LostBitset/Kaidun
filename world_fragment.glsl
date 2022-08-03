@@ -18,6 +18,13 @@ in float illum;
 // Fine. This is pseudo-Phong shading, and 'phong' in the code is just shorthand
 flat in vec3 illum_frag_phong_oren_nayar_to_i;
 in vec3 illum_frag_phong_oren_nayar_to_r;
+// Another note: Yes, I could have calculated proj2_i and proj2_r
+// in the fragment shader and saved a bit of time
+// It's true that four cross products isn't a ton, but it does add up
+// However, I would have to interpolate proj2_r, which makes it be the cost
+// of a few extra bytes and an interpolation vs. four cross products
+// The difference seems incredibly insignificant and doesn't seem worth
+// dealing with
 flat in float illum_frag_phong_oren_nayar_coef_a;
 flat in float illum_frag_phong_oren_nayar_coef_b;
 // The ambient component has to be done here to avoid some strange artifacts
@@ -50,7 +57,7 @@ void update_illum_ambient_frag(inout float illum) {
 // Project a 3D vector onto a subspace of R^3 defined as the plane
 // defined by the given normal vector, located at the origin
 vec3 proj_onto_surf_subspace(in vec3 v) {
-    vec3 normal = aux_surf_normal;
+    vec3 normal = phong_surf_normal;
     return cross(normal, cross(v, normal));
 }
 
