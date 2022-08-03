@@ -75,38 +75,13 @@ void update_illum_lambertian(inout float illum) {
     illum *= abs(dot(to_i, aux_surf_normal));
 }
 
-vec3 proj_onto_surf_subspace(in vec3 v) {
-    vec3 normal = aux_surf_normal;
-    return cross(normal, cross(v, normal));
-}
-
-float angle3(in vec3 a, in vec3 b) {
-    float cosine_distance = dot(a, b) / (length(a) * length(b));
-    return acos(cosine_distance);
-}
-
-void update_illum_oren_nayar_ext(inout float illum) {
-    vec3 to_i = normalize(lighting_light_ctr - vert);
-    vec3 to_r = normalize(cam_ctr - vert);
-    float theta_i = acos(dot(to_i, aux_surf_normal));
-    float theta_r = acos(dot(to_r, aux_surf_normal));
-    float microfacet_var = surf_roughness * surf_roughness;
-    float alpha = max(theta_i, theta_r);
-    float beta = min(theta_i, theta_r);
-    vec3 proj2_i = proj_onto_surf_subspace(to_i);
-    vec3 proj2_r = proj_onto_surf_subspace(to_r);
-    float azimuthal_delta = angle3(proj2_i, proj2_r);
-    float azimuthal_part = max(0, cos(azimuthal_delta));
-    float fac = azimuthal_part * sin(alpha) * tan(beta);
+float get_oren_nayar_coef_a() {
     float const_frac = microfacet_var / (microfacet_var + 0.33);
-    float scale_frac = microfacet_var / (microfacet_var + 0.09);
-    float a = 1.0 - (0.5 * const_frac);
-    float b = 0.45 * scale_frac;
-    illum *= a + (b * fac);
+    return 1.0 - (0.5 * const_frac);
 }
-
-void update_illum_ambient(inout float illum) {
-    illum = clamp(illum + lighting_ambient, 0.0, lighting_maxsc);
+float get_oren_nayar_coef_a() {
+    float scale_frac = microfacet_var / (microfacet_var + 0.09);
+    return 0.45 * scale_frac;
 }
 
 float distance_fog_amt(in float current_zbuffer) {
@@ -136,8 +111,8 @@ void main() {
     update_illum_lambertian(illum);
     illum_frag_phong_oren_nayar_to_i = normalize(lighting_light_ctr - vert);
     illum_frag_phong_oren_nayar_to_r = normalize(cam_ctr - vert);
-    illum_frag_phong_oren_nayar_const_frac = get_oren_nayar_const_frac();
-    illum_frag_phong_oren_nayar_scale_frac = get_oren_nayar_scale_frac();
+    illum_frag_phong_oren_nayar_coef_a = get_oren_nayar_coef_a();
+    illum_frag_phong_oren_nayar_coef_b = get_oren_nayar_coef_b();
     illum_frag_phong_lighting_ambient = lighting_ambient;
     illum_frag_phong_lighting_maxsc = lighting_maxsc;
     phong_surf_normal = aux_surf_normal;
