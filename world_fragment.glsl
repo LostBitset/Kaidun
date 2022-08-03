@@ -55,6 +55,10 @@ void add_distance_fog(inout vec3 input_color) {
 }
 
 void main() {
+    float illum_phong = illum;
+    update_illum_oren_nayar_ext_frag(illum_phong);
+    update_illum_ambient_frag(illum_phong);
+
     vec3 color_raw = vert_color;
     color_raw *= illum;
     add_distance_fog(color_raw);
