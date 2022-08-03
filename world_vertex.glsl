@@ -9,6 +9,13 @@ in vec3 aux_surf_normal;
 
 out vec3 vert_color;
 out float illum;
+out vec3 illum_frag_phong_oren_nayar_to_i;
+out vec3 illum_frag_phong_oren_nayar_to_r;
+out float illum_frag_phong_oren_nayar_const_frac;
+out float illum_frag_phong_oren_nayar_scale_frac;
+out float illum_frag_phong_lighting_ambient;
+out float illum_frag_phong_lighting_maxsc;
+out vec3 phong_surf_normal;
 out float fog_visibility_frac;
 out vec3 fog_component_rgb_partial;
 
@@ -68,10 +75,6 @@ void update_illum_lambertian(inout float illum) {
     illum *= abs(dot(to_i, aux_surf_normal));
 }
 
-float atan2(in vec2 v) {
-    return atan(v.y, v.x);
-}
-
 vec3 proj_onto_surf_subspace(in vec3 v) {
     vec3 normal = aux_surf_normal;
     return cross(normal, cross(v, normal));
@@ -123,13 +126,22 @@ void main() {
     vec3 v = vert;
     camspace(v);
     vec2 pos = v.xy / v.z;
+
     float z = zbuffer_value(v.z);
+
     gl_Position = vec4(pos, z, 1.0);
     vert_color = vert;
+
     set_illum(illum);
     update_illum_lambertian(illum);
-    update_illum_oren_nayar_ext(illum);
-    update_illum_ambient(illum);
+    illum_frag_phong_oren_nayar_to_i = normalize(lighting_light_ctr - vert);
+    illum_frag_phong_oren_nayar_to_r = normalize(cam_ctr - vert);
+    illum_frag_phong_oren_nayar_const_frac = get_oren_nayar_const_frac();
+    illum_frag_phong_oren_nayar_scale_frac = get_oren_nayar_scale_frac();
+    illum_frag_phong_lighting_ambient = lighting_ambient;
+    illum_frag_phong_lighting_maxsc = lighting_maxsc;
+    phong_surf_normal = aux_surf_normal;
+
     float fog_amt = distance_fog_amt(z);
     fog_component_rgb_partial = distance_fog_rgb_partial(fog_amt);
     fog_visibility_frac = distance_fog_visibility_frac(fog_amt);
