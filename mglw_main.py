@@ -7,6 +7,36 @@ import moderngl
 import events
 import scenes
 
+class VertBufRef(object):
+    __slots__ = 'buf', 'size'
+
+    def __init__(self, size, alloc_fn=None):
+        self.buf = alloc_fn(size)
+        self.size = size
+
+    def reset(self, newData, alloc_fn=None, alloc_hook=None):
+        if alloc_fn == None:
+            raise Exception(
+                'VertBufRef.reset needs an alloc_fn specified'
+                + ' (it does not have an OpenGL/moderngl context'
+            )
+        self.buf.release()
+        newSize = len(newData.tobytes())
+        if self.size != newSize:
+            self.buf = alloc_fn(newSize)
+            self.size = newSize
+            if alloc_hook != None:
+                alloc_hook()
+            print('allocation!')
+        print(self.size, newSize)
+        self.buf.write(newData)
+        
+    @classmethod
+    def makeAllocFn(cls, ctx):
+        def inner(desiredSize):
+            return ctx.buffer(reserve=desiredSize)
+        return inner
+
 def triNormal(tri):
     a1 = tri[3] - tri[0]
     a2 = tri[4] - tri[1]
@@ -43,15 +73,12 @@ class GameWindow(mglw.WindowConfig):
             fragment_shader=fragment_shader,
         )
         # OpenGL / Vertex data
-        self.vertBuf = self.ctx.buffer(
-            np.zeros((216,), dtype='f4')
+        self.alloc = VertBufRef.makeAllocFn(self.ctx)
+        self.vbr = VertBufRef(
+            1024,
+            alloc_fn=self.alloc
         )
-        self.vao = self.ctx.vertex_array(
-            self.prog,
-            [
-                (self.vertBuf, '3f 3f', 'vert', 'aux_surf_normal')
-            ]
-        )
+        self.updateVAO()
         # Camera
         zeroVec3 = (0.0, 0.0, 0.0)
         self.gamedata.update({
@@ -106,10 +133,21 @@ class GameWindow(mglw.WindowConfig):
             self.prog[k].value = v
         newGeometryState = self.scene.geometryState(self.gamedata)
         if self.geometryState != newGeometryState:
-            self.vertBuf.write(
-                self.scene.buildGeometry(newGeometryState)
+            newGeometry = self.scene.buildGeometry(newGeometryState)
+            self.vbr.reset(
+                newGeometry,
+                alloc_fn=self.alloc,
+                alloc_hook=self.updateVAO,
             )
             self.geometryState = newGeometryState
+    
+    def updateVAO(self):
+        self.vao = self.ctx.vertex_array(
+            self.prog,
+            [
+                (self.vbr.buf, '3f 3f', 'vert', 'aux_surf_normal')
+            ]
+        )
 
     def frame(self):
         self.scene.getController().frame(self.gamedata)
