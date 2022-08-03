@@ -9,6 +9,8 @@ in vec3 aux_surf_normal;
 
 out vec3 vert_color;
 out float illum;
+out float icom_oren_nayar;
+out float icom_lighting_maxsc;
 out float fog_visibility_frac;
 out vec3 fog_component_rgb_partial;
 
@@ -82,11 +84,11 @@ float angle3(in vec3 a, in vec3 b) {
     return acos(cosine_distance);
 }
 
-void update_illum_oren_nayar_ext(inout float illum) {
+float get_icom_oren_nayar(in float illum) {
     vec3 to_i = normalize(lighting_light_ctr - vert);
     vec3 to_r = normalize(cam_ctr - vert);
-    float theta_i = acos(dot(to_i, aux_surf_normal));
-    float theta_r = acos(dot(to_r, aux_surf_normal));
+    float theta_i = acos(abs(dot(to_i, aux_surf_normal)));
+    float theta_r = acos(abs(dot(to_r, aux_surf_normal)));
     float microfacet_var = surf_roughness * surf_roughness;
     float alpha = max(theta_i, theta_r);
     float beta = min(theta_i, theta_r);
@@ -99,7 +101,7 @@ void update_illum_oren_nayar_ext(inout float illum) {
     float scale_frac = microfacet_var / (microfacet_var + 0.09);
     float a = 1.0 - (0.5 * const_frac);
     float b = 0.45 * scale_frac;
-    illum *= a + (b * fac);
+    return a + (b * fac);
 }
 
 void update_illum_ambient(inout float illum) {
@@ -124,13 +126,18 @@ void main() {
     camspace(v);
     vec2 pos = v.xy / v.z;
     float z = zbuffer_value(v.z);
-    gl_Position = vec4(pos, z, 1.0);
-    vert_color = vert;
+
     set_illum(illum);
     update_illum_lambertian(illum);
-    update_illum_oren_nayar_ext(illum);
     update_illum_ambient(illum);
+
+    icom_oren_nayar = get_icom_oren_nayar(illum);
+    icom_lighting_maxsc = lighting_maxsc;
+
     float fog_amt = distance_fog_amt(z);
     fog_component_rgb_partial = distance_fog_rgb_partial(fog_amt);
     fog_visibility_frac = distance_fog_visibility_frac(fog_amt);
+
+    gl_Position = vec4(pos, z, 1.0);
+    vert_color = vert;
 }
