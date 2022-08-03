@@ -27,8 +27,6 @@ class VertBufRef(object):
             self.size = newSize
             if alloc_hook != None:
                 alloc_hook()
-            print('allocation!')
-        print(self.size, newSize)
         self.buf.write(newData)
         
     @classmethod
