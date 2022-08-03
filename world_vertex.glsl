@@ -9,15 +9,6 @@ in vec3 aux_surf_normal;
 
 out vec3 vert_color;
 out float illum;
-flat out vec3 illum_frag_phong_oren_nayar_to_i;
-out vec3 illum_frag_phong_oren_nayar_to_r;
-flat out float illum_frag_phong_oren_nayar_coef_a;
-flat out float illum_frag_phong_oren_nayar_coef_b;
-flat out float illum_frag_phong_lighting_ambient;
-flat out float illum_frag_phong_lighting_maxsc;
-// See the comment about pseudo-Phong shading in the fragment shader
-// I know this line is an oxymoron. Leave me alone.
-flat out vec3 phong_surf_normal;
 out float fog_visibility_frac;
 out vec3 fog_component_rgb_partial;
 
@@ -77,16 +68,42 @@ void update_illum_lambertian(inout float illum) {
     illum *= abs(dot(to_i, aux_surf_normal));
 }
 
-float get_oren_nayar_coef_a() {
-    float microfacet_var = surf_roughness * surf_roughness;
-    float const_frac = microfacet_var / (microfacet_var + 0.33);
-    return 1.0 - (0.5 * const_frac);
+float atan2(in vec2 v) {
+    return atan(v.y, v.x);
 }
 
-float get_oren_nayar_coef_b() {
+vec3 proj_onto_surf_subspace(in vec3 v) {
+    vec3 normal = aux_surf_normal;
+    return cross(normal, cross(v, normal));
+}
+
+float angle3(in vec3 a, in vec3 b) {
+    float cosine_distance = dot(a, b) / (length(a) * length(b));
+    return acos(cosine_distance);
+}
+
+void update_illum_oren_nayar_ext(inout float illum) {
+    vec3 to_i = normalize(lighting_light_ctr - vert);
+    vec3 to_r = normalize(cam_ctr - vert);
+    float theta_i = acos(dot(to_i, aux_surf_normal));
+    float theta_r = acos(dot(to_r, aux_surf_normal));
     float microfacet_var = surf_roughness * surf_roughness;
+    float alpha = max(theta_i, theta_r);
+    float beta = min(theta_i, theta_r);
+    vec3 proj2_i = proj_onto_surf_subspace(to_i);
+    vec3 proj2_r = proj_onto_surf_subspace(to_r);
+    float azimuthal_delta = angle3(proj2_i, proj2_r);
+    float azimuthal_part = max(0, cos(azimuthal_delta));
+    float fac = azimuthal_part * sin(alpha) * tan(beta);
+    float const_frac = microfacet_var / (microfacet_var + 0.33);
     float scale_frac = microfacet_var / (microfacet_var + 0.09);
-    return 0.45 * scale_frac;
+    float a = 1.0 - (0.5 * const_frac);
+    float b = 0.45 * scale_frac;
+    illum *= a + (b * fac);
+}
+
+void update_illum_ambient(inout float illum) {
+    illum = clamp(illum + lighting_ambient, 0.0, lighting_maxsc);
 }
 
 float distance_fog_amt(in float current_zbuffer) {
@@ -106,22 +123,13 @@ void main() {
     vec3 v = vert;
     camspace(v);
     vec2 pos = v.xy / v.z;
-
     float z = zbuffer_value(v.z);
-
     gl_Position = vec4(pos, z, 1.0);
     vert_color = vert;
-
     set_illum(illum);
     update_illum_lambertian(illum);
-    illum_frag_phong_oren_nayar_to_i = normalize(lighting_light_ctr - vert);
-    illum_frag_phong_oren_nayar_to_r = normalize(cam_ctr - vert);
-    illum_frag_phong_oren_nayar_coef_a = get_oren_nayar_coef_a();
-    illum_frag_phong_oren_nayar_coef_b = get_oren_nayar_coef_b();
-    illum_frag_phong_lighting_ambient = lighting_ambient;
-    illum_frag_phong_lighting_maxsc = lighting_maxsc;
-    phong_surf_normal = aux_surf_normal;
-
+    update_illum_oren_nayar_ext(illum);
+    update_illum_ambient(illum);
     float fog_amt = distance_fog_amt(z);
     fog_component_rgb_partial = distance_fog_rgb_partial(fog_amt);
     fog_visibility_frac = distance_fog_visibility_frac(fog_amt);
