@@ -21,6 +21,7 @@ def triNormal(tri):
     )
 
 class GameWindow(mglw.WindowConfig):
+    title = 'Unnamed Window'
     gl_version = (3, 3)
     window_size = (3840//3, 2160//3)
 
