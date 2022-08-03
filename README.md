@@ -17,6 +17,7 @@ A 3D game made in Python with moderngl
   - [X] Gouraud shading
   - [X] Oren-Nayar reflectance
   - [X] Distance fog
+  - [ ] Procedurally generated heightmaps for terrain surfaces
   - [ ] Bump mapping
 - [ ] Chunks and chunk loading
 - [ ] Procedural generation
