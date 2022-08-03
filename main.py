@@ -111,4 +111,8 @@ class GameWindow(mglw.WindowConfig):
     def frame(self):
         self.scene.getController().frame(self.gamedata)
 
-mglw.run_window_config(GameWindow)
+def main():
+    mglw.run_window_config(GameWindow, args=('--window', 'tk'))
+
+if __name__ == '__main__':
+    main()
