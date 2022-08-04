@@ -11,6 +11,8 @@ out vec3 vert_color;
 out float illum;
 out float icom_oren_nayar;
 out float icom_lighting_maxsc;
+out vec3 ideferred_bumpmapping_to_i_nonunit;
+out vec3 ideferred_phong_aligned_normal_nonunit;
 out float fog_visibility_frac;
 out vec3 fog_component_rgb_partial;
 
@@ -62,12 +64,17 @@ void set_illum(out float illum) {
     vec3 deltas = vert - lighting_light_ctr;
     float dist = length(deltas);
     illum = lighting_light_brightness / (dist * dist);
+    illum *= surf_albedo / PI;
 }
 
-void update_illum_lambertian(inout float illum) {
-    illum *= surf_albedo / PI;
-    vec3 to_i = normalize(lighting_light_ctr - vert);
-    illum *= abs(dot(to_i, aux_surf_normal));
+void setup_bumpmapping_lambertian(out vec3 to_i_nonunit, out vec3 aligned_normal) {
+    vec3 to_i_raw = lighting_light_ctr - vert;
+    if (dot(normalize(to_i_raw), aux_surf_normal) < 0.0) {
+        aligned_normal = -aux_surf_normal;
+    } else {
+        aligned_normal = aux_surf_normal;
+    }
+    to_i_nonunit = to_i_raw;
 }
 
 float atan2(in vec2 v) {
@@ -128,11 +135,15 @@ void main() {
     float z = zbuffer_value(v.z);
 
     set_illum(illum);
-    update_illum_lambertian(illum);
     update_illum_ambient(illum);
 
     icom_oren_nayar = get_icom_oren_nayar(illum);
     icom_lighting_maxsc = lighting_maxsc;
+
+    setup_bumpmapping_lambertian(
+        ideferred_bumpmapping_to_i_nonunit,
+        ideferred_phong_aligned_normal_nonunit
+    );
 
     float fog_amt = distance_fog_amt(z);
     fog_component_rgb_partial = distance_fog_rgb_partial(fog_amt);
