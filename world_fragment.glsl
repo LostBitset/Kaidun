@@ -38,9 +38,14 @@ float lambertian_component_phong(in vec3 to_i, in vec3 aligned_normal) {
     return dot(to_i, aligned_normal);
 }
 
+vec3 bumpmapping_get_rnormal() {
+    return normalize(mod(position_3d*3.0, 1.0));
+}
+
 void bumpmapping_perturb_normal(inout vec3 normal) {
-    mat3 rot = rot_mat3(vec3(0.0, 0.0, mod(position_3d.z, 0.2)));
-    normal *= rot;
+    normal += bumpmapping_get_rnormal();
+    normal *= 0.5;
+    normal = normalize(normal);
 }
 
 float deferred_component_bumpmapping_phong_lambertian() {
