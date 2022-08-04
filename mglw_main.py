@@ -116,8 +116,6 @@ class GameWindow(mglw.WindowConfig):
         if GameWindow.frame_callback != None:
             (GameWindow.frame_callback)()
 
-import threading
-
 def main(load_hook=None):
     if load_hook != None:
         load_hook(GameWindow)
