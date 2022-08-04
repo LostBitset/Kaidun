@@ -23,7 +23,7 @@ float lambertian_component_phong(in vec3 to_i, in vec3 aligned_normal) {
     return dot(to_i, aligned_normal);
 }
 
-float bumpmapping_heightmap_get() {
+float bumpmapping_heightmap_get(in vec3 sample) {
     return 0.0;
 }
 
@@ -51,7 +51,7 @@ vec3 bumpmapping_new_normal(in vec3 normal) {
     vec3 resolved_surf_normal = span_2_orthogonal_complement(
         resolved_surf_basis_1,
         resolved_surf_basis_2
-    )
+    );
     if (dot(resolved_surf_normal, normal) < 0.0) {
         resolved_surf_normal *= -1;
     }

@@ -70,6 +70,11 @@ void set_illum(out float illum) {
     illum *= surf_albedo / PI;
 }
 
+vec3 proj_onto_surf_subspace(in vec3 v) {
+    vec3 normal = aux_surf_normal;
+    return cross(normal, cross(v, normal));
+}
+
 void setup_bumpmapping_lambertian(out vec3 to_i_nonunit, out vec3 aligned_normal) {
     vec3 to_i_raw = lighting_light_ctr - vert;
     if (dot(normalize(to_i_raw), aux_surf_normal) < 0.0) {
@@ -89,11 +94,6 @@ void setup_bumpmapping_finite_diff(out vec3 x_proj_u, out vec3 y_proj_v) {
 
 float atan2(in vec2 v) {
     return atan(v.y, v.x);
-}
-
-vec3 proj_onto_surf_subspace(in vec3 v) {
-    vec3 normal = aux_surf_normal;
-    return cross(normal, cross(v, normal));
 }
 
 float angle3(in vec3 a, in vec3 b) {
@@ -152,11 +152,11 @@ void main() {
 
     setup_bumpmapping_lambertian(
         ideferred_bumpmapping_to_i_nonunit,
-        ideferred_phong_aligned_normal_nonunit,
+        ideferred_phong_aligned_normal_nonunit
     );
     setup_bumpmapping_finite_diff(
         ideferred_bumpmapping_finite_diff_x_proj_u,
-        ideferred_bumpmapping_finite_diff_y_proj_v,
+        ideferred_bumpmapping_finite_diff_y_proj_v
     );
 
     float fog_amt = distance_fog_amt(z);
