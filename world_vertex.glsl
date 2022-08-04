@@ -13,6 +13,8 @@ out float icom_oren_nayar;
 out float icom_lighting_maxsc;
 out vec3 ideferred_bumpmapping_to_i_nonunit;
 out vec3 ideferred_phong_aligned_normal_nonunit;
+out vec3 ideferred_bumpmapping_finite_diff_x_proj_u;
+out vec3 ideferred_bumpmapping_finite_diff_y_proj_v;
 out float fog_visibility_frac;
 out vec3 fog_component_rgb_partial;
 out vec3 position_3d;
@@ -76,6 +78,13 @@ void setup_bumpmapping_lambertian(out vec3 to_i_nonunit, out vec3 aligned_normal
         aligned_normal = aux_surf_normal;
     }
     to_i_nonunit = to_i_raw;
+}
+
+void setup_bumpmapping_finite_diff(out vec3 x_proj_u, out vec3 y_proj_v) {
+    vec3 rough_x_basis = vec3(0.9, 0.1, 0.1);
+    vec3 rough_y_basis = vec3(0.1, 0.9, 0.1);
+    x_proj_u = proj_onto_surf_subspace(rough_x_basis);
+    y_proj_v = proj_onto_surf_subspace(rough_y_basis);
 }
 
 float atan2(in vec2 v) {
@@ -143,7 +152,11 @@ void main() {
 
     setup_bumpmapping_lambertian(
         ideferred_bumpmapping_to_i_nonunit,
-        ideferred_phong_aligned_normal_nonunit
+        ideferred_phong_aligned_normal_nonunit,
+    );
+    setup_bumpmapping_finite_diff(
+        ideferred_bumpmapping_finite_diff_x_proj_u,
+        ideferred_bumpmapping_finite_diff_y_proj_v,
     );
 
     float fog_amt = distance_fog_amt(z);
