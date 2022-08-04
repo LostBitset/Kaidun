@@ -1,6 +1,5 @@
 # Kaidun (by HktOverload)
 
-from mimetypes import init
 import numpy as np
 import moderngl_window as mglw
 import moderngl
@@ -14,13 +13,10 @@ class GameWindow(mglw.WindowConfig):
     gl_version = (3, 3)
     window_size = (3840//3, 2160//3)
 
-    init_callback = None
     frame_callback = None
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        if GameWindow.init_callback != None:
-            (GameWindow.init_callback)(self)
         # Setup gamedata and scene
         self.gamedata = dict()
         self.scene = scenes.CubeScene
