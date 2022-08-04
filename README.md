@@ -22,8 +22,8 @@ A 3D game made in Python with moderngl
         - [X] Lambertian component (Phong shading) 
         - [X] Oren-Nayar reflectance (Gouraud shading)
         - [X] Distance fog (calculated per-pixel using the z-buffer)
-        - [ ] Procedural normal maps for terrain surfaces
         - [ ] Bump mapping (using normals directly, no heightmaps)
+        - [ ] Procedural normal maps for terrain surfaces
     - [ ] Simple physics so you don't fall through the floor
 - [ ] Procedural terrain generation
     - [ ] Terrain heightmaps based on Worley noise
