@@ -1,11 +1,13 @@
-import tkinter
+import mglw_main
 
 import inspect
+import tkinter
 import subprocess 
 
 def overridenTk():
-    subprocess.Popen(['lxterminal', '-e', 'suod'])
     return tkinter.Tk()
+    # mglwRoot = mglw_main.startTk()
+    # return mglwRoot
 
 caller = inspect.currentframe().f_back
 for _ in range(5):
