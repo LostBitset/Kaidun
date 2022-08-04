@@ -12,7 +12,7 @@ def runApp(*args, **kwargs):
 
 def updateMglwSingletonRoot(cfg):
     MglwTkSingleton.mglwSingletonRoot = cfg.wnd._tk
-    #appRef.run()
+    appRef.run()
 
 def addInitCallback(wincls):
     wincls.init_callback = updateMglwSingletonRoot
