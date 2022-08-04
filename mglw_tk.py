@@ -1,4 +1,5 @@
 import threading
+import time
 
 import mglw_main
 
@@ -17,6 +18,5 @@ def startTk():
         mglw_main.main(load_hook=load_hook)
     thread = threading.Thread(target=target, args=())
     thread.start()
-    while MglwTkSingleton.mglwSingletonRoot == None:
-        pass
+    time.sleep(1) # Trying to wait for it to change the value doesn't work
     return MglwTkSingleton.mglwSingletonRoot

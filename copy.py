@@ -1,9 +1,9 @@
-import mglw_main
+import mglw_tk
 
 import inspect
 
 def overridenTk():
-    mglwRoot = mglw_main.startTk()
+    mglwRoot = mglw_tk.startTk()
     return mglwRoot
 
 caller = inspect.currentframe().f_back
