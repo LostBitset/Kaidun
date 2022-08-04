@@ -1,10 +1,10 @@
 import mglw_main
 
 import inspect
-import tkinter
 import subprocess 
 
 def overridenTk():
+    import tkinter
     return tkinter.Tk()
     # mglwRoot = mglw_main.startTk()
     # return mglwRoot
