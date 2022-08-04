@@ -15,6 +15,7 @@ out vec3 ideferred_bumpmapping_to_i_nonunit;
 out vec3 ideferred_phong_aligned_normal_nonunit;
 out float fog_visibility_frac;
 out vec3 fog_component_rgb_partial;
+out vec3 position_3d;
 
 uniform vec3 cam_ctr;
 uniform float cam_yaw;
@@ -151,4 +152,5 @@ void main() {
 
     gl_Position = vec4(pos, z, 1.0);
     vert_color = vert;
+    position_3d = vert;
 }
