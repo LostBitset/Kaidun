@@ -12,7 +12,7 @@ A 3D game made in Python with moderngl
 - These "flybacks" use buckets of power, and some samples will be irreperably damaged
 
 # Complexity
-- [ ] Full 3D written from scratch in GLSL
+- [X] Full 3D written from scratch in GLSL
   - [X] Perspective camera
   - [X] Gouraud shading
   - [X] Oren-Nayar reflectance
@@ -33,5 +33,5 @@ A 3D game made in Python with moderngl
 The following command installs everything you need (it works on Debian 11):
 
 ```sh
-python -m pip install numpy glcontext moderngl moderngl_window glfw
+python -m pip install numpy glcontext moderngl moderngl_window 
 ```
