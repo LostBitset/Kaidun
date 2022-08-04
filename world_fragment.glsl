@@ -21,14 +21,12 @@ float lambertian_component_phong(in vec3 to_i, in vec3 aligned_normal) {
     return dot(to_i, aligned_normal);
 }
 
-vec3 bumpmapping_get_rnormal() {
+vec3 bumpmapping_heightmap_get() {
     return vec3(0.0, 0.0, 1.0);
 }
 
 void bumpmapping_perturb_normal(inout vec3 normal) {
-    normal += bumpmapping_get_rnormal();
-    normal *= 0.5;
-    normal = normalize(normal);
+    // todo
 }
 
 float deferred_component_bumpmapping_phong_lambertian() {
