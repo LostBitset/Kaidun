@@ -90,6 +90,8 @@ void setup_bumpmapping_finite_diff(out vec3 x_proj_u, out vec3 y_proj_v) {
     vec3 rough_y_basis = vec3(0.1, 0.9, 0.1);
     x_proj_u = proj_onto_surf_subspace(rough_x_basis);
     y_proj_v = proj_onto_surf_subspace(rough_y_basis);
+    x_proj_u /= 50.0;
+    y_proj_v /= 50.0;
 }
 
 float atan2(in vec2 v) {

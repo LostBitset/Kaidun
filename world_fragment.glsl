@@ -24,7 +24,7 @@ float lambertian_component_phong(in vec3 to_i, in vec3 aligned_normal) {
 }
 
 float bumpmapping_heightmap_get(in vec3 sample) {
-    return 0.0;
+    return sin(20.0*sample.z)/2.0;
 }
 
 vec3 span_2_orthogonal_complement(in vec3 a, in vec3 b) {
@@ -85,4 +85,14 @@ void main() {
     add_distance_fog(color_raw);
 
     color = clamp(color_raw, 0.0, 1.0);
+    color /= 10000000000000000000.0;
+    //color += vec3(bumpmapping_heightmap_get(position_3d), 0.0, 0.0);
+    color += normalize(
+        ideferred_phong_aligned_normal_nonunit
+    ) - bumpmapping_new_normal(
+        normalize(
+            ideferred_phong_aligned_normal_nonunit
+        )
+    );
+    //*/
 }
