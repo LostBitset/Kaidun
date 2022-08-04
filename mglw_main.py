@@ -51,7 +51,7 @@ class GameWindow(mglw.WindowConfig):
         self.prog['lighting_ambient'].value = 0.2
         self.prog['lighting_maxsc'].value = 1.15
         self.prog['lighting_light_ctr'] = (2.0, 2.0, 2.0)
-        self.prog['lighting_light_brightness'] = 50.0
+        self.prog['lighting_light_brightness'] = 100.0
         # Lighting / Surface info
         self.prog['surf_albedo'].value = 0.09
         self.prog['surf_roughness'].value = 0.1
