@@ -12,20 +12,29 @@ A 3D game made in Python with moderngl
 - These "flybacks" use buckets of power, and some samples will be irreperably damaged
 
 # Complexity
-- [X] Full 3D written from scratch in GLSL
-  - [X] Perspective camera
-  - [X] Gouraud shading
-  - [X] Oren-Nayar reflectance
-  - [X] Distance fog
-  - [ ] Procedurally generated heightmaps for terrain surfaces
-  - [ ] Bump mapping
-- [ ] Chunks and chunk loading
-- [ ] Procedural generation based on Worley noise
+- [X] A simple 3D engine
+    - [X] Invokes ModernGL (an OpenGL interface) from `cmu_112_graphics`
+    - [X] Scenes that define geometry and when to update it
+    - [X] Controllers to handle events and shader code setup
+    - [X] Automatic reallocation of GPU vertex buffer when tri count changes
+    - [X] Full 3D written from scratch in GLSL
+        - [X] Perspective camera implemented from scratch
+        - [X] Lambertian component (Phong shading) 
+        - [X] Oren-Nayar reflectance (Gouraud shading)
+        - [X] Distance fog (calculated per-pixel using the z-buffer)
+        - [ ] Procedural normal maps for terrain surfaces
+        - [ ] Bump mapping (using normals directly, no heightmaps)
+    - [ ] Simple physics so you don't fall through the floor
+- [ ] Procedural terrain generation
+    - [ ] Terrain heightmaps based on Worley noise
+    - [ ] Automated classification of terrain features
+    - [ ] Automated classification of potential avalanche sites
 - [ ] Mostly realistic avalanches
+    - [ ] Deformation of existing terrain
+    - [ ] Persistence of terrain modification (deltas stored in save data)
 - [ ] A motion planner for flybacks
   - [ ] Based around virtual potential fields
   - [ ] Powered by a reverse-mode autodiff engine
-  - [ ] Used by a 5D planner if I have time
   - [ ] With a fallback mode for flying out of local minima
 
 # Requirements
