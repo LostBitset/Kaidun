@@ -19,7 +19,7 @@ def mglwRootLoadHook(app, wincls):
             mglwRootFrameCallback(app)
     wincls.title = app._title
 
-def startMGLWRoot(app, maxTimeWithoutGLRoot=0.5):
+def startMGLWRoot(app, maxTimeWithoutGLRoot=0.1):
     app.mglwRedrawTime = time.time()
     app.maxTimeWithoutGLRoot = maxTimeWithoutGLRoot
     mglw_main.main(
