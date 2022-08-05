@@ -67,7 +67,7 @@ float bumpmapping_heightmap_get(in vec3 sample) {
         dot(sample, u_basis_2),
         dot(sample, v_basis_2)
     ));
-    return max(result_uv1, result_uv2);
+    return 1.5 * max(result_uv1, result_uv2);
 }
 
 vec3 span_2_orthogonal_complement(in vec3 a, in vec3 b) {
