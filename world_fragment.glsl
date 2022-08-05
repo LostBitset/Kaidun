@@ -44,7 +44,7 @@ float noise2(in vec2 co) {
 
 float noise2small(in vec2 co) {
     float result = noise2(30.0* co);
-    result /= 200.0;
+    result /= 400.0;
     return result;
 }
 
