@@ -44,13 +44,16 @@ float noise2(in vec2 co) {
 
 float noise2small(in vec2 co) {
     float result = noise2(30.0* co);
-    result /= 100.0;
+    result /= 200.0;
     return result;
 }
 
 float bumpmapping_heightmap_get(in vec3 sample) {
     //return sin(20.0*sample.x)/2.0;
-    return noise2small(cross(sample, normalize(vec3(1.0, 1.0, 1.0))).xy);
+    return noise2small(vec2(
+        dot(sample, normalize(ideferred_bumpmapping_finite_diff_x_proj_u)),
+        dot(sample, normalize(ideferred_bumpmapping_finite_diff_y_proj_v))
+    ));
 }
 
 vec3 span_2_orthogonal_complement(in vec3 a, in vec3 b) {
