@@ -42,6 +42,7 @@ def splashScreen_timerFired(app):
         app.splashScreenImage = ImageTk.PhotoImage(
             app.loadImage('splash.png')
         )
+
 def splashScreen_redrawAll(app, canvas):
     canvas.create_rectangle(
         0, 0, app.width, app.height,
