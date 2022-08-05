@@ -51,8 +51,9 @@ class GameWindow(mglw.WindowConfig):
             'd_cam_ctr': zeroVec3,
             'cam_rot': (np.pi/2, 0.0, 0.0),
             'd_cam_rot': zeroVec3,
+            'cam_near': 0.5,
         })
-        self.prog['cam_near'].value = 1.0
+        self.prog['cam_near'].value = self.gamedata['cam_near']
         self.prog['cam_dist'].value = 50.0
         # Lighting
         self.prog['lighting_ambient'].value = 0.2
@@ -66,8 +67,10 @@ class GameWindow(mglw.WindowConfig):
         self.fog_color = (0.2, 0.2, 0.2)
         self.prog['fog_color'].value = self.fog_color
         self.prog['fog_attenuation_coef'].value = 1.9
-        # Gravity
+        # Terrain and gravity
         self.gamedata.update({
+            'player_height': 1.5,
+            'current_terrain_height': 1.0,
             'vel_gravity': 0.0,
         })
     

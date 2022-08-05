@@ -107,9 +107,11 @@ class GravityBoundPlayer(CameraMotion):
     def frame(cls, gamedata, ftime):
         super().frame(gamedata, ftime)
         ctr = gamedata['cam_ctr']
-        if ctr[1] < 2.0 + 1.5:
+        boundary = gamedata['current_terrain_height']
+        boundary += gamedata['player_height']
+        boundary += gamedata['cam_near']
+        if ctr[1] < boundary:
             gamedata['vel_gravity'] = 0.0
-        print(ctr[1])
         gamedata['cam_ctr'] = (
             ctr[0],
             ctr[1] + gamedata['vel_gravity'],

@@ -36,6 +36,9 @@ def appStarted(app):
 def splashScreen_keyPressed(app, event):
     if event.key == 'Enter':
         deferToGL(app)
+    elif event.key == 'Space':
+        app.mode = 'intentToQuit'
+        deferToGL(app)
 
 def splashScreen_timerFired(app):
     if not hasattr(app, 'splashScreenImage'):
@@ -82,6 +85,9 @@ def altRootMGLW_timerFired(app):
 
 def altRootMGLW_redrawAll(app, *_):
     showGL(app)
+
+def intentToQuit_timerFired(app):
+    app.quit()
 
 if __name__ == '__main__':
     runApp(
