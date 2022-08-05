@@ -6,10 +6,14 @@ from cmu_112_graphics import *
 
 import mglw_main
 
+def mglwCenterTkWindow(cfg):
+    cfg.wnd._tk.eval('tk::PlaceWindow . center')
+
 def mglwRootFrameCallback(app):
     app.mglwRedrawTime = time.time()
 
 def mglwRootLoadHook(app, wincls):
+    wincls.init_callback = mglwCenterTkWindow
     wincls.frame_callback = \
         lambda: \
             mglwRootFrameCallback(app)
