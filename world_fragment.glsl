@@ -49,7 +49,6 @@ float noise2small(in vec2 co) {
 }
 
 float bumpmapping_heightmap_get(in vec3 sample) {
-    //return sin(20.0*sample.x)/2.0;
     vec3 u_basis_1 = normalize(ideferred_bumpmapping_finite_diff_x_proj_u);
     vec3 v_basis_1 = normalize(cross(
         u_basis_1,
