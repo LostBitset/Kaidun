@@ -26,6 +26,33 @@ def startMGLWRoot(app, maxTimeWithoutGLRoot=0.5):
     )
 
 def appStarted(app):
+    app._root.eval('tk::PlaceWindow . center')
+    app.mode = 'splashScreen'
+
+def splashScreen_keyPressed(app, event):
+    if event.key == 'Enter':
+        deferToGL(app)
+
+def splashScreen_timerFired(app):
+    if not hasattr(app, 'splashScreenImage'):
+        app.splashScreenImage = ImageTk.PhotoImage(
+            app.loadImage('splash.png')
+        )
+def splashScreen_redrawAll(app, canvas):
+    canvas.create_rectangle(
+        0, 0, app.width, app.height,
+        fill='#000',
+    )
+    if hasattr(app, 'splashScreenImage'):
+        canvas.create_image(
+            app.width//2,
+            app.height//2,
+            image=app.splashScreenImage,
+        )
+
+def deferToGL(app):
+    app.mglwReturnMode = app.mode
+    app.mode = 'altRootMGLW'
     startMGLWRoot(app)
 
 def showGL(app):
@@ -39,13 +66,15 @@ def checkNoGLRoot(app):
     if delta > app.maxTimeWithoutGLRoot:
         print('*** No response from mglw render_callback ***')
         print('*** (Assuming that mglw tk root no longer exists) ***')
-        print('*** Quitting cmu_112_graphics tk root... ***')
-        app.quit()
+        #- print('*** Quitting cmu_112_graphics tk root... ***')
+        app.mode = app.mglwReturnMode
+        app._showRootWindow()
+        app._root.eval('tk::PlaceWindow . center')
 
-def timerFired(app):
+def altRootMGLW_timerFired(app):
     checkNoGLRoot(app)
 
-def redrawAll(app, *_):
+def altRootMGLW_redrawAll(app, *_):
     showGL(app)
 
 if __name__ == '__main__':
