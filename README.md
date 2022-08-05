@@ -24,7 +24,7 @@ A 3D game made in Python with moderngl
         - [X] Distance fog (calculated per-pixel using the z-buffer)
         - [X] Bump mapping (finite-difference method)
         - [ ] Procedural heightmaps for terrain surfaces *need to fix rotation artifact*
-    - [ ] Simple physics so you don't fall through the floor
+    - [X] Simple physics so you don't fall through the floor
 - [ ] Procedural terrain generation
     - [ ] Terrain heightmaps based on Worley noise
     - [ ] Automated classification of terrain features
