@@ -61,6 +61,7 @@ def deferToGL(app):
 
 def showGL(app):
     try:
+        time.sleep(0.2)
         app._hideRootWindow()
     except:
         pass
