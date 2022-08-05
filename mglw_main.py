@@ -95,9 +95,6 @@ class GameWindow(mglw.WindowConfig):
         newGeometryState = self.scene.geometryState(self.gamedata)
         if self.geometryState != newGeometryState:
             newGeometry = self.scene.buildGeometry(newGeometryState)
-            newTriCount = len(newGeometry) // 6
-            self.triangles_cpu = np.reshape(newGeometry, (newTriCount, 6))
-            self.triangles_cpu = self.triangles_cpu[:,:3]
             self.vbr.reset(
                 newGeometry,
                 alloc_fn=self.alloc,
@@ -114,7 +111,7 @@ class GameWindow(mglw.WindowConfig):
         )
 
     def frame(self):
-        self.scene.getController().frame(self.gamedata, self.triangles_cpu)
+        self.scene.getController().frame(self.gamedata)
         if GameWindow.frame_callback != None:
             (GameWindow.frame_callback)()
 
