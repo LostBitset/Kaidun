@@ -7,7 +7,7 @@ class SceneController(abc.ABC):
         return dict()
 
     @classmethod
-    def frame(cls, gamedata):
+    def frame(cls, gamedata, triangles):
         pass
 
     @classmethod
@@ -28,8 +28,8 @@ class MovingCamera(SceneController):
         }
 
     @classmethod
-    def frame(cls, gamedata):
-        super().frame(gamedata)
+    def frame(cls, gamedata, triangles):
+        super().frame(gamedata, triangles)
         ctr, dctr = gamedata['cam_ctr'], gamedata['d_cam_ctr']
         rot, drot = gamedata['cam_rot'], gamedata['d_cam_rot']
         gamedata['cam_ctr'] = (
