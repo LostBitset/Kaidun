@@ -23,8 +23,35 @@ float lambertian_component_phong(in vec3 to_i, in vec3 aligned_normal) {
     return dot(to_i, aligned_normal);
 }
 
+float rand(in vec2 co) {
+    return fract(sin(dot(co.xy,
+                         vec2(12.9898,78.233)))
+                 * 43758.5453123);
+}
+
+float noise2(in vec2 co) {
+    vec2 i = floor(co);
+    vec2 f = fract(co);
+    float a = rand(i);
+    float b = rand(i + vec2(1.0, 0.0));
+    float c = rand(i + vec2(0.0, 1.0));
+    float d = rand(i + vec2(1.0, 1.0));
+    vec2 u = f*f*(3.0-2.0*f);
+    return mix(a, b, u.x) +
+            (c - a)* u.y * (1.0 - u.x) +
+            (d - b) * u.x * u.y;
+}
+
+float noise2small(in vec2 co) {
+    float result = noise2(30.0* co);
+    result /= 2.0;
+    result = clamp(result, 0.25, 0.26);
+    return result;
+}
+
 float bumpmapping_heightmap_get(in vec3 sample) {
-    return sin(20.0*sample.x)/2.0;
+    //return sin(20.0*sample.x)/2.0;
+    return noise2small(cross(sample, normalize(vec3(1.0, 1.0, 1.0))).xy);
 }
 
 vec3 span_2_orthogonal_complement(in vec3 a, in vec3 b) {
@@ -35,22 +62,19 @@ vec3 bumpmapping_new_normal(in vec3 normal) {
     vec3 derived_u_basis = ideferred_bumpmapping_finite_diff_x_proj_u;
     vec3 derived_v_basis = ideferred_bumpmapping_finite_diff_y_proj_v;
     float heightmap_origin = bumpmapping_heightmap_get(position_3d);
-    vec3 heightmap_finite_diff_0 = heightmap_origin * normal;
     float heightmap_derived_u = bumpmapping_heightmap_get(
         position_3d + derived_u_basis
     );
-    vec3 heightmap_finite_diff_1 = heightmap_derived_u * normal;
+    vec3 heightmap_finite_diff_1 = (heightmap_derived_u - heightmap_origin) * normal;
     heightmap_finite_diff_1 += derived_u_basis;
     float heightmap_derived_v = bumpmapping_heightmap_get(
         position_3d + derived_v_basis
     );
-    vec3 heightmap_finite_diff_2 = heightmap_derived_v * normal;
+    vec3 heightmap_finite_diff_2 = (heightmap_derived_v - heightmap_origin) * normal;
     heightmap_finite_diff_2 += derived_v_basis;
-    vec3 resolved_surf_basis_1 = heightmap_finite_diff_1 - heightmap_finite_diff_0;
-    vec3 resolved_surf_basis_2 = heightmap_finite_diff_2 - heightmap_finite_diff_0;
     vec3 resolved_surf_normal = span_2_orthogonal_complement(
-        resolved_surf_basis_1,
-        resolved_surf_basis_2
+        heightmap_finite_diff_1,
+        heightmap_finite_diff_2
     );
     if (dot(resolved_surf_normal, normal) < 0.0) {
         resolved_surf_normal *= -1;
@@ -85,12 +109,10 @@ void main() {
     add_distance_fog(color_raw);
 
     color = clamp(color_raw, 0.0, 1.0);
-    color /= 10000000000000000000.0;
+    //color /= 10000000000000000000.0;
     //color += vec3(bumpmapping_heightmap_get(position_3d), 0.0, 0.0);
     //color += normalize(ideferred_bumpmapping_finite_diff_y_proj_v);
-    color += normalize(
-        ideferred_phong_aligned_normal_nonunit
-    ) - bumpmapping_new_normal(
+    /*color += bumpmapping_new_normal(
         normalize(
             ideferred_phong_aligned_normal_nonunit
         )
