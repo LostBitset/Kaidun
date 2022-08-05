@@ -43,9 +43,9 @@ class GameWindow(mglw.WindowConfig):
         # Camera
         zeroVec3 = (0.0, 0.0, 0.0)
         self.gamedata.update({
-            'cam_ctr': (0.0, 1.0, -2.0),
+            'cam_ctr': (0.5, 4.0, 0.5),
             'd_cam_ctr': zeroVec3,
-            'cam_rot': zeroVec3,
+            'cam_rot': (np.pi/2, 0.0, 0.0),
             'd_cam_rot': zeroVec3,
         })
         self.prog['cam_near'].value = 1.0
