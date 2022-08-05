@@ -7,7 +7,7 @@ class SceneController(abc.ABC):
         return dict()
 
     @classmethod
-    def frame(cls, gamedata, triangles):
+    def frame(cls, gamedata, ftime):
         pass
 
     @classmethod
@@ -28,8 +28,8 @@ class MovingCamera(SceneController):
         }
 
     @classmethod
-    def frame(cls, gamedata):
-        super().frame(gamedata)
+    def frame(cls, gamedata, ftime):
+        super().frame(gamedata, ftime)
         ctr, dctr = gamedata['cam_ctr'], gamedata['d_cam_ctr']
         rot, drot = gamedata['cam_rot'], gamedata['d_cam_rot']
         gamedata['cam_ctr'] = (
@@ -100,3 +100,19 @@ class CameraMotion(MovingCamera):
                             for i in args
                     ],
                 )
+
+class GravityBoundPlayer(CameraMotion):
+
+    @classmethod
+    def frame(cls, gamedata, ftime):
+        super().frame(gamedata, ftime)
+        ctr = gamedata['cam_ctr']
+        if ctr[1] < 2.0 + 1.5:
+            gamedata['vel_gravity'] = 0.0
+        print(ctr[1])
+        gamedata['cam_ctr'] = (
+            ctr[0],
+            ctr[1] + gamedata['vel_gravity'],
+            ctr[2],
+        )
+        gamedata['vel_gravity'] -= (ftime ** 2) * 9.8

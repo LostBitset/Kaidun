@@ -61,4 +61,4 @@ class CubeScene(Scene):
     
     @classmethod
     def getController(cls, *_):
-        return scene_controllers.CameraMotion
+        return scene_controllers.GravityBoundPlayer

@@ -1,5 +1,7 @@
 # Kaidun (by HktOverload)
 
+import time
+
 import numpy as np
 import moderngl_window as mglw
 import moderngl
@@ -24,6 +26,8 @@ class GameWindow(mglw.WindowConfig):
         self.gamedata = dict()
         self.scene = scenes.CubeScene
         self.geometryState = None
+        # Frame times
+        self.ftimeLast = time.time()
         # OpenGL / Shader code
         with open('world_vertex.glsl', 'r') as f:
             vertex_shader = f.read()
@@ -62,6 +66,10 @@ class GameWindow(mglw.WindowConfig):
         self.fog_color = (0.2, 0.2, 0.2)
         self.prog['fog_color'].value = self.fog_color
         self.prog['fog_attenuation_coef'].value = 1.9
+        # Gravity
+        self.gamedata.update({
+            'vel_gravity': 0.0,
+        })
     
     def render(self, *_):
         self.setupShaderInvocation()
@@ -111,7 +119,11 @@ class GameWindow(mglw.WindowConfig):
         )
 
     def frame(self):
-        self.scene.getController().frame(self.gamedata)
+        self.scene.getController().frame(
+            self.gamedata,
+            time.time() - self.ftimeLast,
+        )
+        self.ftimeLast = time.time()
         if GameWindow.frame_callback != None:
             (GameWindow.frame_callback)()
 
