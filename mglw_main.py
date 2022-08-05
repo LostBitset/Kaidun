@@ -14,9 +14,12 @@ class GameWindow(mglw.WindowConfig):
     window_size = (3840//3, 2160//3)
 
     frame_callback = None
+    init_callback = None
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        if GameWindow.init_callback != None:
+            (GameWindow.init_callback)(self)
         # Setup gamedata and scene
         self.gamedata = dict()
         self.scene = scenes.CubeScene
