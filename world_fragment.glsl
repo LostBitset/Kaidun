@@ -125,13 +125,4 @@ void main() {
     add_distance_fog(color_raw);
 
     color = clamp(color_raw, 0.0, 1.0);
-    //color /= 10000000000000000000.0;
-    //color += vec3(bumpmapping_heightmap_get(position_3d), 0.0, 0.0);
-    //color += normalize(ideferred_bumpmapping_finite_diff_y_proj_v);
-    /*color += bumpmapping_new_normal(
-        normalize(
-            ideferred_phong_aligned_normal_nonunit
-        )
-    );
-    //*/
 }
