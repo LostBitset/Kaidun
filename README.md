@@ -12,7 +12,7 @@ A 3D game made in Python with moderngl
 - These "flybacks" use buckets of power, and some samples will be irreperably damaged
 
 # Complexity
-- [ ] A simple 3D engine
+- [X] A simple 3D engine
     - [X] Invokes ModernGL (an OpenGL interface) from `cmu_112_graphics`
     - [X] Scenes that define geometry and when to update it
     - [X] Controllers to handle events and shader code setup
