@@ -29,22 +29,31 @@ def group(*classes):
             updates, seenControllers = dict(), set()
             for i in classes:
                 controller = i.getController(gamedata)
-                if i in seenControllers:
+                if controller in seenControllers:
                     continue
                 seenControllers.add(controller)
+                print(seenControllers)
                 updates |= controller.shaderUpdates(gamedata)
             return updates
 
         @classmethod
         def frame(cls, gamedata, ftime):
+            seenControllers = set()
             for i in classes:
                 controller = i.getController(gamedata)
+                if controller in seenControllers:
+                    continue
+                seenControllers.add(controller)
                 controller.frame(gamedata, ftime)
 
         @classmethod
         def handle(cls, gamedata, event):
+            seenControllers = set()
             for i in classes:
                 controller = i.getController(gamedata)
+                if controller in seenControllers:
+                    continue
+                seenControllers.add(controller)
                 controller.handle(gamedata, event)
 
     # This class is defined when you call the outer function
