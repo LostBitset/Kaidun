@@ -2,7 +2,7 @@
 
 import time
 
-from cmu_112_graphics import *
+from cmu_112_graphics import ImageTk, runApp
 
 import mglw_main
 
@@ -15,8 +15,7 @@ def mglwRootFrameCallback(app):
 def mglwRootLoadHook(app, wincls):
     wincls.init_callback = mglwCenterTkWindow
     wincls.frame_callback = \
-        lambda: \
-            mglwRootFrameCallback(app)
+        lambda: mglwRootFrameCallback(app)
     wincls.title = app._title
 
 def startMGLWRoot(app, maxTimeWithoutGLRoot=0.1):
@@ -24,8 +23,7 @@ def startMGLWRoot(app, maxTimeWithoutGLRoot=0.1):
     app.maxTimeWithoutGLRoot = maxTimeWithoutGLRoot
     mglw_main.main(
         load_hook=(
-            lambda wincls: \
-                mglwRootLoadHook(app, wincls)
+            lambda wincls: mglwRootLoadHook(app, wincls)
         ),
     )
 
@@ -75,7 +73,6 @@ def checkNoGLRoot(app):
     if delta > app.maxTimeWithoutGLRoot:
         print('*** No response from mglw render_callback ***')
         print('*** (Assuming that mglw tk root no longer exists) ***')
-        #- print('*** Quitting cmu_112_graphics tk root... ***')
         app.mode = app.mglwReturnMode
         app._showRootWindow()
         app._root.eval('tk::PlaceWindow . center')
@@ -87,6 +84,7 @@ def altRootMGLW_redrawAll(app, *_):
     showGL(app)
 
 def intentToQuit_timerFired(app):
+    print('*** Quitting cmu_112_graphics tk root (mode=intentToQuit)... ***')
     app.quit()
 
 if __name__ == '__main__':

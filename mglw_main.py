@@ -32,7 +32,7 @@ class GameWindow(mglw.WindowConfig):
         with open('world_vertex.glsl', 'r') as f:
             vertex_shader = f.read()
         with open('world_fragment.glsl', 'r') as f:
-            fragment_shader = f.read()  
+            fragment_shader = f.read()
         self.prog = self.ctx.program(
             vertex_shader=vertex_shader,
             fragment_shader=fragment_shader,
@@ -73,7 +73,7 @@ class GameWindow(mglw.WindowConfig):
             'current_terrain_height': 1.0,
             'vel_gravity': 0.0,
         })
-    
+
     def render(self, *_):
         self.setupShaderInvocation()
         self.ctx.clear(*self.fog_color)
@@ -112,7 +112,7 @@ class GameWindow(mglw.WindowConfig):
                 alloc_hook=self.updateVAO,
             )
             self.geometryState = newGeometryState
-    
+
     def updateVAO(self):
         self.vao = self.ctx.vertex_array(
             self.prog,
@@ -137,3 +137,4 @@ def main(load_hook=None):
 
 if __name__ == '__main__':
     main()
+

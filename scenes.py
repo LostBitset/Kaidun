@@ -7,7 +7,7 @@ import numpy as np
 import cpu_geom
 import scene_controllers
 
-class Scene(abc.ABC):    
+class Scene(abc.ABC):
 
     @classmethod
     @abc.abstractmethod
@@ -42,7 +42,7 @@ class CubeScene(Scene):
         for tri in cls.cube:
             normal = cpu_geom.triNormal(tri)
             for i in range(0, 9, 3):
-                coord = tri[i : i + 3]
+                coord = tri[i:(i + 3)]
                 L.extend(coord)
                 L.extend(normal)
         return np.array(L, dtype='f4')
@@ -58,7 +58,8 @@ class CubeScene(Scene):
         raise Exception(
             f"`{cls.__name__}` cannot have geometry state `{geometryState}`"
         )
-    
+
     @classmethod
     def getController(cls, *_):
         return scene_controllers.GravityBoundPlayer
+

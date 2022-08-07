@@ -42,7 +42,7 @@ class MovingCamera(SceneController):
             rot[1] + drot[1],
             rot[2] + drot[2],
         )
-    
+
     @classmethod
     def handle(cls, gamedata, event):
         super().handle(gamedata, event)
@@ -64,7 +64,6 @@ class CameraMotion(MovingCamera):
             (drot[2] + c) if c != None else 0.0,
         )
 
-    
     @classmethod
     def handle(cls, gamedata, event):
         super().handle(gamedata, event)
@@ -88,16 +87,16 @@ class CameraMotion(MovingCamera):
                 cls.updateCameraMove(
                     gamedata,
                     *[
-                        float(i) \
-                            for i in args
+                        float(i)
+                        for i in args
                     ],
                 )
             if event.isKeyrelease(key=k):
                 cls.updateCameraMove(
                     gamedata,
                     *[
-                        (0.0 if i == 0 else None) \
-                            for i in args
+                        (0.0 if i == 0 else None)
+                        for i in args
                     ],
                 )
 
@@ -118,3 +117,4 @@ class GravityBoundPlayer(CameraMotion):
             ctr[2],
         )
         gamedata['vel_gravity'] -= (ftime ** 2) * 9.8
+

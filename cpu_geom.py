@@ -12,3 +12,4 @@ def triNormal(tri):
         (a3*b1) - (a1*b3),
         (a1*b2) - (a2*b1),
     )
+
