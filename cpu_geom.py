@@ -31,14 +31,6 @@ class Geometry(object):
             ))
         )
 
-    @classmethod
-    def merge(cls, objects):
-        return Geometry(
-            np.vstack([
-                i.tris for i in objects
-            ])
-        )
-
     def place(self, loc):
         L = []
         for tri in self.tris:

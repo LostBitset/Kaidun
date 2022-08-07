@@ -1,6 +1,7 @@
 # Kaidun (by HktOverload)
 
-from cpu_geom import Geometry
+import numpy as np
+
 import scenes as s
 import scene_controllers as c
 
@@ -59,7 +60,7 @@ def group(*classes):
 
         @classmethod
         def buildGeometry(cls, geometryState):
-            return Geometry.merge([
+            return np.vstack([
                 i.buildGeometry(substate)
                 for i, substate in geometryState
             ])
