@@ -32,7 +32,6 @@ def group(*classes):
                 if controller in seenControllers:
                     continue
                 seenControllers.add(controller)
-                print(seenControllers)
                 updates |= controller.shaderUpdates(gamedata)
             return updates
 
