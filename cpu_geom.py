@@ -35,11 +35,11 @@ class Geometry(object):
             normal = triNormal(tri)
             for i in range(0, 9, 3):
                 coord = tri[i:(i + 3)]
-                L.extend(
+                L.extend((
                     coord[0] + loc[0],
                     coord[1] + loc[1],
                     coord[2] + loc[2],
-                )
+                ))
                 L.extend(normal)
         return np.array(L, dtype='f4')
 

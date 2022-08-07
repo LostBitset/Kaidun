@@ -4,7 +4,7 @@ import abc
 
 import numpy as np
 
-import cpu_geom
+from cpu_geom import Geometry
 import scene_controllers
 
 class Scene(abc.ABC):
@@ -25,27 +25,18 @@ class Scene(abc.ABC):
         pass
 
 class CubeScene(Scene):
-    cube = [
-        (0, 0, 0, 1, 0, 0, 1, 1, 0), (0, 0, 0, 0, 1, 0, 1, 1, 0),
-        (0, 0, 1, 1, 0, 1, 1, 1, 1), (0, 0, 1, 0, 1, 1, 1, 1, 1),
+    cube = Geometry(
+        np.array((
+            (0, 0, 0, 1, 0, 0, 1, 1, 0), (0, 0, 0, 0, 1, 0, 1, 1, 0),
+            (0, 0, 1, 1, 0, 1, 1, 1, 1), (0, 0, 1, 0, 1, 1, 1, 1, 1),
 
-        (0, 0, 0, 0, 1, 0, 0, 1, 1), (0, 0, 0, 0, 0, 1, 0, 1, 1),
-        (1, 0, 0, 1, 1, 0, 1, 1, 1), (1, 0, 0, 1, 0, 1, 1, 1, 1),
+            (0, 0, 0, 0, 1, 0, 0, 1, 1), (0, 0, 0, 0, 0, 1, 0, 1, 1),
+            (1, 0, 0, 1, 1, 0, 1, 1, 1), (1, 0, 0, 1, 0, 1, 1, 1, 1),
 
-        (0, 0, 0, 0, 0, 1, 1, 0, 1), (0, 0, 0, 1, 0, 0, 1, 0, 1),
-        (0, 1, 0, 0, 1, 1, 1, 1, 1), (0, 1, 0, 1, 1, 0, 1, 1, 1),
-    ]
-
-    @classmethod
-    def assembleCube(cls):
-        L = []
-        for tri in cls.cube:
-            normal = cpu_geom.triNormal(tri)
-            for i in range(0, 9, 3):
-                coord = tri[i:(i + 3)]
-                L.extend(coord)
-                L.extend(normal)
-        return np.array(L, dtype='f4')
+            (0, 0, 0, 0, 0, 1, 1, 0, 1), (0, 0, 0, 1, 0, 0, 1, 0, 1),
+            (0, 1, 0, 0, 1, 1, 1, 1, 1), (0, 1, 0, 1, 1, 0, 1, 1, 1),
+        ), dtype='f4')
+    )
 
     @classmethod
     def geometryState(cls, *_):
@@ -54,7 +45,7 @@ class CubeScene(Scene):
     @classmethod
     def buildGeometry(cls, geometryState):
         if geometryState == "I'm a cube!":
-            return cls.assembleCube()
+            return cls.cube.place((0, 0, 0))
         raise Exception(
             f"`{cls.__name__}` cannot have geometry state `{geometryState}`"
         )
