@@ -81,8 +81,8 @@ class CameraMotion(MovingCamera):
         super().handle(gamedata, event)
         tspeed, rspeed = 0.1, 0.03
         movement = {
-            'w':        (-tspeed, 0, 0, 0, 0, 0),
-            's':        (+tspeed, 0, 0, 0, 0, 0),
+            'w':        (+tspeed, 0, 0, 0, 0, 0),
+            's':        (-tspeed, 0, 0, 0, 0, 0),
             'a':        (0, +tspeed, 0, 0, 0, 0),
             'd':        (0, -tspeed, 0, 0, 0, 0),
             'e':        (0, 0, +tspeed, 0, 0, 0),
