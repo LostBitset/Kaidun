@@ -1,7 +1,7 @@
 # Kaidun
 A 3D game made in Python with moderngl
 
-# Gameplay
+## Gameplay
 
 - You're on a strange alien planet, with a complex network of interconnected mountains and flat valleys
 - Your goal is to cover as much ground as you can, in order to collect data about this mysterious world
@@ -11,7 +11,7 @@ A 3D game made in Python with moderngl
 - Islands also just fall randomly, and your emergency jetpacks will fly you back to your ship
 - These "flybacks" use buckets of power, and some samples will be irreperably damaged
 
-# Complexity
+## Complexity
 - [X] A simple 3D engine
     - [X] Invokes ModernGL (an OpenGL interface) from `cmu_112_graphics`
     - [X] Scenes that define geometry and when to update it
@@ -37,7 +37,7 @@ A 3D game made in Python with moderngl
   - [ ] Powered by a reverse-mode autodiff engine
   - [ ] With a fallback mode for flying out of local minima
 
-# Interaction
+## Interaction
 
 - [X] Switching between `cmu_112_graphics` and `moderngl` windows
 - [X] Basic movement
@@ -48,7 +48,7 @@ A 3D game made in Python with moderngl
   - [ ] Enter and leave the ship only when you're close enough
   - [ ] See your total score and all of your samples
 
-# Requirements
+## Requirements
 
 The following command installs everything you need (it works on Debian 11):
 
