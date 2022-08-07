@@ -37,6 +37,17 @@ A 3D game made in Python with moderngl
   - [ ] Powered by a reverse-mode autodiff engine
   - [ ] With a fallback mode for flying out of local minima
 
+# Interaction
+
+- [X] Switching between `cmu_112_graphics` and `moderngl` windows
+- [ ] Basic movement
+  - [X] Seeing the 3D world
+  - [X] Looking around
+  - [ ] Moving relative to the direction you're facing
+- [ ] The interface you see when inside your ship (this uses `cmu_112_graphics`)
+  - [ ] Enter and leave the ship only when you're close enough
+  - [ ] See your total score and all of your samples
+
 # Requirements
 
 The following command installs everything you need (it works on Debian 11):
@@ -44,3 +55,4 @@ The following command installs everything you need (it works on Debian 11):
 ```sh
 python -m pip install numpy glcontext moderngl moderngl_window 
 ```
+
