@@ -62,7 +62,7 @@ def group(*classes):
 
         @classmethod
         def buildGeometry(cls, geometryState):
-            return np.vstack([
+            return np.hstack([
                 i.buildGeometry(substate)
                 for i, substate in geometryState
             ])
@@ -73,5 +73,5 @@ def group(*classes):
 
     return Inner_SceneGroup
 
-TwoCubes = group(s.CubeScene1, s.CubeScene2)
+TwoCubes = s.CubeScene1
 
