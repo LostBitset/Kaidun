@@ -38,12 +38,14 @@ def group(*classes):
         @classmethod
         def frame(cls, gamedata, ftime):
             for i in classes:
-                i.frame(gamedata, ftime)
+                controller = i.getController(gamedata)
+                controller.frame(gamedata, ftime)
 
         @classmethod
         def handle(cls, gamedata, event):
             for i in classes:
-                i.handle(gamedata, event)
+                controller = i.getController(gamedata)
+                controller.handle(gamedata, event)
 
     # This class is defined when you call the outer function
     class Inner_SceneGroup(s.Scene):

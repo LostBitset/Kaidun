@@ -122,7 +122,7 @@ class GameWindow(mglw.WindowConfig):
         )
 
     def frame(self):
-        self.scene.getController().frame(
+        self.scene.getController(self.gamedata).frame(
             self.gamedata,
             time.time() - self.ftimeLast,
         )
