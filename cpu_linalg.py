@@ -52,7 +52,10 @@ def neg(a):
 
 # Normalize a vector
 def norm(a):
-    return sc(a, 1/math.hypot(*a))
+    length = math.hypot(*a)
+    if length == 0:
+        return a
+    return sc(a, 1/length)
 
 # A matrix with elements stored in column-major order
 class Mat(object):

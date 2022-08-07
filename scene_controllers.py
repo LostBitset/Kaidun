@@ -1,4 +1,5 @@
 import abc
+import math
 
 import cpu_linalg
 
@@ -40,7 +41,12 @@ class MovingCamera(SceneController):
         super().frame(gamedata, ftime)
         ctr, dctr = gamedata['cam_ctr'], gamedata['d_cam_ctr']
         rot, drot = gamedata['cam_rot'], gamedata['d_cam_rot']
-        dctr = cls.cameraRotation(gamedata) * dctr
+        if dctr != (0, 0, 0):
+            dctr = cls.cameraRotation(gamedata) * dctr
+            dctr = cpu_linalg.sc(
+                cpu_linalg.norm((dctr[0], dctr[1], 0)),
+                math.hypot(*dctr),
+            )
         gamedata['cam_ctr'] = (
             ctr[0] + dctr[0],
             ctr[1] + dctr[1],
