@@ -29,9 +29,9 @@ class GameWindow(mglw.WindowConfig):
         # Frame times
         self.ftimeLast = time.time()
         # OpenGL / Shader code
-        with open('world_vertex.glsl', 'r') as f:
+        with open('world.glsl.vert', 'r') as f:
             vertex_shader = f.read()
-        with open('world_fragment.glsl', 'r') as f:
+        with open('world.glsl.frag', 'r') as f:
             fragment_shader = f.read()
         self.prog = self.ctx.program(
             vertex_shader=vertex_shader,
