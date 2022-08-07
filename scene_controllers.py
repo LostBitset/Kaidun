@@ -20,12 +20,6 @@ class SceneController(abc.ABC):
 class MovingCamera(SceneController):
 
     @classmethod
-    def cameraRotation(cls, gamedata):
-        return cpu_linalg.rotMat(
-            *gamedata['cam_rot'],
-        )
-
-    @classmethod
     def shaderUpdates(cls, gamedata):
         yaw, pitch, roll = gamedata['cam_rot']
         return {
@@ -41,9 +35,6 @@ class MovingCamera(SceneController):
         super().frame(gamedata, ftime)
         ctr, dctr = gamedata['cam_ctr'], gamedata['d_cam_ctr']
         rot, drot = gamedata['cam_rot'], gamedata['d_cam_rot']
-        if dctr != (0, 0, 0):
-            dctr = cls.cameraRotation(gamedata) * dctr
-            dctr = (dctr[0], 0, dctr[1])
         gamedata['cam_ctr'] = (
             ctr[0] + dctr[0],
             ctr[1] + dctr[1],
@@ -60,6 +51,12 @@ class MovingCamera(SceneController):
         super().handle(gamedata, event)
 
 class CameraMotion(MovingCamera):
+
+    @classmethod
+    def cameraRotation(cls, gamedata):
+        return cpu_linalg.rotMat(
+            *gamedata['cam_rot'],
+        )
 
     @classmethod
     def updateCameraMove(cls, gamedata, x, y, z, a, b, c):
