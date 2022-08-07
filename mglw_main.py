@@ -105,6 +105,7 @@ class GameWindow(mglw.WindowConfig):
             self.prog[k].value = v
         newGeometryState = self.scene.geometryState(self.gamedata)
         if self.geometryState != newGeometryState:
+            print(f'!! GS_UPDATE: {self.geometryState} -> {newGeometryState}')
             newGeometry = self.scene.buildGeometry(newGeometryState)
             self.vbr.reset(
                 newGeometry,

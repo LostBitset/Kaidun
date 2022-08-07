@@ -14,7 +14,7 @@ class StateGroup(object):
     def __eq__(self, other):
         if not isinstance(other, self.__class__):
             return False
-        self.states == other.states
+        return self.states == other.states
 
     def __iter__(self):
         for i in self.states:
@@ -73,5 +73,5 @@ def group(*classes):
 
     return Inner_SceneGroup
 
-TwoCubes = s.CubeScene1
+TwoCubes = group(s.CubeScene1)
 
