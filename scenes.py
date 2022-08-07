@@ -5,7 +5,7 @@ import abc
 import numpy as np
 
 from cpu_geom import Geometry
-import scene_controllers
+import scene_controllers as c
 
 class Scene(abc.ABC):
 
@@ -24,7 +24,7 @@ class Scene(abc.ABC):
     def getController(cls, gamedata):
         pass
 
-class CubeScene(Scene):
+class CubeScene(Scene, abc.ABC):
     cube = Geometry(
         np.array((
             (0, 0, 0, 1, 0, 0, 1, 1, 0), (0, 0, 0, 0, 1, 0, 1, 1, 0),
@@ -39,18 +39,30 @@ class CubeScene(Scene):
     )
 
     @classmethod
-    def geometryState(cls, *_):
-        return "I'm a cube!"
-
-    @classmethod
     def buildGeometry(cls, geometryState):
-        if geometryState == "I'm a cube!":
-            return cls.cube.place((0, 0, 0))
+        if 'origin' in geometryState:
+            return cls.cube.place(geometryState['origin'])
         raise Exception(
             f"`{cls.__name__}` cannot have geometry state `{geometryState}`"
         )
 
     @classmethod
     def getController(cls, *_):
-        return scene_controllers.GravityBoundPlayer
+        return c.GravityBoundPlayer
+
+class CubeScene1(CubeScene):
+
+    @classmethod
+    def geometryState(cls, gamedata):
+        return {
+            'origin': (0, 0, 0),
+        }
+
+class CubeScene2(CubeScene):
+
+    @classmethod
+    def geometryState(cls, gamedata):
+        return {
+            'origin': (3, 3, 3),
+        }
 
