@@ -44,7 +44,7 @@ class MovingCamera(SceneController):
         if dctr != (0, 0, 0):
             dctr = cls.cameraRotation(gamedata) * dctr
             dctr = cpu_linalg.sc(
-                cpu_linalg.norm((dctr[0], dctr[1], 0)),
+                cpu_linalg.norm((0, dctr[1], dctr[2])),
                 math.hypot(*dctr),
             )
         gamedata['cam_ctr'] = (
