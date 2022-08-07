@@ -1,5 +1,7 @@
 # Kaidun (by HktOverload)
 
+from math import sin, cos
+
 import numpy as np
 
 def triNormal(tri):
