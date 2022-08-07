@@ -15,6 +15,10 @@ class StateGroup(object):
             return False
         self.states == other.states
 
+    def __iter__(self):
+        for i in self.states:
+            yield i
+
 def group(*classes):
     # This class is defined when you call the outer function
     class Inner_SceneGroupController(c.SceneController):
