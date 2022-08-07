@@ -46,15 +46,18 @@ def group(*classes):
         @classmethod
         def geometryState(cls, gamedata):
             return StateGroup([
-                i.geometryState(gamedata)
+                (
+                    i,
+                    i.geometryState(gamedata)
+                )
                 for i in classes
             ])
 
         @classmethod
         def buildGeometry(cls, geometryState):
             return Geometry.merge([
-                i.buildGeometry(geometryState)
-                for i in classes
+                i.buildGeometry(substate)
+                for i, substate in geometryState
             ])
 
         @classmethod
