@@ -40,10 +40,10 @@ A 3D game made in Python with moderngl
 # Interaction
 
 - [X] Switching between `cmu_112_graphics` and `moderngl` windows
-- [ ] Basic movement
+- [X] Basic movement
   - [X] Seeing the 3D world
   - [X] Looking around
-  - [ ] Moving relative to the direction you're facing
+  - [X] Moving relative to the direction you're facing
 - [ ] The interface you see when inside your ship (this uses `cmu_112_graphics`)
   - [ ] Enter and leave the ship only when you're close enough
   - [ ] See your total score and all of your samples
