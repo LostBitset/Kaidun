@@ -73,5 +73,5 @@ def group(*classes):
 
     return Inner_SceneGroup
 
-TwoCubes = group(s.CubeScene1)
+TwoCubes = group(s.CubeScene1, s.CubeScene2)
 
