@@ -28,7 +28,9 @@ def unhexify(x):
     r = x >> 0o20 & 0xFF
     g = x >> 0o10 & 0xFF
     b = x >> 0o00 & 0xFF
-    print(r, g, b)
+    r /= 0xFF
+    g /= 0xFF
+    b /= 0xFF
     return (r, g, b)
 
 class CubeScene(Scene, abc.ABC):
