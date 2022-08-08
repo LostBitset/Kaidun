@@ -15,12 +15,29 @@ def triNormal(tri):
         (a1*b2) - (a2*b1),
     )
 
+class FillWith(object):
+    __slots__ = ('array',)
+
+    def __init__(self, *contents, **kwargs):
+        self.array = np.array(
+            contents,
+            **kwargs,
+        )
+
+    def make(self, length):
+        return self.array.tile(length).reshape(
+            (length, self.array.size)
+        )
+
 class Geometry(object):
     __slots__ = ('tris', 'aux')
 
     def __init__(self, tris, aux):
         self.tris = tris
-        self.aux = aux
+        if isinstance(aux, FillWith):
+            self.aux = aux.make(len(tris) * 3)
+        else:
+            self.aux = aux
 
     def __or__(self, other):
         return Geometry(

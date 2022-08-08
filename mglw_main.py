@@ -117,7 +117,11 @@ class GameWindow(mglw.WindowConfig):
         self.vao = self.ctx.vertex_array(
             self.prog,
             [
-                (self.vbr.buf, '3f 3f', 'vert', 'aux_surf_normal')
+                (
+                    self.vbr.buf,  # TARGET
+                    '3f 3f 3f',    # FORMAT
+                    'vert', 'drv_surf_normal', 'aux_rgb',
+                )
             ]
         )
 
