@@ -22,17 +22,20 @@ class MovingCamera(SceneController):
     def shaderUpdates(cls, gamedata):
         yaw, pitch, roll = gamedata['cam_rot']
         return {
-            **super().shaderUpdates(gamedata),
             'cam_ctr': gamedata['cam_ctr'],
             'cam_yaw': yaw,
             'cam_pitch': pitch,
             'cam_roll': roll,
+            **super().shaderUpdates(gamedata),
         }
 
     @classmethod
     def frame(cls, gamedata, ftime):
-        super().frame(gamedata, ftime)
-        ctr, dctr = gamedata['cam_ctr'], gamedata['d_cam_ctr']
+        ctr = gamedata['cam_ctr']
+        dctr = cpu_linalg.add(
+            gamedata.get('d_cam_ctr_abs', cpu_linalg.ZeroVec),
+            cls.cameraRotation(gamedata) * gamedata['d_cam_ctr_rel'],
+        )
         rot, drot = gamedata['cam_rot'], gamedata['d_cam_rot']
         gamedata['cam_ctr'] = (
             ctr[0] + dctr[0],
@@ -44,6 +47,7 @@ class MovingCamera(SceneController):
             rot[1] + drot[1],
             rot[2] + drot[2],
         )
+        super().frame(gamedata, ftime)
 
     @classmethod
     def handle(cls, gamedata, event):
@@ -60,22 +64,13 @@ class CameraMotion(MovingCamera):
     @classmethod
     def updateCameraMove(cls, gamedata, x, y, z, a, b, c):
         drot = gamedata['d_cam_rot']
-        dctr = gamedata['d_cam_ctr']
-        dctr = cls.cameraRotation(gamedata).t() * dctr
+        dctr = gamedata['d_cam_ctr_rel']
         dctr = (
             (dctr[0] + x) if x != None else 0.0,
             (dctr[1] + y) if y != None else 0.0,
             (dctr[2] + z) if z != None else 0.0,
         )
-        dctr = cls.cameraRotation(gamedata) * dctr
-        if (a, b, c) != (None, None, None):
-            dctr = cpu_linalg.rotMat(*drot) * dctr
-        dctr = (
-            dctr[0] if x != None else 0.0,
-            0.0,
-            dctr[2] if x != None else 0.0,
-        )
-        gamedata['d_cam_ctr'] = dctr
+        gamedata['d_cam_ctr_rel'] = dctr
         gamedata['d_cam_rot'] = (
             (drot[0] + a) if a != None else 0.0,
             (drot[1] + b) if b != None else 0.0,
@@ -84,7 +79,6 @@ class CameraMotion(MovingCamera):
 
     @classmethod
     def handle(cls, gamedata, event):
-        super().handle(gamedata, event)
         tspeed, rspeed = 0.1, 0.03
         movement = {
             'a':        (+tspeed, 0, 0, 0, 0, 0),
@@ -115,6 +109,7 @@ class CameraMotion(MovingCamera):
                         for i in args
                     ],
                 )
+        super().handle(gamedata, event)
 
 class GravityBoundPlayer(CameraMotion):
 
