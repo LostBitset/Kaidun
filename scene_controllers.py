@@ -22,11 +22,11 @@ class MovingCamera(SceneController):
     def shaderUpdates(cls, gamedata):
         yaw, pitch, roll = gamedata['cam_rot']
         return {
+            **super().shaderUpdates(gamedata),
             'cam_ctr': gamedata['cam_ctr'],
             'cam_yaw': yaw,
             'cam_pitch': pitch,
             'cam_roll': roll,
-            **super().shaderUpdates(gamedata),
         }
 
     @classmethod
@@ -79,6 +79,7 @@ class CameraMotion(MovingCamera):
 
     @classmethod
     def handle(cls, gamedata, event):
+        super().handle(gamedata, event)
         tspeed, rspeed = 0.1, 0.03
         movement = {
             'a':        (+tspeed, 0, 0, 0, 0, 0),
@@ -109,7 +110,6 @@ class CameraMotion(MovingCamera):
                         for i in args
                     ],
                 )
-        super().handle(gamedata, event)
 
 class CameraMotionAxisAlternatives(CameraMotion):
 
@@ -135,15 +135,14 @@ class CameraMotionAxisAlternatives(CameraMotion):
         )
 
 class GravityBoundPlayer(CameraMotionAxisAlternatives):
-    pass
 
-    '''
     @classmethod
     def getCamZ(cls, gamedata, *_):
         return gamedata.get('z', 0.0)
 
     @classmethod
     def frame(cls, gamedata, ftime):
+        super().frame(gamedata, ftime)
         boundary = gamedata['current_terrain_height']
         boundary += gamedata['player_height']
         boundary += gamedata['cam_near']
@@ -155,11 +154,10 @@ class GravityBoundPlayer(CameraMotionAxisAlternatives):
             gamedata['vel_gravity'] -= (ftime ** 2) * 9.8
             gamedata['z'] = gamedata.get('z', 0.0)
             gamedata['z'] += gamedata['vel_gravity']
-        super().frame(gamedata, ftime)
 
     @classmethod
     def handle(cls, gamedata, event):
+        super().handle(gamedata, event)
         if event.isKeypress('space'):
             print('tacos!')
-    '''
 
