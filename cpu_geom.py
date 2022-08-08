@@ -25,7 +25,10 @@ class FillWith(object):
         )
 
     def make(self, length):
-        return self.array.tile(length).reshape(
+        return np.tile(
+            self.array,
+            length,
+        ).reshape(
             (length, self.array.size)
         )
 

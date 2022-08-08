@@ -5,7 +5,8 @@
 #define UP vec3(0.0, 0.0, 1.0)
 
 in vec3 vert;
-in vec3 aux_surf_normal;
+in vec3 drv_surf_normal;
+in vec3 aux_rgb;
 
 out vec3 vert_color;
 out float illum;
@@ -71,16 +72,16 @@ void set_illum(out float illum) {
 }
 
 vec3 proj_onto_surf_subspace(in vec3 v) {
-    vec3 normal = aux_surf_normal;
+    vec3 normal = drv_surf_normal;
     return cross(normal, cross(v, normal));
 }
 
 void setup_bumpmapping_lambertian(out vec3 to_i_nonunit, out vec3 aligned_normal) {
     vec3 to_i_raw = lighting_light_ctr - vert;
-    if (dot(normalize(to_i_raw), aux_surf_normal) < 0.0) {
-        aligned_normal = -aux_surf_normal;
+    if (dot(normalize(to_i_raw), drv_surf_normal) < 0.0) {
+        aligned_normal = -drv_surf_normal;
     } else {
-        aligned_normal = aux_surf_normal;
+        aligned_normal = drv_surf_normal;
     }
     to_i_nonunit = to_i_raw;
 }
@@ -106,8 +107,8 @@ float angle3(in vec3 a, in vec3 b) {
 float get_icom_oren_nayar(in float illum) {
     vec3 to_i = normalize(lighting_light_ctr - vert);
     vec3 to_r = normalize(cam_ctr - vert);
-    float theta_i = acos(abs(dot(to_i, aux_surf_normal)));
-    float theta_r = acos(abs(dot(to_r, aux_surf_normal)));
+    float theta_i = acos(abs(dot(to_i, drv_surf_normal)));
+    float theta_r = acos(abs(dot(to_r, drv_surf_normal)));
     float microfacet_var = surf_roughness * surf_roughness;
     float alpha = max(theta_i, theta_r);
     float beta = min(theta_i, theta_r);
@@ -165,7 +166,8 @@ void main() {
     fog_component_rgb_partial = distance_fog_rgb_partial(fog_amt);
     fog_visibility_frac = distance_fog_visibility_frac(fog_amt);
 
+    vert_color = aux_rgb;
+
     gl_Position = vec4(pos, z, 1.0);
-    vert_color = vert;
     position_3d = vert;
 }
