@@ -16,17 +16,22 @@ def triNormal(tri):
     )
 
 class Geometry(object):
-    __slots__ = ('tris',)
+    __slots__ = ('tris', 'aux')
 
-    def __init__(self, tris):
+    def __init__(self, tris, aux):
         self.tris = tris
+        self.aux = aux
 
     def __or__(self, other):
         return Geometry(
             np.vstack((
                 self.tris,
                 other.tris,
-            ))
+            )),
+            np.vstack((
+                self.aux,
+                other.aux,
+            )),
         )
 
     def place(self, loc):
@@ -41,5 +46,12 @@ class Geometry(object):
                     coord[2] + loc[2],
                 ))
                 L.extend(normal)
-        return np.array(L, dtype='f4')
+        geometryPart = np.array(L, dtype='f4')
+        shapeRank2 = (len(geometryPart)//6, 6)
+        geometryPart = geometryPart.reshape(shapeRank2)
+        allRank2 = np.hstack((
+            geometryPart,
+            self.aux,
+        ))
+        return allRank2.reshape((allRank2.size,))
 
