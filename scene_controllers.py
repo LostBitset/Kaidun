@@ -1,5 +1,4 @@
 import abc
-import math
 
 import cpu_linalg
 
