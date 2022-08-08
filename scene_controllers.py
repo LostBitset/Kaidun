@@ -30,14 +30,13 @@ class MovingCamera(SceneController):
         }
 
     @classmethod
+    def getTranslation(cls, gamedata):
+        return gamedata['d_cam_ctr_abs']
+
+    @classmethod
     def frame(cls, gamedata, ftime):
-        super().frame(gamedata, ftime)
-        ctr = gamedata['cam_ctr']
-        dctr = cpu_linalg.add(
-            gamedata.get('d_cam_ctr_abs', cpu_linalg.ZeroVec),
-            cls.cameraRotation(gamedata) * gamedata['d_cam_ctr_rel'],
-        )
         rot, drot = gamedata['cam_rot'], gamedata['d_cam_rot']
+        ctr, dctr = gamedata['cam_ctr'], cls.getTranslation(gamedata)
         gamedata['cam_ctr'] = (
             ctr[0] + dctr[0],
             ctr[1] + dctr[1],
@@ -48,6 +47,23 @@ class MovingCamera(SceneController):
             rot[1] + drot[1],
             rot[2] + drot[2],
         )
+
+''' SEGM <<OLD>> '''
+
+class MovingCamera(SceneController):
+
+    @classmethod
+    def shaderUpdates(cls, gamedata):
+
+    @classmethod
+    def frame(cls, gamedata, ftime):
+        super().frame(gamedata, ftime)
+        ctr = gamedata['cam_ctr']
+        dctr = cpu_linalg.add(
+            gamedata.get('d_cam_ctr_abs', cpu_linalg.ZeroVec),
+            cls.cameraRotation(gamedata) * gamedata['d_cam_ctr_rel'],
+        )
+        rot, drot = gamedata['cam_rot'], gamedata['d_cam_rot']
 
     @classmethod
     def handle(cls, gamedata, event):
