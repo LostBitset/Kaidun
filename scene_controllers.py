@@ -32,7 +32,6 @@ class MovingCamera(SceneController):
     @classmethod
     def frame(cls, gamedata, ftime):
         super().frame(gamedata, ftime)
-        print('called MovingCamera.frame')
         ctr = gamedata['cam_ctr']
         dctr = cpu_linalg.add(
             gamedata.get('d_cam_ctr_abs', cpu_linalg.ZeroVec),
