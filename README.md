@@ -7,19 +7,19 @@ A 3D game made in Python with moderngl
 > that this planet was once a thriving metropolis instead of a hostile wasteland,
 > and of course, that you're awake now.
 
-- You're on a strange alien planet, with a complex network of interconnected mountains and flat valleys
-- The valleys are pools of molten rock that regularly self-assembles large rocks that fly up and fall down
-- There are artifacts of the history of this planet scattered about the mountains, and these reveal the story
-- You traverse the mountains, but some ground (lighter-colored ground specifically) is weaker than others
-- Only reddish ground is perfectly safe, for everything else, avalanches are possible
-- These will send you tumbling into a valley, and you land on a currently forming rock
-- You have to get back up before you get involuntarily launched into the atmosphere
-- When this happens, you'll land nearby, but your space suit will use the last of its power to keep you alive
-- There isn't quite enough power for magic shields and remembering your recent progress, so you'll have to try again
-- Or you can just move on if you want, it's up to you, you can even come back later
-- Eventually, you collect an ancient radio transmitter, and massive magnetic fields appear in the upper atmosphere
-- The quasi-meteorites begin targeting you with greater and greater accuracy
-- You're suit still saves you when hit, but large swaths of land will be dropped from memory 
+- [ ] You're on a strange alien planet, with a complex network of interconnected mountains and flat valleys
+- [ ] The valleys are pools of molten rock that regularly self-assembles large rocks that fly up and fall down
+- [ ] There are artifacts of the history of this planet scattered about the mountains, and these reveal the story
+- [ ] You traverse the mountains, but some ground (lighter-colored ground specifically) is weaker than others
+- [ ] Only reddish ground is perfectly safe, for everything else, avalanches are possible
+- [ ] These will send you tumbling into a valley, and you land on a currently forming rock
+- [ ] You have to get back up before you get involuntarily launched into the atmosphere
+- [ ] When this happens, you'll land nearby, but your space suit will use the last of its power to keep you alive
+- [ ] There isn't quite enough power for magic shields and remembering your recent progress, so you'll have to try again
+- [ ] Or you can just move on if you want, it's up to you, you can even come back later
+- [ ] Eventually, you collect an ancient radio transmitter, and massive magnetic fields appear in the upper atmosphere
+- [ ] The quasi-meteorites begin targeting you with greater and greater accuracy
+- [ ] You're suit still saves you when hit, but large swaths of land will be dropped from memory 
 
 ## Complexity
 - [X] A simple 3D engine
@@ -36,9 +36,6 @@ A 3D game made in Python with moderngl
         - [X] Procedural heightmaps for terrain surfaces
     - [X] Simple physics so you don't fall through the floor
 - [ ] Procedural terrain generation
-    - [ ] Terrain heightmaps based on Worley noise
-    - [ ] Automated classification of terrain features
-    - [ ] Automated classification of potential avalanche sites
 - [ ] Mostly realistic avalanches
     - [ ] Deformation of existing terrain
     - [ ] Persistence of terrain modification (deltas stored in save data)
