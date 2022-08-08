@@ -3,13 +3,23 @@ A 3D game made in Python with moderngl
 
 ## Gameplay
 
+> All you know is that you were placed into cryopreservation against your own will,
+> that this planet was once a thriving metropolis instead of a hostile wasteland,
+> and of course, that you're awake now.
+
 - You're on a strange alien planet, with a complex network of interconnected mountains and flat valleys
-- Your goal is to cover as much ground as you can, in order to collect data about this mysterious world
-- You have to stay on top of the mountains, but there are "weak sites" that will cause you to fall into the valley
-- If you fall into the valley, the toxic gases begin harming your EVA suit, but you can't just run back up
-- These flat valleys, known as "islands" have stealth mechanics, and will fall down if you move too suddenly
-- Islands also just fall randomly, and your emergency jetpacks will fly you back to your ship
-- These "flybacks" use buckets of power, and some samples will be irreperably damaged
+- The valleys are pools of molten rock that regularly self-assembles large rocks that fly up and fall down
+- There are artifacts of the history of this planet scattered about the mountains, and these reveal the story
+- You traverse the mountains, but some ground (lighter-colored ground specifically) is weaker than others
+- Only reddish ground is perfectly safe, for everything else, avalanches are possible
+- These will send you tumbling into a valley, and you land on a currently forming rock
+- You have to get back up before you get involuntarily launched into the atmosphere
+- When this happens, you'll land nearby, but your space suit will use the last of its power to keep you alive
+- There isn't quite enough power for magic shields and remembering your recent progress, so you'll have to try again
+- Or you can just move on if you want, it's up to you, you can even come back later
+- Eventually, you collect an ancient radio transmitter, and massive magnetic fields appear in the upper atmosphere
+- The quasi-meteorites begin targeting you with greater and greater accuracy
+- You're suit still saves you when hit, but large swaths of land will be dropped from memory 
 
 ## Complexity
 - [X] A simple 3D engine
