@@ -59,8 +59,8 @@ class CameraMotion(MovingCamera):
 
     @classmethod
     def updateCameraMove(cls, gamedata, x, y, z, a, b, c):
-        dctr = gamedata['d_cam_ctr']
         drot = gamedata['d_cam_rot']
+        dctr = gamedata['d_cam_ctr']
         dctr = cls.cameraRotation(gamedata).t() * dctr
         dctr = (
             (dctr[0] + x) if x != None else 0.0,
@@ -68,10 +68,12 @@ class CameraMotion(MovingCamera):
             (dctr[2] + z) if z != None else 0.0,
         )
         dctr = cls.cameraRotation(gamedata) * dctr
+        if (a, b, c) != (None, None, None):
+            dctr = cpu_linalg.rotMat(*drot) * dctr
         dctr = (
             dctr[0] if x != None else 0.0,
             0.0,
-            dctr[2] if z != None else 0.0,
+            dctr[2] if x != None else 0.0,
         )
         gamedata['d_cam_ctr'] = dctr
         gamedata['d_cam_rot'] = (
