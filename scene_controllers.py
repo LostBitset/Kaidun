@@ -111,21 +111,38 @@ class CameraMotion(MovingCamera):
                 )
         super().handle(gamedata, event)
 
-class GravityBoundPlayer(CameraMotion):
+class CameraMotionAxisAlternatives(CameraMotion, abc.ABC):
+
+    @classmethod
+    def getCamX(cls, gamedata, *_):
+        return gamedata['cam_ctr'][0]
+
+    @classmethod
+    def getCamY(cls, gamedata, *_):
+        return gamedata['cam_ctr'][1]
+
+    @classmethod
+    def getCamZ(cls, gamedata, *_):
+        return gamedata['cam_ctr'][2]
 
     @classmethod
     def frame(cls, gamedata, ftime):
-        super().frame(gamedata, ftime)
+        gamedata['cam_ctr'] = (
+            cls.getCamX(gamedata, ftime),
+            cls.getCamY(gamedata, ftime),
+            cls.getCamZ(gamedata, ftime),
+        )
+
+class GravityBoundPlayer(CameraMotionAxisAlternatives):
+
+    @classmethod
+    def frame(cls, gamedata, ftime):
         ctr = gamedata['cam_ctr']
         boundary = gamedata['current_terrain_height']
         boundary += gamedata['player_height']
         boundary += gamedata['cam_near']
         if ctr[1] < boundary:
             gamedata['vel_gravity'] = 0.0
-        gamedata['cam_ctr'] = (
-            ctr[0],
-            ctr[1] + gamedata['vel_gravity'],
-            ctr[2],
-        )
         gamedata['vel_gravity'] -= (ftime ** 2) * 9.8
+        super().frame(gamedata, ftime)
 
