@@ -84,8 +84,10 @@ class CameraMotion(MovingCamera):
         movement = {
             'a':        (+tspeed, 0, 0, 0, 0, 0),
             'd':        (-tspeed, 0, 0, 0, 0, 0),
-            'w':        (0, 0, +tspeed, 0, 0, 0),
-            's':        (0, 0, -tspeed, 0, 0, 0),
+            'w':        (0, +tspeed, 0, 0, 0, 0),
+            's':        (0, -tspeed, 0, 0, 0, 0),
+            'e':        (0, 0, +tspeed, 0, 0, 0),
+            'c':        (0, 0, -tspeed, 0, 0, 0),
             'up':       (0, 0, 0, +rspeed, 0, 0),
             'down':     (0, 0, 0, -rspeed, 0, 0),
             'left':     (0, 0, 0, 0, +rspeed, 0),
@@ -137,9 +139,10 @@ class CameraMotionAxisAlternatives(CameraMotion):
 class GravityBoundPlayer(CameraMotionAxisAlternatives):
 
     @classmethod
-    def getCamZ(cls, gamedata, *_):
-        return gamedata.get('z', 0.0)
+    def getCamX(cls, gamedata, *_):
+        return 0.0
 
+    '''
     @classmethod
     def frame(cls, gamedata, ftime):
         super().frame(gamedata, ftime)
@@ -151,6 +154,7 @@ class GravityBoundPlayer(CameraMotionAxisAlternatives):
             gamedata['vel_gravity'] = 0.0
             gamedata['z'] = 0.0
         else:
+            return
             gamedata['vel_gravity'] -= (ftime ** 2) * 9.8
             gamedata['z'] = gamedata.get('z', 0.0)
             gamedata['z'] += gamedata['vel_gravity']
@@ -160,4 +164,5 @@ class GravityBoundPlayer(CameraMotionAxisAlternatives):
         super().handle(gamedata, event)
         if event.isKeypress('space'):
             print('tacos!')
+    '''
 
