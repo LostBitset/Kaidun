@@ -129,15 +129,11 @@ class CameraMotionAxisAlternatives(CameraMotion):
     @classmethod
     def frame(cls, gamedata, ftime):
         super().frame(gamedata, ftime)
-        '''
-        print(gamedata['cam_ctr'])
-        gamedata['cam_ctr'] = \\
-        (
+        gamedata['cam_ctr'] = (
             cls.getCamX(gamedata, ftime),
             cls.getCamY(gamedata, ftime),
             cls.getCamZ(gamedata, ftime),
         )
-        '''
 
 class GravityBoundPlayer(CameraMotionAxisAlternatives):
     pass
