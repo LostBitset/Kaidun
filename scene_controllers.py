@@ -36,7 +36,7 @@ class MovingCamera(SceneController):
         rot, drot = gamedata['cam_rot'], gamedata['d_cam_rot']
         gamedata['cam_ctr'] = (
             ctr[0] + dctr[0],
-            ctr[1],
+            ctr[1] + dctr[1],
             ctr[2] + dctr[2],
         )
         gamedata['cam_rot'] = (
@@ -68,6 +68,11 @@ class CameraMotion(MovingCamera):
             (dctr[2] + z) if z != None else 0.0,
         )
         dctr = cls.cameraRotation(gamedata) * dctr
+        dctr = (
+            dctr[0] if x != None else 0.0,
+            0.0,
+            dctr[2] if z != None else 0.0,
+        )
         gamedata['d_cam_ctr'] = dctr
         gamedata['d_cam_rot'] = (
             (drot[0] + a) if a != None else 0.0,
