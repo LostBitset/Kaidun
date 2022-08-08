@@ -31,6 +31,8 @@ class MovingCamera(SceneController):
 
     @classmethod
     def frame(cls, gamedata, ftime):
+        super().frame(gamedata, ftime)
+        print('called MovingCamera.frame')
         ctr = gamedata['cam_ctr']
         dctr = cpu_linalg.add(
             gamedata.get('d_cam_ctr_abs', cpu_linalg.ZeroVec),
@@ -47,7 +49,6 @@ class MovingCamera(SceneController):
             rot[1] + drot[1],
             rot[2] + drot[2],
         )
-        super().frame(gamedata, ftime)
 
     @classmethod
     def handle(cls, gamedata, event):
@@ -111,7 +112,7 @@ class CameraMotion(MovingCamera):
                 )
         super().handle(gamedata, event)
 
-class CameraMotionAxisAlternatives(CameraMotion, abc.ABC):
+class CameraMotionAxisAlternatives(CameraMotion):
 
     @classmethod
     def getCamX(cls, gamedata, *_):
@@ -127,14 +128,21 @@ class CameraMotionAxisAlternatives(CameraMotion, abc.ABC):
 
     @classmethod
     def frame(cls, gamedata, ftime):
-        gamedata['cam_ctr'] = (
+        super().frame(gamedata, ftime)
+        '''
+        print(gamedata['cam_ctr'])
+        gamedata['cam_ctr'] = \\
+        (
             cls.getCamX(gamedata, ftime),
             cls.getCamY(gamedata, ftime),
             cls.getCamZ(gamedata, ftime),
         )
+        '''
 
 class GravityBoundPlayer(CameraMotionAxisAlternatives):
+    pass
 
+    '''
     @classmethod
     def getCamZ(cls, gamedata, *_):
         return gamedata.get('z', 0.0)
@@ -144,7 +152,7 @@ class GravityBoundPlayer(CameraMotionAxisAlternatives):
         boundary = gamedata['current_terrain_height']
         boundary += gamedata['player_height']
         boundary += gamedata['cam_near']
-        if gamedata['z'] < boundary:
+        if gamedata.get('z', 0.0) < boundary:
             print('fallin')
             gamedata['vel_gravity'] = 0.0
             gamedata['z'] = 0.0
@@ -153,4 +161,10 @@ class GravityBoundPlayer(CameraMotionAxisAlternatives):
             gamedata['z'] = gamedata.get('z', 0.0)
             gamedata['z'] += gamedata['vel_gravity']
         super().frame(gamedata, ftime)
+
+    @classmethod
+    def handle(cls, gamedata, event):
+        if event.isKeypress('space'):
+            print('tacos!')
+    '''
 
