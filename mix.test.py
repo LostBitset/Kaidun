@@ -15,5 +15,7 @@ ye = Mixin({'a': 5}).use(base)
 
 combined = Mixin().use(hi, ye)
 
+print(combined.a)
+
 print('Passed!')
 
