@@ -2,7 +2,7 @@ import abc
 
 import cpu_linalg
 
-class SceneController(abc.ABC):
+class ControllerBase(object):
 
     @classmethod
     def shaderUpdates(cls, gamedata):
@@ -15,6 +15,8 @@ class SceneController(abc.ABC):
     @classmethod
     def handle(cls, gamedata, event):
         pass
+
+class MovingCamera(ControllerBase)
 
 class MovingCamera(SceneController):
 
