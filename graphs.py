@@ -2,6 +2,16 @@
 
 import cpu_linalg
 
+class DirectedEdge(object):
+    __slots__ = ('src', 'dst')
+
+    def __init__(self, src, dst):
+        self.src = src
+        self.dst = dst
+
+    def __repr__(self):
+        return f'DEdge({self.src} -> {self.dst})'
+
 class Edge(object):
     __slots__ = ('pts',)
 
@@ -23,15 +33,6 @@ class Edge(object):
                 src = pt
         return newcls(src, dst)
 
-class DirectedEdge(object):
-    __slots__ = ('src', 'dst')
-
-    def __init__(self, src, dst):
-        self.src = src
-        self.dst = dst
-
-    def __repr__(self):
-        return f'DEdge({self.src} -> {self.dst})'
 
 # Edges in 2D space are line segments, we can do special things with them
 class EdgeIn2D(Edge):
