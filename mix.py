@@ -1,34 +1,27 @@
-# Kaidun (by HktOverload)
+# Extensible mixins without classes
 
-'''
-A (better?) version of mixins that actually makes sense to me.
-'''
+class Mixin(object):
 
-def mixUsing(strategy):
-    def decorator(f):
-        f._mixStrategy = strategy
-        return f
-    return decorator
+    def __init__(self, items={}, strats={}):
+        self.__dict__.update(items)
+        self._strats = strats
 
-def mix(*classes):
-    class Inner_Mixed(object):
-        pass
-    strategies, seen = dict(), set()
-    for cls in classes:
-        for sub in reversed(cls.mro()):
-            if sub in seen:
-                continue
-            seen.add(sub)
-            for name in dir(sub):
-                item = getattr(sub, name)
-                if not hasattr(Inner_Mixed, name):
-                    if hasattr(item, '_mixStrategy'):
-                        strategies[name] = item._mixStrategy
-                        setattr(Inner_Mixed, name, item)
-                else:
-                    if name in strategies:
-                        old = getattr(Inner_Mixed, name)
-                        new = strategies[name](old, item)
-                        setattr(Inner_Mixed, name, new)
-    return Inner_Mixed
+    def __setattr__(self, name, value):
+        fallback = super().__setattr__
+        if name in ('_strats',):
+            return fallback(name, value)
+        else:
+            items = self.__dict__
+            items[name] = value
+
+    def use(self, *others):
+        for other in others:
+            for k, v in other._strats.items():
+                strats = self._strats
+                if k not in self._strats:
+                    strats[k] = v
+                elif strats[k] != v:
+                    raise Exception(
+                        f'Two distinct strategies given for {k}.'
+                    )
 
