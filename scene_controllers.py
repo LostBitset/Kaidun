@@ -1,6 +1,5 @@
 # Kaidun (by HktOverload)
 
-import cpu_linalg
 from mix import Mixin
 
 def lift2(f):
@@ -78,44 +77,29 @@ rotationKeys = Mixin(':camera-rot', {
     'handle': handleRotation,
 })
 
-def handleRelativeTranslation(gamedata, event):
-    tspeed = 0.2
-    posKeys = ['w', 'a', 'e']
-    negKeys = ['s', 'd', 'c']
-    dctr = gamedata.get('d_cam_ctr_rel', [0, 0, 0])
-    dctr = list(dctr)
-    for ax in range(3):
-        if event.isKeypress(posKeys[ax]):
-            dctr[ax] += 1
-        elif event.isKeypress(negKeys[ax]):
-            dctr[ax] -= 1
-        else:
-            isRelease = False
-            isRelease |= event.isKeyrelease(posKeys[ax])
-            isRelease |= event.isKeyrelease(negKeys[ax])
-            if isRelease:
-                dctr[ax] = 0
-    dctr = tuple(dctr)
-    dctr = cpu_linalg.norm(dctr)
-    dctr = cpu_linalg.sc(dctr, tspeed)
-    gamedata['d_cam_ctr_rel'] = dctr
+def setFollowRotation(gamedata, ftime):
+    rot = list(gamedata['cam_rot'])
+    rot[2] = 0.3
+    gamedata['cam_rot'] = tuple(rot)
 
-relativeTranslationKeys = Mixin(':camera-tr-rel', {
-    'handle': handleRelativeTranslation,
+followRotation = Mixin(':camera-rot-follow', {
+    'frame': setFollowRotation,
 })
 
-def convertTranslationRelToAbs(gamedata, ftime):
-    dctr = gamedata.get('d_cam_ctr_rel', (0, 0, 0))
-    gamedata['d_cam_ctr'] = dctr
+def setFollowTranslation(gamedata, ftime):
+    dctr = list(gamedata['d_cam_ctr'])
+    dctr[0] = 0.05
+    dctr[1] = 0.05
+    gamedata['d_cam_ctr'] = tuple(dctr)
 
-makeAbsoluteTranslation = Mixin(':camera-tr-abs-of-rel', {
-    'frame': convertTranslationRelToAbs,
+followTranslation = Mixin(':camera-tr-follow', {
+    'frame': setFollowTranslation,
 })
 
-movementWithKeys = Mixin().use(
+movementWithKeys = Mixin(':camera-movement-all').use(
     rotationKeys,
-    relativeTranslationKeys,
-    makeAbsoluteTranslation,
+    followTranslation,
+    followRotation,
     movement,
 )
 
