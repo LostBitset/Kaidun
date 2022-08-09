@@ -34,16 +34,6 @@ class Edge(object):
         return newcls(src, dst)
 
 
-# Edges in 2D space are line segments, we can do special things with them
-class EdgeIn2D(Edge):
-
-    def towards(self, dest, newcls=DirectedEdgeIn2D):
-        return super().towards(dest, newcls=newcls)
-
-    def __repr__(self):
-        orig = super().__repr__()
-        return f'{{In2D}}{orig}'
-
 # Directed line segments are the actually useful thing that this has been
 # working towards
 class DirectedEdgeIn2D(DirectedEdge):
@@ -60,6 +50,16 @@ class DirectedEdgeIn2D(DirectedEdge):
         )
         res = cpu_linalg.norm(res)
         return res
+
+# Edges in 2D space are line segments, we can do special things with them
+class EdgeIn2D(Edge):
+
+    def towards(self, dest, newcls=DirectedEdgeIn2D):
+        return super().towards(dest, newcls=newcls)
+
+    def __repr__(self):
+        orig = super().__repr__()
+        return f'{{In2D}}{orig}'
 
 # A graph represented as an adjacency list
 class Graph(object):
