@@ -15,11 +15,10 @@ print('---')
 ye = Mixin('ye', {'a': 5}).use(base)
 print('---')
 
-'''
 combined = Mixin().use(hi, ye)
 
 print(combined.a)
 assert combined.a == 9060
 
 print('Passed!')
-'''
+
