@@ -87,7 +87,6 @@ def handleJumping(gamedata, event):
         gamedata['is_jumping'] = False
     if event.isKeypress('z'):
         if not gamedata['is_jumping']:
-            print('JUMPING!')
             gamedata['is_jumping'] = True
             dctr = list(gamedata['d_cam_ctr'])
             dctr[2] = 0.08
