@@ -1,5 +1,6 @@
 # Kaidun (by HktOverload)
 
+from cpu_geom_utils import manhattan
 import cpu_linalg
 
 class DirectedEdge(object):
@@ -51,6 +52,14 @@ class DirectedEdgeIn2D(DirectedEdge):
         res = cpu_linalg.norm(res)
         return res
 
+    # Check if the manhattan distance to a node is larger than the
+    # manhattan distance between the nodes
+    def beyond(self, coord):
+        toSrc = manhattan(self.src, coord)
+        toDst = manhattan(self.dst, coord)
+        between = manhattan(self.src, self.dst)
+        return max(toSrc, toDst) > between
+
 # Edges in 2D space are line segments, we can do special things with them
 class EdgeIn2D(Edge):
 
@@ -60,6 +69,11 @@ class EdgeIn2D(Edge):
     def __repr__(self):
         orig = super().__repr__()
         return f'{{In2D}}{orig}'
+
+    def beyond(self, coord):
+        ordered = sorted(self.pts)
+        dEdge = DirectedEdgeIn2D(ordered[0], ordered[1])
+        return dEdge.beyond(coord)
 
 # A graph represented as an adjacency list
 class Graph(object):
