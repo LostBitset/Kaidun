@@ -105,10 +105,8 @@ relativeTranslationKeys = Mixin(':camera-tr-rel', {
 })
 
 def convertTranslationRelToAbs(gamedata, ftime):
-    cameraRot = cpu_linalg.rotMat(
-        *gamedata['cam_rot'],
-    )
-    gamedata['d_cam_ctr'] = cameraRot * gamedata['d_cam_ctr_rel']
+    dctr = gamedata.get('d_cam_ctr_rel', (0, 0, 0))
+    gamedata['d_cam_ctr'] = dctr
 
 makeAbsoluteTranslation = Mixin(':camera-tr-abs-of-rel', {
     'frame': convertTranslationRelToAbs,
@@ -116,6 +114,8 @@ makeAbsoluteTranslation = Mixin(':camera-tr-abs-of-rel', {
 
 movementWithKeys = Mixin().use(
     rotationKeys,
+    relativeTranslationKeys,
+    makeAbsoluteTranslation,
     movement,
 )
 
