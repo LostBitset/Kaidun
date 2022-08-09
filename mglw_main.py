@@ -7,7 +7,7 @@ import moderngl_window as mglw
 import moderngl
 
 import events
-import scene_groups as g
+import scenes as s
 from vbo_utils import VertBufRef
 
 class GameWindow(mglw.WindowConfig):
@@ -24,7 +24,7 @@ class GameWindow(mglw.WindowConfig):
             (GameWindow.init_callback)(self)
         # Setup gamedata and scene
         self.gamedata = dict()
-        self.scene = g.TwoCubes
+        self.scene = s.CubeScene
         self.geometryState = None
         # Frame times
         self.ftimeLast = time.time()
