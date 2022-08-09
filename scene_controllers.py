@@ -80,6 +80,21 @@ rotationKeys = Mixin(':camera-rot', {
     'handle': handleRotation,
 })
 
+def frameGravity(gamedata, ftime):
+    ctr = list(gamedata['cam_ctr'])
+    dctr = list(gamedata['d_cam_ctr'])
+    if ctr[2] > 0:
+        dctr[2] -= 9.8 * (ftime ** 2)
+    else:
+        dctr[2] = 0
+        ctr[2] = 0
+    gamedata['cam_ctr'] = tuple(ctr)
+    gamedata['d_cam_ctr'] = tuple(dctr)
+
+gravity = Mixin(':gravity', {
+    'frame': frameGravity,
+})
+
 class PController(object):
     __slots__ = ('kP',)
 
@@ -127,6 +142,7 @@ followTranslation = Mixin(':camera-tr-follow', {
 
 movementWithKeys = Mixin(':camera-movement-all').use(
     rotationKeys,
+    gravity,
     followTranslation,
     followRotation,
     movement,
