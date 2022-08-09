@@ -7,6 +7,7 @@ import moderngl_window as mglw
 import moderngl
 
 import events
+import graphs
 import scenes as s
 from vbo_utils import VertBufRef
 
@@ -52,6 +53,9 @@ class GameWindow(mglw.WindowConfig):
             'cam_rot': (np.pi/2, 0.0, 0.0),
             'd_cam_rot': zeroVec3,
             'cam_near': 0.5,
+            'follow_edge': graphs.DirectedEdgeIn2D(
+                (0.5, 4.0), (-2.0, -2.0)
+            ),
         })
         self.prog['cam_near'].value = self.gamedata['cam_near']
         self.prog['cam_dist'].value = 50.0

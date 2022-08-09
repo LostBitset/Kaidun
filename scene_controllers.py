@@ -1,5 +1,6 @@
 # Kaidun (by HktOverload)
 
+import cpu_linalg
 from mix import Mixin
 
 def lift2(f):
@@ -102,8 +103,10 @@ followRotation = Mixin(':camera-rot-follow', {
 
 def setFollowTranslation(gamedata, ftime):
     dctr = list(gamedata['d_cam_ctr'])
-    dctr[0] = 0
-    dctr[1] = 0
+    tspeed = 0.1
+    cpu_linalg
+    dctr[0] = heading[0]
+    dctr[1] = heading[1]
     gamedata['d_cam_ctr'] = tuple(dctr)
 
 followTranslation = Mixin(':camera-tr-follow', {
