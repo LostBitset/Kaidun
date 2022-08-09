@@ -54,11 +54,11 @@ class DirectedEdgeIn2D(DirectedEdge):
 
     # Check if the manhattan distance to a node is larger than the
     # manhattan distance between the nodes
-    def beyond(self, coord):
+    def isBeyond(self, coord):
         toSrc = manhattan(self.src, coord)
         toDst = manhattan(self.dst, coord)
         between = manhattan(self.src, self.dst)
-        return max(toSrc, toDst) > between
+        return max(toSrc, toDst) > (between + 10**-5)
 
 # Edges in 2D space are line segments, we can do special things with them
 class EdgeIn2D(Edge):
