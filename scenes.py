@@ -58,7 +58,7 @@ class CubeScene(Scene):
     @classmethod
     def buildGeometry(cls, geometryState):
         if geometryState == 'cubey boi':
-            return cls.cube.place(geometryState['origin'])
+            return cls.cube.place((0, 0, 0))
         raise Exception(
             f"`{cls.__name__}` cannot have geometry state `{geometryState}`"
         )
