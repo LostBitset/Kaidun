@@ -108,13 +108,17 @@ followRotation = Mixin(':camera-rot-follow', {
 
 def setFollowTranslation(gamedata, ftime):
     dctr = list(gamedata['d_cam_ctr'])
+    ctr = gamedata['cam_ctr']
     tspeed = 0.1
     edge = gamedata['follow_edge']
-    heading = edge.heading()
-    heading = cpu_linalg.sc(heading, tspeed)
-    dctr[0] = heading[0]
-    dctr[1] = heading[1]
-    print(edge.isBeyond(gamedata['cam_ctr']))
+    if edge.isBeyond(ctr):
+        dctr[0] = 0
+        dctr[1] = 0
+    else:
+        heading = edge.heading()
+        heading = cpu_linalg.sc(heading, tspeed)
+        dctr[0] = heading[0]
+        dctr[1] = heading[1]
     gamedata['d_cam_ctr'] = tuple(dctr)
 
 followTranslation = Mixin(':camera-tr-follow', {
