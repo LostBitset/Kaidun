@@ -1,5 +1,6 @@
 # Kaidun (by HktOverload)
 
+import cpu_linalg
 from mix import Mixin
 
 def lift2(f):
@@ -75,6 +76,42 @@ def handleRotation(gamedata, event):
 
 rotationKeys = Mixin(':camera-rot', {
     'handle': handleRotation,
+})
+
+def handleRelativeTranslation(gamedata, event):
+    tspeed = 0.2
+    posKeys = ['w', 'a', 'e']
+    negKeys = ['s', 'd', 'c']
+    dctr = gamedata.get('d_cam_ctr_rel', [0, 0, 0])
+    dctr = list(dctr)
+    for ax in range(3):
+        if event.isKeypress(posKeys[ax]):
+            dctr[ax] += 1
+        elif event.isKeypress(negKeys[ax]):
+            dctr[ax] -= 1
+        else:
+            isRelease = False
+            isRelease |= event.isKeyrelease(posKeys[ax])
+            isRelease |= event.isKeyrelease(negKeys[ax])
+            if isRelease:
+                dctr[ax] = 0
+    dctr = tuple(dctr)
+    dctr = cpu_linalg.norm(dctr)
+    dctr = cpu_linalg.sc(dctr, tspeed)
+    gamedata['d_cam_ctr_rel'] = dctr
+
+relativeTranslationKeys = Mixin(':camera-tr-rel', {
+    'handle': handleRelativeTranslation,
+})
+
+def convertTranslationRelToAbs(gamedata, ftime):
+    cameraRot = cpu_linalg.rotMat(
+        *gamedata['cam_rot'],
+    )
+    gamedata['d_cam_ctr'] = cameraRot * gamedata['d_cam_ctr_rel']
+
+makeAbsoluteTranslation = Mixin(':camera-tr-abs-of-rel', {
+    'frame': convertTranslationRelToAbs,
 })
 
 movementWithKeys = Mixin().use(
