@@ -85,21 +85,24 @@ def handleJumping(gamedata, event):
     onGround = abs(ctr[2]) < 10**-5
     if 'is_jumping' not in gamedata or onGround:
         gamedata['is_jumping'] = False
-    if event.isKeypress('space'):
+    if event.isKeypress('z'):
         if not gamedata['is_jumping']:
+            print('JUMPING!')
             gamedata['is_jumping'] = True
             dctr = list(gamedata['d_cam_ctr'])
-            dctr[2] = 1.0
+            dctr[2] = 0.08
             gamedata['d_cam_ctr'] = tuple(dctr)
 
-
+jumping = Mixin(':jumping-event', {
+    'handle': handleJumping,
+})
 
 def frameGravity(gamedata, ftime):
     ctr = list(gamedata['cam_ctr'])
     dctr = list(gamedata['d_cam_ctr'])
     if ctr[2] > 0:
         dctr[2] -= 9.8 * (ftime ** 2)
-    else:
+    elif dctr[2] < 0:
         dctr[2] = 0
         ctr[2] = 0
     gamedata['cam_ctr'] = tuple(ctr)
