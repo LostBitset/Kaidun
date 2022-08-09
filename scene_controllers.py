@@ -77,10 +77,24 @@ rotationKeys = Mixin(':camera-rot', {
     'handle': handleRotation,
 })
 
+class PController(object):
+    __slots__ = ('kP',)
+
+    def __init__(self, kP):
+        self.kP = kP
+
+    def get(self, x, setpoint):
+        err = x - setpoint
+        pComponent = self.kP * err
+        return -pComponent
+
+followRotationController = PController(0.1)
+
 def setFollowRotation(gamedata, ftime):
-    rot = list(gamedata['cam_rot'])
-    rot[2] = 0.3
-    gamedata['cam_rot'] = tuple(rot)
+    rot = gamedata['cam_rot']
+    drot = list(gamedata['d_cam_rot'])
+    drot[2] = followRotationController.get(rot[2], 0.3)
+    gamedata['d_cam_rot'] = tuple(drot)
 
 followRotation = Mixin(':camera-rot-follow', {
     'frame': setFollowRotation,
@@ -88,8 +102,8 @@ followRotation = Mixin(':camera-rot-follow', {
 
 def setFollowTranslation(gamedata, ftime):
     dctr = list(gamedata['d_cam_ctr'])
-    dctr[0] = 0.05
-    dctr[1] = 0.05
+    dctr[0] = 0
+    dctr[1] = 0
     gamedata['d_cam_ctr'] = tuple(dctr)
 
 followTranslation = Mixin(':camera-tr-follow', {
