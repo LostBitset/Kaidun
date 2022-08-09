@@ -54,7 +54,7 @@ class GameWindow(mglw.WindowConfig):
             'd_cam_rot': zeroVec3,
             'cam_near': 0.5,
             'follow_edge': graphs.DirectedEdgeIn2D(
-                (0.5, 0.5), (-1.0, 15.0)
+                (0.5, 0.5), (-15.0, 1.0)
             ),
         })
         self.prog['cam_near'].value = self.gamedata['cam_near']
