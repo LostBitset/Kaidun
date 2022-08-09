@@ -14,7 +14,7 @@ class Mixin(object):
 
     def __setattr__(self, name, value):
         fallback = super().__setattr__
-        if name in ('_strats', '_sources'):
+        if name.startswith('_'):
             return fallback(name, value)
         else:
             items = self.__dict__
