@@ -80,6 +80,20 @@ rotationKeys = Mixin(':camera-rot', {
     'handle': handleRotation,
 })
 
+def handleJumping(gamedata, event):
+    ctr = gamedata['cam_ctr']
+    onGround = abs(ctr[2]) < 10**-5
+    if 'is_jumping' not in gamedata or onGround:
+        gamedata['is_jumping'] = False
+    if event.isKeypress('space'):
+        if not gamedata['is_jumping']:
+            gamedata['is_jumping'] = True
+            dctr = list(gamedata['d_cam_ctr'])
+            dctr[2] = 1.0
+            gamedata['d_cam_ctr'] = tuple(dctr)
+
+
+
 def frameGravity(gamedata, ftime):
     ctr = list(gamedata['cam_ctr'])
     dctr = list(gamedata['d_cam_ctr'])
@@ -142,6 +156,7 @@ followTranslation = Mixin(':camera-tr-follow', {
 
 movementWithKeys = Mixin(':camera-movement-all').use(
     rotationKeys,
+    jumping,
     gravity,
     followTranslation,
     followRotation,
