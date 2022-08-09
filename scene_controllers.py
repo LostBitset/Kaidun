@@ -1,6 +1,5 @@
 # Kaidun (by HktOverload)
 
-import cpu_linalg
 from mix import Mixin
 
 def lift2(f):
