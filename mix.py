@@ -6,9 +6,11 @@ class Mixin(object):
         self.__dict__.update(items)
         self._strats = strats
         if name == None:
-            name = id(self)
+            self._name = id(self)
+        else:
+            self._name = name
         if sources == None:
-            self._sources = { k: name for k in strats }
+            self._sources = { k: self._name for k in strats }
         else:
             self._sources = sources
 
@@ -45,7 +47,7 @@ class Mixin(object):
                 else:
                     newItems[name] = item
         return Mixin(
-            None,
+            f'::mixed#{[ i._name for i in others ]}',
             newItems,
             newStrats,
             newSources,
