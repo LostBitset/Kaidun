@@ -56,7 +56,7 @@ movement = Mixin(':camera-movement', {
 }).use(cameraUpdates)
 
 def handleRotation(gamedata, event):
-    rspeed = 0.1
+    rspeed = 0.05
     posKeys = ['up', 'left', 'o']
     negKeys = ['down', 'right', 'p']
     drot = list(gamedata['d_cam_rot'])
