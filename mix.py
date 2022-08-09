@@ -15,6 +15,8 @@ class Mixin(object):
             items = self.__dict__
             items[name] = value
 
+
+
     def use(*others):
         self = Mixin()
         for other in others:
@@ -23,10 +25,6 @@ class Mixin(object):
                 if k not in self._strats:
                     strats[k] = v
                     sources[k] = id(other)
-                elif sources[k] != id(other):
-                    raise Exception(
-                        f'Two distinct strategies given for {k}.'
-                    )
         strats, sources = self._strats, self._sources
         seen = set()
         for other in others:
@@ -48,16 +46,5 @@ class Mixin(object):
                     old = items[name]
                     mixed = strats[name](item, old)
                     setattr(self, name, mixed)
-            return self
+        return self
 
-        for other in others:
-            for name in other.__dict__:
-                if name in other._sources:
-                if (other, name) in seen:
-                    continue
-                seen.add((other, name))
-                if not name.startswith('_'):
-                    try:
-                        item = getattr(other, name)
-                    except:
-                        continue

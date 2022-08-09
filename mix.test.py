@@ -16,6 +16,7 @@ ye = Mixin({'a': 5}).use(base)
 combined = Mixin().use(hi, ye)
 
 print(combined.a)
+assert combined.a == 9060
 
 print('Passed!')
 
