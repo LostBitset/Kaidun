@@ -103,5 +103,3 @@ movementWithKeys = Mixin(':camera-movement-all').use(
     movement,
 )
 
-print(movementWithKeys._name)
-
