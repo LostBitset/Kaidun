@@ -1,5 +1,7 @@
 # Kaidun (by HktOverload)
 
+from math import atan2
+
 import cpu_linalg
 from mix import Mixin
 
@@ -94,7 +96,10 @@ followRotationController = PController(0.1)
 def setFollowRotation(gamedata, ftime):
     rot = gamedata['cam_rot']
     drot = list(gamedata['d_cam_rot'])
-    drot[2] = followRotationController.get(rot[2], 0.3)
+    edge = gamedata['follow_edge']
+    [y, x] = edge.heading()
+    setpoint = -atan2(y, x)
+    drot[2] = followRotationController.get(rot[2], setpoint)
     gamedata['d_cam_rot'] = tuple(drot)
 
 followRotation = Mixin(':camera-rot-follow', {
