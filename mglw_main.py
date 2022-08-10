@@ -8,7 +8,7 @@ import moderngl
 
 import events
 import terrain
-import scene_groups as g
+import scenes as s
 from vbo_utils import VertBufRef
 
 '''
@@ -35,7 +35,7 @@ class GameWindow(mglw.WindowConfig):
             (GameWindow.init_callback)(self)
         # Setup gamedata and scene
         self.gamedata = dict()
-        self.scene = g.TwoCubes
+        self.scene = s.WorldScene
         self.geometryState = None
         # Frame times
         self.ftimeLast = time.time()
@@ -56,6 +56,10 @@ class GameWindow(mglw.WindowConfig):
             alloc_fn=self.alloc
         )
         self.updateVAO()
+        # World geometry
+        worldGeometry = s.CubeScene.buildGeometry(
+            { 'origin': (0, 0, 0) }
+        )
         # Camera
         zeroVec3 = (0, 0, 0)
         followGraph = terrain.genTestGraph()
@@ -71,6 +75,7 @@ class GameWindow(mglw.WindowConfig):
             'cam_near': 0.5,
             'follow_graph': followGraph,
             'follow_edge': followEdge,
+            'world_geometry': worldGeometry,
         })
         # Everything after this point is a uniform for shader code
         # Please read the documentation in the shader code itself
