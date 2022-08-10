@@ -1,14 +1,21 @@
 # Kaidun (by HktOverload)
 
 from functools import reduce
-from math import acos, hypot, pi
+import math
+from numpy import pi
 
 import cpu_linalg
+
+# A version of the math.hypot function that
+# takes a list instead of the coordinates
+# as arguments directly
+def hypot(xs):
+    return math.hypot(*xs)
 
 # Both a and b must be unit vectors
 # [: Citation https://en.wikipedia.org/wiki/Cosine_similarity :]
 def angle(a, b):
-    return acos(cpu_linalg.dot(a, b))
+    return math.acos(cpu_linalg.dot(a, b))
 
 # Both v1 and v2 must be unit vectors
 def onlyOneSide(a, v1, v2):
