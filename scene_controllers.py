@@ -60,8 +60,8 @@ movement = Mixin(':camera-movement', {
 
 def handleRotation(gamedata, event):
     rspeed = 0.05
-    posKeys = ['up', 'left', 'o']
-    negKeys = ['down', 'right', 'p']
+    posKeys = ['up', 'o', 'left']
+    negKeys = ['down', 'p', 'right']
     drot = list(gamedata['d_cam_rot'])
     for ax in range(3):
         if event.isKeypress(posKeys[ax]):
