@@ -53,3 +53,14 @@ def fromBarycentric(tri, barycentric):
         cpu_linalg.ZeroVec,
     )
 
+# Find the incenter of a triangle
+def incenter(tri):
+    side0 = dist(tri[1], tri[2])
+    side1 = dist(tri[0], tri[2])
+    side2 = dist(tri[0], tri[1])
+    return fromBarycentric(tri, [
+        side0,
+        side1,
+        side2,
+    ])
+
