@@ -151,7 +151,7 @@ def setFollowRotation(gamedata, ftime):
         if i in gamedata.get('keys_control_rot_axes', set()):
             continue
         drot[i] = followRotationController.get(
-            rot[i] % (2 * np.pi),
+            rot[i],
             setpoints[i],
         )
     gamedata['d_cam_rot'] = tuple(drot)
