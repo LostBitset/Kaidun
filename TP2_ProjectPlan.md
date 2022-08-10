@@ -74,6 +74,7 @@ Adjustments to algorithmic components that already existed:
 - OpenGL allowed me to switch from the Painter's algorithm to the less complex but more efficient z-buffering method
 
 New algorithmic components:
+- Gravity and jumping
 - The heightmap is based on the minimum distance to a mountain edge
 - The structure of mountains you traverse is represented as a planar graph, and various properties need to be checked to ensure that it works in the context of the game
   - The heightmap must be evaluated at the minimum point, which is the incenter in this case
