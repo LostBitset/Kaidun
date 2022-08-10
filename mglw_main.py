@@ -57,12 +57,10 @@ class GameWindow(mglw.WindowConfig):
         )
         self.updateVAO()
         # World geometry
-        worldGeometry = s.CubeScene.buildGeometry(
-            { 'origin': (0, 0, 0) }
-        )
+        followGraph = terrain.genTestGraph()
+        _, worldGeometry = terrain.fromGraph(followGraph)
         # Camera
         zeroVec3 = (0, 0, 0)
-        followGraph = terrain.genTestGraph()
         followEdge = next( i for i in followGraph.edges() )
         print(followEdge)
         from graphs import DirectedEdgeIn2D
