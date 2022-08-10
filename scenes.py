@@ -33,7 +33,7 @@ def unhexify(x):
     b /= 0xFF
     return (r, g, b)
 
-class CubeScene(Scene):
+class CubeScene(Scene, abc.ABC):
     cube = Geometry(
         np.array((
             (0, 0, 0, 1, 0, 0, 1, 1, 0), (0, 0, 0, 0, 1, 0, 1, 1, 0),
@@ -52,18 +52,30 @@ class CubeScene(Scene):
     )
 
     @classmethod
-    def geometryState(cls, gamedata):
-        return 'cubey boi'
-
-    @classmethod
     def buildGeometry(cls, geometryState):
-        if geometryState == 'cubey boi':
-            return cls.cube.place((0, 0, 0))
+        if 'origin' in geometryState:
+            return cls.cube.place(geometryState['origin'])
         raise Exception(
             f"`{cls.__name__}` cannot have geometry state `{geometryState}`"
         )
 
     @classmethod
     def getController(cls, *_):
-        return c.movementWithKeys
+        return c.GravityBoundPlayer
+
+class CubeScene1(CubeScene):
+
+    @classmethod
+    def geometryState(cls, gamedata):
+        return {
+            'origin': (0, 0, 0),
+        }
+
+class CubeScene2(CubeScene):
+
+    @classmethod
+    def geometryState(cls, gamedata):
+        return {
+            'origin': (3, 3, 3),
+        }
 
