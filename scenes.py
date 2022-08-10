@@ -55,8 +55,9 @@ class CubeScene(Scene, abc.ABC):
     def buildGeometry(cls, geometryState):
         if 'origin' in geometryState:
             return cls.cube.place(geometryState['origin'])
+        r = f'`{repr(geometryState)}`'
         raise Exception(
-            f'`{cls.__name__}` cannot have geometry state `{geometryState}`'
+            f'`{cls.__name__}` cannot have geometry state {r}'
         )
 
     @classmethod
@@ -92,8 +93,14 @@ class WorldScene(Scene):
     def buildGeometry(cls, geometryState):
         typeOk = isinstance(geometryState, tuple)
         if not typeOk or geometryState[0] != '~worldGeometryRef':
+            r = f'`{geometryState}`'
             raise Exception(
-                f'`{cls.__name__}` cannot have geometry state `{geometryState}`'
+                f'`{cls.__name__}` cannot have geometry state {r}'
             )
         worldGeometry = geometryState[1]
+        return worldGeometry
+
+    @classmethod
+    def getController(cls, gamedata):
+        return c.movementWithKeys
 
