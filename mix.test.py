@@ -1,9 +1,12 @@
+'''
+THIS IS JUST A HANDY TEST FILE
+See mix.py for additional documention,
+these just contain examples of how mix.py
+is supposed to work.
+'''
+
 from mix import Mixin
 import operator as op
-
-'''
-See mix.py for documentation
-'''
 
 assert Mixin({}, {})._strats == {}
 assert Mixin()._strats == {}
