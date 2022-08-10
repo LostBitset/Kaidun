@@ -20,7 +20,7 @@ class StateGroup(object):
         for i in self.states:
             yield i
 
-def group(*classes):
+def groupOldControllers(*classes):
     # This class is defined when you call the outer function
     class Inner_SceneGroupController(c.SceneController):
 
@@ -81,5 +81,36 @@ def group(*classes):
 
     return Inner_SceneGroup
 
-TwoCubes = group(s.CubeScene1, s.CubeScene2)
+def group(*classes, controller=None):
+    if controller == None:
+        raise Exception(
+            'You must pass in a controller to the new group method'
+        )
+    # This class is defined when you call the outer function
+    class Inner_SceneGroup(s.Scene):
+
+        @classmethod
+        def geometryState(cls, gamedata):
+            return StateGroup([
+                (
+                    i,
+                    i.geometryState(gamedata)
+                )
+                for i in classes
+            ])
+
+        @classmethod
+        def buildGeometry(cls, geometryState):
+            return np.hstack([
+                i.buildGeometry(substate)
+                for i, substate in geometryState
+            ])
+
+        @classmethod
+        def getController(cls, gamedata):
+            return controller
+
+    return Inner_SceneGroup
+
+TwoCubes = group(s.CubeScene1, s.CubeScene2, controller=c.movementWithKeys)
 
