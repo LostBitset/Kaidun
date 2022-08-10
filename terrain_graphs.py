@@ -19,6 +19,15 @@ def angle(a, b):
     return math.acos(cpu_linalg.dot(a, b))
 
 # Both v1 and v2 must be unit vectors
+# This is a handy routine I created that
+# ^^^-(v2)-__
+# -(a)------O
+#           ^^---__(v1)__
+# just checks if the sum of the angles
+# (a -> v1) and (v1 -> v2) are greater than 180
+# degs
+# This fails if both (v1) and (v2) are on the same
+# side of (a)
 def onlyOneSide(a, v1, v2):
     theta1 = angle(a, v1)
     theta2 = angle(v1, v2)
@@ -62,6 +71,8 @@ def fromBarycentric(tri, barycentric):
     )
 
 # Find the incenter of a triangle
+# Representation as barycentric coordinates found here:
+# [: Citation (repeat) https://mathworld.wolfram.com/BarycentricCoordinates.html :]
 def incenter(tri):
     side0 = dist(tri[1], tri[2])
     side1 = dist(tri[0], tri[2])
