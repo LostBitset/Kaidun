@@ -1,3 +1,13 @@
+'''
+THIS IS JUST A HANDY TEST FILE
+It uses cmu_112_graphics to visually show
+terrain_graphs.incenter and
+terrain_graphs.distToSegment working.
+It should never be a part of the game, I just
+made it to verify that these functions were
+actually working properly.
+'''
+
 from terrain_graphs import incenter, distToSegment
 from graphs import DirectedEdgeIn2D
 
