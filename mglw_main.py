@@ -11,6 +11,16 @@ import graphs
 import scene_groups as g
 from vbo_utils import VertBufRef
 
+'''
+This class is essentially a very heavily modified version of the very basic
+example that displays a single triangle given at:
+
+[: Citation (a big one) https://github.com/moderngl/moderngl/blob/master/examples/basic_simple_color_triangle.py :]
+
+Pretty much all of the other information I used was found in the moderngl docs:
+[: Citation (another big one) https://moderngl.readthedocs.io/en/latest/ :]
+'''
+
 class GameWindow(mglw.WindowConfig):
     title = 'Unnamed Window'
     gl_version = (3, 3)
@@ -30,6 +40,7 @@ class GameWindow(mglw.WindowConfig):
         # Frame times
         self.ftimeLast = time.time()
         # OpenGL / Shader code
+        # [: Citation https://github.com/KhronosGroup/glslang :]
         with open('world.glsl.vert', 'r') as f:
             vertex_shader = f.read()
         with open('world.glsl.frag', 'r') as f:
@@ -57,6 +68,9 @@ class GameWindow(mglw.WindowConfig):
                 (0.5, 4.0), (-15.0, 1.0)
             ),
         })
+        # Everything after this point is a uniform for shader code
+        # Please read the documentation in the shader code itself
+        # for citations
         self.prog['cam_near'].value = self.gamedata['cam_near']
         self.prog['cam_dist'].value = 50.0
         # Lighting
@@ -65,6 +79,10 @@ class GameWindow(mglw.WindowConfig):
         self.prog['lighting_light_ctr'] = (2.0, 2.0, 2.0)
         self.prog['lighting_light_brightness'] = 100.0
         # Lighting / Surface info
+        # Information about albedo values for planets in the solar system:
+        # [: Citation https://astronomy.swin.edu.au/cosmos/a/Albedo :]
+        # Information about how to interpret that information:
+        # [: Citation http://hyperphysics.phy-astr.gsu.edu/hbase/phyopt/albedo.html :]
         self.prog['surf_albedo'].value = 0.09
         self.prog['surf_roughness'].value = 0.1
         # Distance fog
@@ -81,6 +99,12 @@ class GameWindow(mglw.WindowConfig):
     def render(self, *_):
         self.setupShaderInvocation()
         self.ctx.clear(*self.fog_color)
+        # This has C code, so I translated it into this line
+        # which uses the modergl bindings and not the actual
+        # OpenGL C library
+        # All I got from this was basically just the name of
+        # the flag
+        # [: Citation https://learnopengl.com/Advanced-OpenGL/Depth-testing :]
         self.ctx.enable(moderngl.DEPTH_TEST)
         self.vao.render()
         self.frame()

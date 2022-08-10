@@ -2,6 +2,9 @@
 
 import numpy as np
 
+# Find the normal vector of a triangle
+# [: Citation https://web.ma.utexas.edu/users/m408m/Display12-5-4.shtml :]
+# [: Citation https://people.eecs.ku.edu/~jrmiller/Courses/VectorGeometry/VectorOperations.html :]
 def triNormal(tri):
     a1 = tri[3] - tri[0]
     a2 = tri[4] - tri[1]
@@ -42,6 +45,8 @@ class Geometry(object):
         else:
             self.aux = aux
 
+    # Overload the | operator to merge geometry,
+    # just like the union for sets
     def __or__(self, other):
         return Geometry(
             np.vstack((
@@ -54,6 +59,12 @@ class Geometry(object):
             )),
         )
 
+    # Place the geometry in the world
+    # This translates it from the tris 2D array
+    # and the aux 2D array to a 1D array that will
+    # be the new contents of the GPU vertex buffer
+    # See mglw_main.py for the format
+    # See vbo_utils.py for other vertex buffer stuff
     def place(self, loc):
         L = []
         for tri in self.tris:

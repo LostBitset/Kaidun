@@ -7,6 +7,9 @@ from math import atan2
 import cpu_linalg
 from mix import Mixin
 
+# This seems (at least to me) a lot like the Haskell liftA2 function
+# That's where it got this name
+# [: Citation https://hackage.haskell.org/package/base-4.17.0.0/docs/Control-Applicative.html#v:liftA2 :]
 def lift2(f):
     return lambda x, y: lambda *args, **kwargs: \
         f(x(*args, **kwargs), y(*args, **kwargs))
@@ -118,6 +121,8 @@ gravity = Mixin(':gravity', {
     'frame': frameGravity,
 })
 
+# A proportional controller (like PID but only P)
+# [: Citation https://eng.libretexts.org/Bookshelves/Industrial_and_Systems_Engineering/Book%3A_Chemical_Process_Dynamics_and_Controls_(Woolf)/09%3A_Proportional-Integral-Derivative_(PID)_Control/9.02%3A_P%2C_I%2C_D%2C_PI%2C_PD%2C_and_PID_control :]
 class PController(object):
     __slots__ = ('kP',)
 

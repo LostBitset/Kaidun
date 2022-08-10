@@ -1,5 +1,14 @@
 # Extensible mixins without classes
 
+'''
+This is just an extensibility-focused implementation of the concept of mixins.
+It's done at the value-level instead of the class-level (in Python that doesn't
+really matter).
+The only thing I used from somewhere else was the use of the __setattr__
+method, which I figured out by seeing how App is implemented in
+cmu_112_graphics.
+'''
+
 class Mixin(object):
 
     def __init__(self, name=None, items={}, strats={}, sources=None):

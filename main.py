@@ -6,6 +6,12 @@ from cmu_112_graphics import ImageTk, runApp
 
 import mglw_main
 
+# Center the window given a WindowConfig object
+# This must be a tkinter window
+# This is Tcl code found here:
+# [: Citation https://stackoverflow.com/questions/3352918/how-to-center-a-window-on-the-screen-in-tkinter :]
+# The actual Tcl procedure was linked in the answer and can be found here:
+# [: Citation https://github.com/tcltk/tk/blob/master/library/tk.tcl#L72 :]
 def mglwCenterTkWindow(cfg):
     cfg.wnd._tk.eval('tk::PlaceWindow . center')
 
@@ -28,6 +34,7 @@ def startMGLWRoot(app, maxTimeWithoutGLRoot=0.1):
     )
 
 def appStarted(app):
+    # See citation for mglwCenterTkWindow function
     app._root.eval('tk::PlaceWindow . center')
     app.mode = 'splashScreen'
 
@@ -40,6 +47,7 @@ def splashScreen_keyPressed(app, event):
 
 def splashScreen_timerFired(app):
     if not hasattr(app, 'splashScreenImage'):
+        # [: Citation (course notes) https://www.cs.cmu.edu/~112/notes/notes-animations-part4.html ]
         app.splashScreenImage = ImageTk.PhotoImage(
             app.loadImage('splash.png')
         )
@@ -50,6 +58,7 @@ def splashScreen_redrawAll(app, canvas):
         fill='#000',
     )
     if hasattr(app, 'splashScreenImage'):
+        # [: Citation (course notes) https://www.cs.cmu.edu/~112/notes/notes-animations-part4.html ]
         canvas.create_image(
             app.width//2,
             app.height//2,
@@ -75,6 +84,7 @@ def checkNoGLRoot(app):
         print('*** (Assuming that mglw tk root no longer exists) ***')
         app.mode = app.mglwReturnMode
         app._showRootWindow()
+        # See citation for mglwCenterTkWindow function
         app._root.eval('tk::PlaceWindow . center')
 
 def altRootMGLW_timerFired(app):

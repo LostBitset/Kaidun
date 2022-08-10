@@ -1,5 +1,10 @@
 #version 330
 
+/*
+ * See the vertex shader (*.glsl.vert)
+ * for most of the citations
+ ************************************/
+
 in vec3 vert_color;
 in float illum;
 in float icom_oren_nayar;
@@ -23,12 +28,14 @@ float lambertian_component_phong(in vec3 to_i, in vec3 aligned_normal) {
     return dot(to_i, aligned_normal);
 }
 
+
+// These two functions were found / based on things here:
+// [: Citation https://stackoverflow.com/questions/4200224/random-noise-functions-for-glsl :]
 float rand(in vec2 co) {
     return fract(sin(dot(co.xy,
                          vec2(12.9898,78.233)))
                  * 43758.5453123);
 }
-
 float noise2(in vec2 co) {
     vec2 i = floor(co);
     vec2 f = fract(co);
@@ -74,6 +81,8 @@ vec3 span_2_orthogonal_complement(in vec3 a, in vec3 b) {
     return normalize(cross(a, b));
 }
 
+// Citation: wikipedia finite diffferencing
+// and bump mapping
 vec3 bumpmapping_new_normal(in vec3 normal) {
     vec3 derived_u_basis = ideferred_bumpmapping_finite_diff_x_proj_u;
     vec3 derived_v_basis = ideferred_bumpmapping_finite_diff_y_proj_v;

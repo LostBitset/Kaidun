@@ -5,6 +5,11 @@ import numpy as np
 import scenes as s
 import scene_controllers as c
 
+# The geometryState of a group of scenes is a StateGroup
+# object that contains all of the other geometryStates
+# Each invocation of buildGeometry only sees the geometryState
+# for it's own class, this never gets passed to a buildGeometry
+# function of the members of the group
 class StateGroup(object):
     __slots__ = ('states',)
 

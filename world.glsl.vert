@@ -4,24 +4,33 @@
 
 #define UP vec3(0.0, 0.0, 1.0)
 
+/*
+ * To make this easier, citations that involve uniforms
+ * can be found attached to the uniforms, and NOT the
+ * functions that use them.
+ * This is done because these algorithms are split
+ * across many functions and two shader files.
+ *****************************************************/
+
 in vec3 vert;
 in vec3 drv_surf_normal;
 in vec3 aux_rgb;
 
 out vec3 vert_color;
 out float illum;
-out float icom_oren_nayar;
+							// Citation https://www.cs.columbia.edu/CAVE/projects/oren/oren.php
+out float icom_oren_nayar;				// Citation https://en.wikipedia.org/wiki/Oren%E2%80%93Nayar_reflectance_model
 out float icom_lighting_maxsc;
-out vec3 ideferred_bumpmapping_to_i_nonunit;
-out vec3 ideferred_phong_aligned_normal_nonunit;
+out vec3 ideferred_bumpmapping_to_i_nonunit;		// Citation https://en.wikipedia.org/wiki/Bump_mapping
+out vec3 ideferred_phong_aligned_normal_nonunit;	// Citation https://web.eecs.umich.edu/~sugih/courses/eecs487/lectures/16-Phong+Shading.pdf
 out vec3 ideferred_bumpmapping_finite_diff_x_proj_u;
 out vec3 ideferred_bumpmapping_finite_diff_y_proj_v;
-out float fog_visibility_frac;
+out float fog_visibility_frac;				// See fog_attenuation_coef for citation
 out vec3 fog_component_rgb_partial;
 out vec3 position_3d;
 
 uniform vec3 cam_ctr;
-uniform float cam_yaw;
+uniform float cam_yaw;					// See camspace_rot for citation
 uniform float cam_pitch;
 uniform float cam_roll;
 uniform float cam_near;
@@ -32,12 +41,15 @@ uniform float lighting_maxsc;
 uniform vec3 lighting_light_ctr;
 uniform float lighting_light_brightness;
 
-uniform float surf_albedo;
-uniform float surf_roughness;
+uniform float surf_albedo;				// Citation https://en.wikipedia.org/wiki/Lambertian_reflectance
+uniform float surf_roughness;				// Citation https://graphicscompendium.com/gamedev/15-pbr
 
 uniform vec3 fog_color;
-uniform float fog_attenuation_coef;
+							// Citation https://en.wikipedia.org/wiki/Light_scattering_by_particles
+uniform float fog_attenuation_coef;			// Citation https://en.wikipedia.org/wiki/Attenuation_coefficient
 
+// Arguments are Tait-Bryan angles
+// [: Citation https://en.wikipedia.org/wiki/Rotation_matrix#General_rotations :] 
 mat3 camspace_rot() {
     float a = cam_yaw;
     float b = cam_pitch;
@@ -60,6 +72,7 @@ void camspace(inout vec3 v) {
     v *= camspace_rot();
 }
 
+// [: Citation https://en.wikipedia.org/wiki/Z-buffering :] 
 float zbuffer_value(float z) {
     return sqrt(z - cam_near) / sqrt(cam_dist);
 }
@@ -71,6 +84,8 @@ void set_illum(out float illum) {
     illum *= surf_albedo / PI;
 }
 
+// Found here:
+// [: Citation https://www.quora.com/How-do-you-project-a-point-onto-a-plane-along-the-direction-of-a-given-vector-projection-matrices-projection-math :] 
 vec3 proj_onto_surf_subspace(in vec3 v) {
     vec3 normal = drv_surf_normal;
     return cross(normal, cross(v, normal));
@@ -99,6 +114,8 @@ float atan2(in vec2 v) {
     return atan(v.y, v.x);
 }
 
+// Based on information at:
+// [: Citation https://en.wikipedia.org/wiki/Cosine_similarity :]
 float angle3(in vec3 a, in vec3 b) {
     float cosine_distance = dot(a, b) / (length(a) * length(b));
     return acos(cosine_distance);

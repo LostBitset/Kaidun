@@ -1,6 +1,10 @@
 from mix import Mixin
 import operator as op
 
+'''
+See mix.py for documentation
+'''
+
 assert Mixin({}, {})._strats == {}
 assert Mixin()._strats == {}
 

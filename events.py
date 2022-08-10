@@ -1,5 +1,8 @@
 # Kaidun (by HktOverload)
 
+# Represents an event
+# The windowRef attribute is a reference to the window
+# object (<WindowConfig>.wnd)
 class Event(object):
     __slots__ = 'kind', 'data', 'windowRef'
 

@@ -76,6 +76,7 @@ class EdgeIn2D(Edge):
         return dEdge.beyond(coord)
 
 # A graph represented as an adjacency list
+# [: Citation https://www.khanacademy.org/computing/computer-science/algorithms/graph-representation/a/representing-graphs :]
 class Graph(object):
     __slots__ = ('adjDict',)
 

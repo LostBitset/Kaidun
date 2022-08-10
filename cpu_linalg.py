@@ -9,6 +9,8 @@ from math import sin, cos
 # In actuality, it's only useable as the first argument
 # to the add function, but this is really useful for building
 # up a vector by repeatedly adding n-dimensional vectors
+# This singleton pattern was found on:
+# [: Citation https://stackoverflow.com/questions/41048643/how-to-create-a-second-none-in-python-making-a-singleton-object-where-the-id-is :]
 ZeroVec = None
 
 class _ZeroVecT(object):
@@ -51,6 +53,7 @@ def neg(a):
     return [ -i for i in a ]
 
 # Normalize a vector
+# [: Citation https://docs.python.org/3/library/math.html#math.hypot :]
 def norm(a):
     length = math.hypot(*a)
     if length == 0:
@@ -58,6 +61,7 @@ def norm(a):
     return sc(a, 1/length)
 
 # A matrix with elements stored in column-major order
+# [: Citation https://en.wikipedia.org/wiki/Row-_and_column-major_order :]
 class Mat(object):
     __slots__ = 'odim', 'idim', 'cols'
 
@@ -115,6 +119,7 @@ class Mat(object):
 
     # mat-mat-mul
     # In python this overloads the @ operator
+    # [: Citation https://en.wikipedia.org/wiki/Matrix_multiplication#Definition :]
     def __matmul__(self, other):
         assert isinstance(other, self.__class__)
         assert other.odim == self.idim
@@ -129,6 +134,7 @@ class Mat(object):
 
 # A 3D rotation matrix
 # Arguments are Tait-Bryan angles
+# [: Citation https://en.wikipedia.org/wiki/Rotation_matrix#General_rotations :] 
 def rotMat(a, b, c):
     return Mat([
         cos(a)*cos(b), sin(a)*cos(b), -sin(b),
