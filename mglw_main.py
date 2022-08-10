@@ -7,7 +7,7 @@ import moderngl_window as mglw
 import moderngl
 
 import events
-import graphs
+import terrain
 import scene_groups as g
 from vbo_utils import VertBufRef
 
@@ -58,15 +58,15 @@ class GameWindow(mglw.WindowConfig):
         self.updateVAO()
         # Camera
         zeroVec3 = (0, 0, 0)
+        followGraph = terrain.generateTestGraph()
         self.gamedata.update({
             'cam_ctr': (0.5, 4.0, 0.5),
             'd_cam_ctr': zeroVec3,
             'cam_rot': (np.pi/2, 0.0, 0.0),
             'd_cam_rot': zeroVec3,
             'cam_near': 0.5,
-            'follow_edge': graphs.DirectedEdgeIn2D(
-                (0.5, 4.0), (-15.0, 1.0)
-            ),
+            'follow_graph': followGraph,
+            'follow_edge': next(followGraph.edges()),
         })
         # Everything after this point is a uniform for shader code
         # Please read the documentation in the shader code itself
