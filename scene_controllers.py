@@ -66,14 +66,20 @@ def handleRotation(gamedata, event):
     for ax in range(3):
         if event.isKeypress(posKeys[ax]):
             drot[ax] += rspeed
+            if ax == 2:
+                gamedata['keys_control_yaw'] = True
         elif event.isKeypress(negKeys[ax]):
             drot[ax] -= rspeed
+            if ax == 2:
+                gamedata['keys_control_yaw'] = True
         else:
             isRelease = False
             isRelease |= event.isKeyrelease(posKeys[ax])
             isRelease |= event.isKeyrelease(negKeys[ax])
             if isRelease:
                 drot[ax] = 0
+            if ax == 2:
+                gamedata['keys_control_yaw'] = False
     gamedata['d_cam_rot'] = tuple(drot)
 
 rotationKeys = Mixin(':camera-rot', {
@@ -125,6 +131,8 @@ class PController(object):
 followRotationController = PController(0.1)
 
 def setFollowRotation(gamedata, ftime):
+    if gamedata.get('keys_control_yaw', False):
+        return
     rot = gamedata['cam_rot']
     drot = list(gamedata['d_cam_rot'])
     edge = gamedata['follow_edge']
