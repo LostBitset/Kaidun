@@ -137,7 +137,6 @@ class PController(object):
 followRotationController = PController(0.05)
 
 def setFollowRotation(gamedata, ftime):
-    print(gamedata['d_cam_rot'])
     rot = gamedata['cam_rot']
     drot = list(gamedata['d_cam_rot'])
     edge = gamedata['follow_edge']
