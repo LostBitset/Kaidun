@@ -129,7 +129,7 @@ class PController(object):
         pComponent = self.kP * err
         return -pComponent
 
-followRotationController = PController(0.1)
+followRotationController = PController(0.05)
 
 def setFollowRotation(gamedata, ftime):
     print(gamedata['d_cam_rot'])
