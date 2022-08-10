@@ -102,7 +102,7 @@ class Graph(object):
 
     def addEdge(self, newEdge):
         for pt in newEdge:
-            self.adjDict[pt] = newEdge
+            self.adjDict[pt].add(newEdge)
 
 class EdgesIterator(object):
     __slots__ = ('graph',)
