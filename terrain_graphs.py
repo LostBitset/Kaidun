@@ -5,6 +5,7 @@ import math
 from numpy import pi
 
 import cpu_linalg
+from graphs import DirectedEdgeIn2D
 
 # A version of the math.hypot function that
 # takes a list instead of the coordinates
@@ -70,4 +71,18 @@ def incenter(tri):
         side1,
         side2,
     ])
+
+# The minimum distance to a side of the triangle
+# This is used for generating terrain heightmaps
+def minSideDist(tri, pt):
+    edgecls = DirectedEdgeIn2D
+    sides = [
+        edgecls(tri[1], tri[2]),
+        edgecls(tri[0], tri[2]),
+        edgecls(tri[0], tri[1]),
+    ]
+    return min(
+        distToSegment(edge, pt)
+        for edge in sides
+    )
 
