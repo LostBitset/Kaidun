@@ -17,6 +17,9 @@ class DirectedEdge(object):
     def __repr__(self):
         return f'DEdge({self.src} -> {self.dst})'
 
+    def flip(self):
+        return (self.__class__)(self.dst, self.src)
+
 class Edge(object):
     __slots__ = ('pts',)
 

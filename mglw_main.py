@@ -59,14 +59,18 @@ class GameWindow(mglw.WindowConfig):
         # Camera
         zeroVec3 = (0, 0, 0)
         followGraph = terrain.genTestGraph()
+        followEdge = next( i for i in followGraph.edges() )
+        print(followEdge)
+        from graphs import DirectedEdgeIn2D
+        followEdge = DirectedEdgeIn2D((8.5, 4.0), (2.0, 2.0))
         self.gamedata.update({
-            'cam_ctr': (0.5, 4.0, 0.5),
+            'cam_ctr': (8.5, 4.0, 0.5),
             'd_cam_ctr': zeroVec3,
             'cam_rot': (np.pi/2, 0.0, 0.0),
             'd_cam_rot': zeroVec3,
             'cam_near': 0.5,
             'follow_graph': followGraph,
-            'follow_edge': next(i for i in followGraph.edges()),
+            'follow_edge': followEdge,
         })
         # Everything after this point is a uniform for shader code
         # Please read the documentation in the shader code itself
