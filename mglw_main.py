@@ -66,7 +66,7 @@ class GameWindow(mglw.WindowConfig):
             'd_cam_rot': zeroVec3,
             'cam_near': 0.5,
             'follow_graph': followGraph,
-            'follow_edge': next(followGraph.edges()),
+            'follow_edge': next(i for i in followGraph.edges()),
         })
         # Everything after this point is a uniform for shader code
         # Please read the documentation in the shader code itself
