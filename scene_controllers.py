@@ -1,5 +1,7 @@
 # Kaidun (by HktOverload)
 
+import numpy as np
+
 from math import atan2
 
 import cpu_linalg
@@ -62,24 +64,23 @@ def handleRotation(gamedata, event):
     rspeed = 0.05
     posKeys = ['up', 'o', 'left']
     negKeys = ['down', 'p', 'right']
+    if 'keys_control_rot_axes' not in gamedata:
+        gamedata['keys_control_rot_axes'] = set()
     drot = list(gamedata['d_cam_rot'])
     for ax in range(3):
         if event.isKeypress(posKeys[ax]):
             drot[ax] += rspeed
-            if ax == 2:
-                gamedata['keys_control_yaw'] = True
+            gamedata['keys_control_rot_axes'].add(ax)
         elif event.isKeypress(negKeys[ax]):
             drot[ax] -= rspeed
-            if ax == 2:
-                gamedata['keys_control_yaw'] = True
+            gamedata['keys_control_rot_axes'].add(ax)
         else:
             isRelease = False
             isRelease |= event.isKeyrelease(posKeys[ax])
             isRelease |= event.isKeyrelease(negKeys[ax])
             if isRelease:
                 drot[ax] = 0
-            if ax == 2:
-                gamedata['keys_control_yaw'] = False
+                gamedata['keys_control_rot_axes'].discard(ax)
     gamedata['d_cam_rot'] = tuple(drot)
 
 rotationKeys = Mixin(':camera-rot', {
@@ -131,14 +132,23 @@ class PController(object):
 followRotationController = PController(0.1)
 
 def setFollowRotation(gamedata, ftime):
-    if gamedata.get('keys_control_yaw', False):
-        return
+    print(gamedata['d_cam_rot'])
     rot = gamedata['cam_rot']
     drot = list(gamedata['d_cam_rot'])
     edge = gamedata['follow_edge']
     [y, x] = edge.heading()
-    setpoint = -atan2(y, x)
-    drot[2] = followRotationController.get(rot[2], setpoint)
+    setpoints = [
+        np.pi / 2,
+        0,
+        -atan2(y, x),
+    ]
+    for i in range(3):
+        if i in gamedata.get('keys_control_rot_axes', set()):
+            continue
+        drot[i] = followRotationController.get(
+            rot[i],
+            setpoints[i],
+        )
     gamedata['d_cam_rot'] = tuple(drot)
 
 followRotation = Mixin(':camera-rot-follow', {

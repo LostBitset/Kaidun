@@ -46,7 +46,7 @@ class GameWindow(mglw.WindowConfig):
         )
         self.updateVAO()
         # Camera
-        zeroVec3 = (0.0, 0.0, 0.0)
+        zeroVec3 = (0, 0, 0)
         self.gamedata.update({
             'cam_ctr': (0.5, 4.0, 0.5),
             'd_cam_ctr': zeroVec3,
