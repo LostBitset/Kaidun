@@ -10,6 +10,10 @@ class DirectedEdge(object):
         self.src = src
         self.dst = dst
 
+    def __iter__(self):
+        yield self.src
+        yield self.dst
+
     def __repr__(self):
         return f'DEdge({self.src} -> {self.dst})'
 
@@ -18,6 +22,10 @@ class Edge(object):
 
     def __init__(self, p1, p2):
         self.pts = {p1, p2}
+
+    def __iter__(self):
+        for pt in self.pts:
+            yield pt
 
     def __repr__(self):
         prefix = 'Edge('
@@ -93,7 +101,7 @@ class Graph(object):
         self.adjDict[newNode] = set()
 
     def addEdge(self, newEdge):
-        for pt in newEdge.pts:
+        for pt in newEdge:
             self.adjDict[pt] = newEdge
 
 class EdgesIterator(object):
