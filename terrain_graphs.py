@@ -1,14 +1,14 @@
 # Kaidun (by HktOverload)
 
 from functools import reduce
-from math import arccos, hypot, pi
+from math import acos, hypot, pi
 
 import cpu_linalg
 
 # Both a and b must be unit vectors
 # [: Citation https://en.wikipedia.org/wiki/Cosine_similarity :]
 def angle(a, b):
-    return arccos(cpu_linalg.dot(a, b))
+    return acos(cpu_linalg.dot(a, b))
 
 # Both v1 and v2 must be unit vectors
 def onlyOneSide(a, v1, v2):
