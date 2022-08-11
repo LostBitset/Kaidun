@@ -137,6 +137,8 @@ class PController(object):
 followRotationController = PController(0.05)
 
 def setFollowRotation(gamedata, ftime):
+    if not gamedata['is_following']:
+        return
     rot = gamedata['cam_rot']
     drot = list(gamedata['d_cam_rot'])
     edge = gamedata['follow_edge'].flip()
@@ -161,10 +163,9 @@ followRotation = Mixin(':camera-rot-follow', {
 
 def setFollowTranslation(gamedata, ftime):
     dctr = list(gamedata['d_cam_ctr'])
-    ctr = gamedata['cam_ctr']
     tspeed = 0.1
     edge = gamedata['follow_edge']
-    if edge.isBeyond(ctr):
+    if not gamedata['is_following']:
         dctr[0] = 0
         dctr[1] = 0
     else:
@@ -178,7 +179,35 @@ followTranslation = Mixin(':camera-tr-follow', {
     'frame': setFollowTranslation,
 })
 
+def handleStartAndStop(gamedata, event):
+    if event.isKeypress('enter'):
+        gamedata['is_following'] ^= True
+        gamedata['following_event'] = True
+
+def frameStartAndStop(gamedata, ftime):
+    gamedata['following_event'] = False
+    ctr = gamedata['cam_ctr']
+    edge = gamedata['follow_edge']
+    if edge.isBeyond(ctr):
+        gamedata['following_event'] = gamedata['is_following']
+        gamedata['is_following'] = False
+
+startAndStop = Mixin(':start-and-stop', {
+    'handle': handleStartAndStop,
+    'frame': frameStartAndStop,
+})
+
+def frameStopGracefully(gamedata, ftime):
+    if gamedata['following_event']:
+        gamedata['d_cam_rot'] = (0.0, 0.0, 0.0)
+
+stopGracefully = Mixin(':stop-gracefully-rot', {
+    'frame': frameStopGracefully,
+})
+
 movementWithKeys = Mixin(':camera-movement-all').use(
+    startAndStop,
+    stopGracefully,
     rotationKeys,
     jumping,
     gravity,

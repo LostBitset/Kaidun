@@ -73,6 +73,7 @@ class GameWindow(mglw.WindowConfig):
             'cam_near': 0.01,
             'follow_graph': followGraph,
             'follow_edge': followEdge,
+            'is_following': False,
             'world_geometry': worldGeometry,
         })
         # Everything after this point is a uniform for shader code
