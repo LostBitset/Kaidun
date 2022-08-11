@@ -70,7 +70,7 @@ class GameWindow(mglw.WindowConfig):
             'd_cam_ctr': zeroVec3,
             'cam_rot': (np.pi/2, 0.0, 0.0),
             'd_cam_rot': zeroVec3,
-            'cam_near': 0.5,
+            'cam_near': 0.01,
             'follow_graph': followGraph,
             'follow_edge': followEdge,
             'world_geometry': worldGeometry,
