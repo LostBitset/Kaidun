@@ -57,7 +57,7 @@ def drawExplanation(app, canvas):
         text=text,
     )
 
-def testPointInCircumcircle_mousePressed(app, event):
+def testPointInCircumcircle_mouseMoved(app, event):
     app.wasInCircumcircle = pointInCircumcircle(
         (event.x, event.y),
         app.testTri,
