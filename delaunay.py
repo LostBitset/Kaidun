@@ -85,15 +85,39 @@ def pointInCircumcircle(pt, tri):
     )
     return det > 0
 
+def edgesOf(tri):
+    yield {tri[1], tri[2]}
+    yield {tri[0], tri[2]}
+    yield {tri[1], tri[2]}
+
 # See citation at top of file
 def boyerWatson(points, supertri):
     triangulation = Triangulation()
     triangulation.addTri(supertri)
     for point in points:
-        badTriangles = set()
-        for triRef in triangulation.refs:
-            tri = triangulation.getTri(triRef)
-            if pointInCircumcircle(point, tri):
-                badTriangles.add(tri)
-        polygon = set()
+        badTriangles = {
+            tri
+            for tri in triangulation
+            if pointInCircumcircle(point, tri)
+        }
+        polygon = {
+            badEdge
+            for badTri in badTriangles
+            for badEdge in edgesOf(badTri)
+            if not any(
+                badEdge == badEdge2
+                for badTri2 in badTriangles
+                for badEdge2 in edgesOf(badTri2)
+            )
+        }
+        for badTri in badTriangles:
+            triangulation.dropTri(badTri)
+        for edge in polygon:
+            newTri = [point, *edge]
+            triangulation.addTri(newTri)
+    for tri in triangulation:
+        for vert in tri:
+            if vert in supertri:
+                triangulation.dropTri(tri)
+    return triangulation
 
