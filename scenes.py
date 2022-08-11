@@ -86,7 +86,7 @@ class WorldScene(Scene):
     def geometryState(cls, gamedata):
         worldGeometry = gamedata['world_geometry']
         chunkSize = worldGeometry.ccfg.size
-        superchunk = chunkSize * 2
+        superchunk = chunkSize * 1
         playerChunk = (
             gamedata['cam_ctr'][0] // superchunk,
             gamedata['cam_ctr'][1] // superchunk,

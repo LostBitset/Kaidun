@@ -49,7 +49,7 @@ cameraUpdates = Mixin(':camera-upd', {
 def frameMovement(gamedata, ftime):
     ctr, rot = gamedata['cam_ctr'], gamedata['cam_rot']
     dctr, drot = gamedata['d_cam_ctr'], gamedata['d_cam_rot']
-    fac = ftime / (1/60)
+    fac = ftime / (1/20)
     gamedata['cam_ctr'] = (
         ctr[0] + (dctr[0] * fac),
         ctr[1] + (dctr[1] * fac),
@@ -134,6 +134,9 @@ class PController(object):
     def get(self, x, setpoint):
         err = x - setpoint
         pComponent = self.kP * err
+        if abs(pComponent) < 0.03:
+            pComponent = 0.0
+        print(f'control/p ->> {pComponent}')
         return -pComponent
 
 followRotationController = PController(0.05)
