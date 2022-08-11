@@ -3,6 +3,7 @@
 import numpy as np
 
 from math import atan2
+import random
 
 import cpu_linalg
 from mix import Mixin
@@ -171,7 +172,7 @@ def setFollowTranslation(gamedata, ftime):
         dctr[1] = 0
     else:
         heading = edge.heading()
-        heading = cpu_linalg.sc(heading, tspeed)
+        heading = cpu_linalg.sc(heading, -tspeed)
         dctr[0] = heading[0]
         dctr[1] = heading[1]
     gamedata['d_cam_ctr'] = tuple(dctr)
@@ -190,8 +191,14 @@ def frameStartAndStop(gamedata, ftime):
     ctr = gamedata['cam_ctr']
     edge = gamedata['follow_edge']
     if edge.isBeyond(ctr):
+        '''
         gamedata['following_event'] = gamedata['is_following']
         gamedata['is_following'] = False
+        '''
+        graph = gamedata['follow_graph']
+        opts = graph.adjDict[edge.dst]
+        chosenEdge = random.choice(tuple(opts))
+        gamedata['follow_edge'] = chosenEdge.awayFrom(edge.dst)
 
 startAndStop = Mixin(':start-and-stop', {
     'handle': handleStartAndStop,
