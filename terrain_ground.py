@@ -4,6 +4,7 @@ import numpy as np
 
 from chunks import ChunkConfig
 from cpu_geom import Geometry, FillWith
+import heightmap
 from world_geometry import WorldGeometryObject
 
 defaultCCfg = ChunkConfig.default()
@@ -22,11 +23,12 @@ class GroundPlane(WorldGeometryObject):
     def getDefaultGeometry(self, playerChunk):
         # print('<start>', end='')
         # '''
-        z, step = -1.0, self.resolution
+        step = self.resolution
         L = []
         for chunk in self.ccfg.loadedFrom(playerChunk):
             for subchunk in chunk.subdivide(step):
                 start = subchunk.pos()
+                z = heightmap.getZ(start) - 2.0
                 start = (start[0], start[1], z)
                 corner1 = (start[0] + step, start[1], z)
                 corner2 = (start[0], start[1] + step, z)
