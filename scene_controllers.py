@@ -180,9 +180,10 @@ def setFollowTranslation(gamedata, ftime):
         dctr[1] = 0
     else:
         heading = edge.heading()
-        heading = cpu_linalg.sc(heading, -tspeed)
+        heading = cpu_linalg.sc(heading, tspeed)
         dctr[0] = heading[0]
         dctr[1] = heading[1]
+    print(gamedata['cam_ctr'])
     gamedata['d_cam_ctr'] = tuple(dctr)
 
 followTranslation = Mixin(':camera-tr-follow', {
