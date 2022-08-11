@@ -1,5 +1,7 @@
 # Kaidun (by HktOverload)
 
+from terrain_graph_utils import angle
+
 '''
 This is an implementation ofthe Bowyer-Watson algorithm for finding
 the Delaunay Triangulation (DT) of a set of points.
@@ -38,4 +40,40 @@ class Triangulation(object):
         for tri in self.refs:
             if badID in tri:
                 self.refs.discard(tri)
+
+    # Convert member of self.refs
+    # to the actual triangle
+    def getTri(self, tri):
+        return (
+            self.verts[tri[0]],
+            self.verts[tri[1]],
+            self.verts[tri[2]],
+        )
+
+# Formula found here:
+# [: Citation https://algs4.cs.princeton.edu/91primitives/ :]
+def isCCW(tri):
+    a = tri[0]
+    b = tri[1]
+    c = tri[2]
+    det = (b[0] - a[0]) * (c[1] - a[1])
+    det -= (c[0] - a[0]) * (b[1] - a[1])
+    return det > 0
+
+def det3x3(a, b, c, d, e, f, g, h, i):
+    return (a*e*i) - (a*f*h) - (b*d*i) + (b*f*g) + (c*d*h) - (c*e*g)
+
+def pointInCircumCircle(pt, tri):
+    if not isCCW(tri):
+        tri = reversed(tri)
+    a, b, c, d = tri[0], tri[1], tri[2], pt
+    det = det3x3(
+        (a[0] - d[0]), (a[1] - d[1]),
+        (a[0]**2 - d[0]**2) + (a[1]**2 - d[1]**2),
+        (b[0] - d[0]), (b[1] - d[1]),
+        (b[0]**2 - d[0]**2) + (b[1]**2 - d[1]**2),
+        (c[0] - d[0]), (c[1] - d[1]),
+        (c[0]**2 - d[0]**2) + (c[1]**2 - d[1]**2),
+    )
+    return det > 0
 
