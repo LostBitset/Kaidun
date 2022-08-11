@@ -19,6 +19,7 @@ class GroundPlane(object):
 
     # THE geometry ATTRIBUTE WILL BE None HERE!
     def getDefaultGeometry(self):
+        '''
         z, step = 0, self.resolution
         L = []
         for chunk in self.ccfg.loadedAt((0, 0, 0)):
@@ -32,8 +33,12 @@ class GroundPlane(object):
                 tri2 = [*end, *corner2, *start]
                 L.append(tri1)
                 L.append(tri2)
+        tris = np.array(L, dtype='f4')
+        '''
+        import scenes
+        tris = scenes.CubeScene.cube.tris
         geom = Geometry(
-            np.array(L, dtype='f4'),
+            tris,
             FillWith(
                 *self.auxContents,
                 dtype='f4',
