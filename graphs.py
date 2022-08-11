@@ -97,7 +97,7 @@ class DirectedEdgeIn2D(DirectedEdge):
         toSrc = manhattan(self.src, coord)
         toDst = manhattan(self.dst, coord)
         between = manhattan(self.src, self.dst)
-        return max(toSrc, toDst) > (between + 10**-5)
+        return max(toSrc, toDst) > (between - 10**-3)
 
 # Edges in 2D space are line segments, we can do special things with them
 class EdgeIn2D(Edge):

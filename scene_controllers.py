@@ -183,7 +183,6 @@ def setFollowTranslation(gamedata, ftime):
         heading = cpu_linalg.sc(heading, tspeed)
         dctr[0] = heading[0]
         dctr[1] = heading[1]
-    print(gamedata['cam_ctr'])
     gamedata['d_cam_ctr'] = tuple(dctr)
 
 followTranslation = Mixin(':camera-tr-follow', {
@@ -205,6 +204,10 @@ def frameStartAndStop(gamedata, ftime):
         gamedata['is_following'] = False
         '''
         graph = gamedata['follow_graph']
+        print('--- REACHED END OF EDGE ---')
+        print(f'| expected: {edge.dst}')
+        print(f'| got: {gamedata["cam_ctr"]}')
+        print('--- CONTINUING...')
         opts = graph.adjDict[edge.dst]
         opts.difference_update(edge.asUndirected())
         chosenEdge = random.choice(tuple(opts))
