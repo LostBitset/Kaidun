@@ -27,6 +27,7 @@ def mglwRootLoadHook(app, wincls):
 def startMGLWRoot(app, maxTimeWithoutGLRoot=0.1):
     app.mglwRedrawTime = time.time()
     app.maxTimeWithoutGLRoot = maxTimeWithoutGLRoot
+    app._hideRootWindow()
     mglw_main.main(
         load_hook=(
             lambda wincls: mglwRootLoadHook(app, wincls)
