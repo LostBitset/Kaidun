@@ -136,7 +136,6 @@ class PController(object):
         pComponent = self.kP * err
         if abs(pComponent) < 0.01:
             pComponent = 0.0
-        print(f'control/p ->> {pComponent}')
         return -pComponent
 
 followRotationController = PController(0.05)
