@@ -45,6 +45,18 @@ def testPointInCircumcircle_keyPressed(app, event):
 def testBoyerWatson_keyPressed(app, event):
     general_keyPressed(app, event)
 
+def drawExplanation(app, canvas):
+    text = \
+        '''
+        Press 1 to see if your mouse is inside the circumcircle of a triangle
+        Press 2 to test the full Boyer-Watson algorithm
+        '''
+    canvas.create_text(
+        app.width//2, app.height,
+        anchor='s',
+        text=text,
+    )
+
 def testPointInCircumcircle_mousePressed(app, event):
     app.wasInCircumcircle = pointInCircumcircle(
         (event.x, event.y),
@@ -55,6 +67,7 @@ def testPointInCircumcircle_mousePressed(app, event):
 def testPointInCircumcircle_redrawAll(app, canvas):
     color = 'green' if app.wasInCircumcircle else 'red'
     canvas.create_polygon(*app.testTri, fill=color)
+    drawExplanation(app, canvas)
 
 def testBoyerWatson_redrawAll(app, canvas):
     for tri in app.triangulation:
@@ -67,6 +80,7 @@ def testBoyerWatson_redrawAll(app, canvas):
             pt[0] - 5, pt[1] - 5, pt[0] + 5, pt[1] + 5,
             fill='red',
         )
+    drawExplanation(app, canvas)
 
 runApp(width=600, height=600)
 

@@ -73,7 +73,7 @@ def det3x3(a, b, c, d, e, f, g, h, i):
 # [: Citation https://en.wikipedia.org/wiki/Delaunay_triangulation :]
 def pointInCircumcircle(pt, tri):
     if not isCCW(tri):
-        tri = reversed(tri)
+        tri = list(reversed(tri))
     a, b, c, d = tri[0], tri[1], tri[2], pt
     det = det3x3(
         (a[0] - d[0]), (a[1] - d[1]),
