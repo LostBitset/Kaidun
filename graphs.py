@@ -20,6 +20,11 @@ class DirectedEdge(object):
     def flip(self):
         return (self.__class__)(self.dst, self.src)
 
+    def asUndirected(self, newcls=None):
+        if newcls == None:
+            newcls = Edge
+        return newcls(self.src, self.dst)
+
 class Edge(object):
     __slots__ = ('pts',)
 
@@ -66,6 +71,11 @@ class DirectedEdgeIn2D(DirectedEdge):
     def __repr__(self):
         orig = super().__repr__()
         return f'{{In2D}}{orig}'
+
+    def asUndirected(self, newcls=None):
+        if newcls == None:
+            newcls = EdgeIn2D
+        return super().asUndirected(newcls=newcls)
 
     # Get the heading as a normalized 2D vector
     def heading(self):

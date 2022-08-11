@@ -197,6 +197,7 @@ def frameStartAndStop(gamedata, ftime):
         '''
         graph = gamedata['follow_graph']
         opts = graph.adjDict[edge.dst]
+        opts.difference_update(edge.asUndirected())
         chosenEdge = random.choice(tuple(opts))
         gamedata['follow_edge'] = chosenEdge.awayFrom(edge.dst)
 
