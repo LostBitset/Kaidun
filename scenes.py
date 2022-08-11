@@ -84,9 +84,16 @@ class WorldScene(Scene):
 
     @classmethod
     def geometryState(cls, gamedata):
+        worldGeometry = gamedata['world_geometry']
+        chunkSize = worldGeometry.ccfg.size
+        playerChunk = (
+            gamedata['cam_ctr'][0] // chunkSize,
+            gamedata['cam_ctr'][1] // chunkSize,
+        )
         return (
             '~worldGeometryRef',
-            gamedata['world_geometry']
+            worldGeometry,
+            playerChunk,
         )
 
     @classmethod
@@ -98,7 +105,9 @@ class WorldScene(Scene):
                 f'`{cls.__name__}` cannot have geometry state {r}'
             )
         worldGeometry = geometryState[1]
-        return worldGeometry.placeAbsolute()
+        playerChunk = geometryState[2]
+        geometry = worldGeometry.geometryInChunk((0, 0, 0))
+        return geometry.placeAbsolute()
 
     @classmethod
     def getController(cls, gamedata):

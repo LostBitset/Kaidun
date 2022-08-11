@@ -33,6 +33,15 @@ class ChunkConfig(object):
                     cY + (point[1] // self.size),
                 )
 
+    def loadedFrom(self, chunk):
+        minC, maxC = -self.dist + 1, self.dist
+        for cX in range(minC, maxC):
+            for cY in range(minC, maxC):
+                yield self.getChunk(
+                    cX + chunk[0],
+                    cY + chunk[1],
+                )
+
     def getChunk(self, cX, cY):
         return Chunk(cX, cY, self.size)
 

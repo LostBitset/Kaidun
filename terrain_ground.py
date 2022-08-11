@@ -4,25 +4,26 @@ import numpy as np
 
 from chunks import ChunkConfig
 from cpu_geom import Geometry, FillWith
+from world_geometry import WorldGeometryObject
 
 defaultCCfg = ChunkConfig.default()
 
-class GroundPlane(object):
-    __slots__ = ('auxContents', 'resolution', 'ccfg', 'geometry')
+class GroundPlane(WorldGeometryObject):
+    __slots__ = ('auxContents', 'resolution', 'ccfg', 'geometryFn')
 
     def __init__(self, auxContents, resolution=0.5, ccfg=defaultCCfg):
         self.auxContents = auxContents
         self.resolution = resolution
         self.ccfg = ccfg
-        self.geometry = None
-        self.geometry = self.getDefaultGeometry()
+        self.geometryFn = None
+        self.geometryFn = self.getDefaultGeometry
 
-    # THE geometry ATTRIBUTE WILL BE None HERE!
-    def getDefaultGeometry(self):
+    # THE geometryFn ATTRIBUTE WILL BE None HERE!
+    def getDefaultGeometry(self, playerChunk):
         # '''
         z, step = -1.0, self.resolution
         L = []
-        for chunk in self.ccfg.loadedAt((0, 0, 0)):
+        for chunk in self.ccfg.loadedFrom(playerChunk):
             for subchunk in chunk.subdivide(step):
                 start = subchunk.pos()
                 print(start)
@@ -48,7 +49,6 @@ class GroundPlane(object):
         )
         return geom
 
-    # Get the geometry of the plane
-    def assemble(self):
-        return self.geometry
+    def geometryInChunk(self, playerChunk):
+        return (self.geometryFn)(playerChunk)
 

@@ -19,5 +19,5 @@ def genTestGraph():
 # Generate geometry from a the graph
 def fromGraph(graph):
     res = GroundPlane(unhexify(0xDC7633))
-    return res, res.assemble()
+    return res
 
