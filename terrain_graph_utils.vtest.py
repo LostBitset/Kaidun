@@ -1,4 +1,4 @@
-from terrain_graphs import incenter, distToSegment
+from terrain_graph_utils import incenter, distToSegment
 from graphs import DirectedEdgeIn2D
 
 from cmu_112_graphics import *
