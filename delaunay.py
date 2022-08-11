@@ -101,14 +101,15 @@ def boyerWatson(points, supertri):
             for tri in triangulation
             if pointInCircumcircle(point, tri)
         }
-        print(f'#badTriangles is {len(badTriangles)}', end=' ')
         polygon = {
-            badEdge
+            frozenset(badEdge)
             for badTri in badTriangles
             for badEdge in edgesOf(badTri)
             if not any(
                 badEdge == badEdge2
-                for badTri2 in badTriangles
+                for badTri2 in badTriangles.difference(
+                    {badTri}
+                )
                 for badEdge2 in edgesOf(badTri2)
             )
         }
