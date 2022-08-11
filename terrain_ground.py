@@ -4,7 +4,6 @@ import numpy as np
 
 from chunks import ChunkConfig
 from cpu_geom import Geometry, FillWith
-import heightmap
 from world_geometry import WorldGeometryObject
 
 defaultCCfg = ChunkConfig.default()
@@ -12,8 +11,9 @@ defaultCCfg = ChunkConfig.default()
 class GroundPlane(WorldGeometryObject):
     __slots__ = ('auxContents', 'resolution', 'ccfg', 'geometryFn')
 
-    def __init__(self, auxContents, resolution=0.5, ccfg=defaultCCfg):
-        self.auxContents = auxContents
+    def __init__(self, auxC, heightmap, resolution=0.5, ccfg=defaultCCfg):
+        self.auxContents = auxC
+        self.heightmap = heightmap
         self.resolution = resolution
         self.ccfg = ccfg
         self.geometryFn = None
@@ -28,11 +28,22 @@ class GroundPlane(WorldGeometryObject):
         for chunk in self.ccfg.loadedFrom(playerChunk):
             for subchunk in chunk.subdivide(step):
                 start = subchunk.pos()
-                z = heightmap.getZ(start) - 2.0
-                start = (start[0], start[1], z)
-                corner1 = (start[0] + step, start[1], z)
-                corner2 = (start[0], start[1] + step, z)
-                end = (start[0] + step, start[1] + step, z)
+                start = (
+                    start[0], start[1],
+                    self.heightmap.get((start[0], start[1])),
+                )
+                corner1 = (
+                    start[0] + step, start[1],
+                    self.heightmap.get((start[0] + step, start[1])),
+                )
+                corner2 = (
+                    start[0], start[1] + step,
+                    self.heightmap.get((start[0], start[1] + step)),
+                )
+                end = (
+                    start[0] + step, start[1] + step,
+                    self.heightmap.get((start[0] + step, start[1] + step)),
+                )
                 tri1 = [*start, *corner1, *end]
                 tri2 = [*end, *corner2, *start]
                 L.append(tri1)

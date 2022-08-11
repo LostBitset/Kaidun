@@ -1,5 +1,5 @@
 # Kaidun (by HktOverload)
 
-def getZ(_):
-    return 1.0
+def fromGraph(_):
+    return NotImplemented
 

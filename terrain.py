@@ -2,6 +2,7 @@
 
 import graphs
 
+import heightmap
 from scenes import unhexify
 from terrain_ground import GroundPlane
 
@@ -16,8 +17,11 @@ def genTestGraph():
     res.addEdge(edgecls(c, a))
     return res
 
-# Generate geometry from a the graph
+# Generate terrain geometry from a the graph
 def fromGraph(graph):
-    res = GroundPlane(unhexify(0xDC7633))
+    res = GroundPlane(
+        unhexify(0xDC7633),
+        heightmap.fromGraph(graph),
+    )
     return res
 
