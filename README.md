@@ -24,7 +24,7 @@ In other words, "What if temple run was a soulslike on a desolate alien planet?"
     - [X] Invokes ModernGL (an OpenGL interface) from `cmu_112_graphics`
     - [X] Scenes that define geometry and when to update it
     - [X] Controllers to handle events and shader code setup
-    - [X] Automatic reallocation of GPU vertex buffer when tri count changes
+    - [X] Automatic reallocation of GPU vertex buffer when necessary
     - [X] Full 3D written from scratch in GLSL
         - [X] Perspective camera implemented from scratch
         - [X] Lambertian component (Phong shading) 
@@ -46,11 +46,4 @@ The following command installs everything you need (it works on Debian 11):
 ```sh
 python -m pip install numpy glcontext moderngl moderngl_window 
 ```
-
-## Partial to-do list
-
-- [ ] Make a `Graph` class
-- [ ] Get follow to work along an edge
-- [ ] Get switching to work
-- [ ] Generate Delaunay triangulation
 
