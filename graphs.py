@@ -55,6 +55,9 @@ class Edge(object):
                 dst = pt
         return newcls(src, dst)
 
+    def toDirectedND(self, newcls=DirectedEdge):
+        pts = sorted(self.pts)
+        return newcls(pts[0], pts[1])
 
 # Directed line segments are the actually useful thing that this has been
 # working towards
@@ -89,6 +92,9 @@ class EdgeIn2D(Edge):
 
     def awayFrom(self, source, newcls=DirectedEdgeIn2D):
         return super().awayFrom(source, newcls=newcls)
+
+    def toDirectedND(self, newcls=DirectedEdgeIn2D):
+        return super().toDirectedND(newcls=newcls)
 
     def __repr__(self):
         orig = super().__repr__()

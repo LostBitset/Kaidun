@@ -62,12 +62,11 @@ class GameWindow(mglw.WindowConfig):
         # Camera
         zeroVec3 = (0, 0, 0)
         followEdge = next( i for i in followGraph.edges() )
+        followEdge = followEdge.toDirectedND()
         print(followEdge)
-        from graphs import DirectedEdgeIn2D
-        followEdge = DirectedEdgeIn2D((8.5, 4.0), (2.0, 2.0))
         self.gamedata.update({
             '<wnd>': self.wnd,
-            'cam_ctr': (8.5, 4.0, 0.5),
+            'cam_ctr': (followEdge.src[0], followEdge.src[1], 0.5),
             'd_cam_ctr': zeroVec3,
             'cam_rot': (np.pi/2, 0.0, 0.0),
             'd_cam_rot': zeroVec3,

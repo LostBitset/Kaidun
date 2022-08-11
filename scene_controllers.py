@@ -142,7 +142,7 @@ def setFollowRotation(gamedata, ftime):
         return
     rot = gamedata['cam_rot']
     drot = list(gamedata['d_cam_rot'])
-    edge = gamedata['follow_edge'].flip()
+    edge = gamedata['follow_edge']
     [y, x] = edge.heading()
     setpoints = [
         np.pi / 2,
