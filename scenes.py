@@ -112,10 +112,10 @@ class WorldScene(Scene):
             geometryState[2][0] * superchunk,
             geometryState[2][1] * superchunk,
         )
-        print('Calling geometryInChunk...', end='')
+        print('Calling geometryInChunk...')
         geometry = worldGeometry.geometryInChunk(playerChunk)
         print('done')
-        print('Placing geometry...', end='')
+        print('Placing geometry...')
         res = geometry.placeAbsolute()
         print('done')
         return res
