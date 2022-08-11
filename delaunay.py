@@ -50,6 +50,10 @@ class Triangulation(object):
             self.verts[tri[2]],
         )
 
+    def __iter__(self):
+        for triRef in self.refs:
+            return self.getTri(triRef)
+
 # Formula found here:
 # [: Citation https://algs4.cs.princeton.edu/91primitives/ :]
 def isCCW(tri):
@@ -60,10 +64,14 @@ def isCCW(tri):
     det -= (c[0] - a[0]) * (b[1] - a[1])
     return det > 0
 
+# Formula found here:
+# [: Citation https://planetcalc.com/157/ :]
 def det3x3(a, b, c, d, e, f, g, h, i):
     return (a*e*i) - (a*f*h) - (b*d*i) + (b*f*g) + (c*d*h) - (c*e*g)
 
-def pointInCircumCircle(pt, tri):
+# Formula found here:
+# [: Citation https://en.wikipedia.org/wiki/Delaunay_triangulation :]
+def pointInCircumcircle(pt, tri):
     if not isCCW(tri):
         tri = reversed(tri)
     a, b, c, d = tri[0], tri[1], tri[2], pt
@@ -76,4 +84,16 @@ def pointInCircumCircle(pt, tri):
         (c[0]**2 - d[0]**2) + (c[1]**2 - d[1]**2),
     )
     return det > 0
+
+# See citation at top of file
+def boyerWatson(points, supertri):
+    triangulation = Triangulation()
+    triangulation.addTri(supertri)
+    for point in points:
+        badTriangles = set()
+        for triRef in triangulation.refs:
+            tri = triangulation.getTri(triRef)
+            if pointInCircumcircle(point, tri):
+                badTriangles.add(tri)
+        polygon = set()
 
