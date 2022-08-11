@@ -24,7 +24,7 @@ class Edge(object):
     __slots__ = ('pts',)
 
     def __init__(self, p1, p2):
-        self.pts = {p1, p2}
+        self.pts = frozenset({p1, p2})
 
     def __iter__(self):
         for pt in self.pts:
@@ -34,7 +34,8 @@ class Edge(object):
         prefix = 'Edge('
         sep = ' <-> '
         suffix = ')'
-        return f'{prefix}{sep.join(self.pts)}{suffix}'
+        reprs = ( repr(i) for i in self.pts )
+        return f'{prefix}{sep.join(reprs)}{suffix}'
 
     def towards(self, dest, newcls=DirectedEdge):
         src, dst = None, None
@@ -81,10 +82,10 @@ class EdgeIn2D(Edge):
         orig = super().__repr__()
         return f'{{In2D}}{orig}'
 
-    def beyond(self, coord):
+    def isBeyond(self, coord):
         ordered = sorted(self.pts)
         dEdge = DirectedEdgeIn2D(ordered[0], ordered[1])
-        return dEdge.beyond(coord)
+        return dEdge.isBeyond(coord)
 
 # A graph represented as an adjacency list
 # [: Citation https://www.khanacademy.org/computing/computer-science/algorithms/graph-representation/a/representing-graphs :]
