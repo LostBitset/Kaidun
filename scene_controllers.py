@@ -225,6 +225,5 @@ movementWithKeys = Mixin(':camera-movement-all').use(
     followTranslation,
     followRotation,
     movement,
-    ensureShown,
 )
 
