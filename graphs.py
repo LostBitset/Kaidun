@@ -46,6 +46,15 @@ class Edge(object):
                 src = pt
         return newcls(src, dst)
 
+    def awayFrom(self, source, newcls=DirectedEdge):
+        src, dst = None, None
+        for pt in self.pts:
+            if pt == source:
+                src = pt
+            else:
+                dst = pt
+        return newcls(src, dst)
+
 
 # Directed line segments are the actually useful thing that this has been
 # working towards
@@ -77,6 +86,9 @@ class EdgeIn2D(Edge):
 
     def towards(self, dest, newcls=DirectedEdgeIn2D):
         return super().towards(dest, newcls=newcls)
+
+    def awayFrom(self, source, newcls=DirectedEdgeIn2D):
+        return super().awayFrom(source, newcls=newcls)
 
     def __repr__(self):
         orig = super().__repr__()
