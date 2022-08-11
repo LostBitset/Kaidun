@@ -67,7 +67,6 @@ class Geometry(object):
     # See vbo_utils.py for other vertex buffer stuff
     def place(self, loc):
         L = []
-        print('< bake normals and shit >')
         for tri in self.tris:
             normal = (0., 0., 1.)  # triNormal(tri)
             for i in range(0, 9, 3):
@@ -81,7 +80,6 @@ class Geometry(object):
                     L.append(v)
                 for v in normal:
                     L.append(v)
-        print('< add aux to vbo >')
         geometryPart = np.array(L, dtype='f4')
         shapeRank2 = (len(geometryPart)//6, 6)
         geometryPart = geometryPart.reshape(shapeRank2)
@@ -89,7 +87,6 @@ class Geometry(object):
             geometryPart,
             self.aux,
         ))
-        print('< flatten and ret >')
         return allRank2.reshape((allRank2.size,))
 
     # Place the geometry in the world
@@ -100,7 +97,6 @@ class Geometry(object):
     # See vbo_utils.py for other vertex buffer stuff
     def placeAbsolute(self):
         L = []
-        print('< bake normals and shit >')
         for tri in self.tris:
             normal = (0., 0., 1.)  # triNormal(tri)
             for i in range(0, 9, 3):
@@ -109,7 +105,6 @@ class Geometry(object):
                     L.append(v)
                 for v in normal:
                     L.append(v)
-        print('< add aux to vbo >')
         geometryPart = np.array(L, dtype='f4')
         shapeRank2 = (len(geometryPart)//6, 6)
         geometryPart = geometryPart.reshape(shapeRank2)
@@ -117,7 +112,5 @@ class Geometry(object):
             geometryPart,
             self.aux,
         ))
-        print('< flatten and ret >')
         return allRank2.reshape((allRank2.size,))
-
 
