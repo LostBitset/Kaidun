@@ -1,7 +1,5 @@
 # Kaidun (by HktOverload)
 
-from terrain_graph_utils import angle
-
 '''
 This is an implementation ofthe Bowyer-Watson algorithm for finding
 the Delaunay Triangulation (DT) of a set of points.
@@ -12,13 +10,14 @@ Based off of the explanation and pseudocode at:
 
 # During Bowyer-Watson, only three
 # extra vertices are ever added, so
-# this is way more memory efficient
+# this is (I think) more memory efficient
 # than a set of tuples or something
 class Triangulation(object):
-    __slots__ = ('verts', 'refs', 'counter')
+    __slots__ = ('verts', 'toVerts', 'refs', 'counter')
 
     def __init__(self):
         self.verts = dict()  # maps points to IDs
+        self.toVerts = dict()  # maps IDs to points
         self.refs = set()  # set of 3-tuples of IDs
         self.counter = 0  # Keep track of IDs
 
@@ -27,13 +26,14 @@ class Triangulation(object):
         for vert in tri:
             if vert not in self.verts:
                 self.verts[vert] = self.counter
+                self.toVerts[self.counter] = vert
                 self.counter += 1
             ids.append(self.verts[vert])
         self.refs.add(tuple(ids))
 
     def dropTri(self, tri):
         ids = [ self.verts[vert] for vert in tri ]
-        self.refs.discard(ids)
+        self.refs.discard(tuple(ids))
 
     def dropVertex(self, vert):
         badID = self.verts.pop(vert)
@@ -44,15 +44,17 @@ class Triangulation(object):
     # Convert member of self.refs
     # to the actual triangle
     def getTri(self, tri):
+        print(f'self.verts={self.verts}')
+        print(f'tri[0]={tri[0]}')
         return (
-            self.verts[tri[0]],
-            self.verts[tri[1]],
-            self.verts[tri[2]],
+            self.toVerts[tri[0]],
+            self.toVerts[tri[1]],
+            self.toVerts[tri[2]],
         )
 
     def __iter__(self):
         for triRef in self.refs:
-            return self.getTri(triRef)
+            yield self.getTri(triRef)
 
 # Formula found here:
 # [: Citation https://algs4.cs.princeton.edu/91primitives/ :]
@@ -94,6 +96,8 @@ def edgesOf(tri):
 def boyerWatson(points, supertri):
     triangulation = Triangulation()
     triangulation.addTri(supertri)
+    print(triangulation.refs)
+    print(triangulation.verts)
     for point in points:
         badTriangles = {
             tri
