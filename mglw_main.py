@@ -80,7 +80,7 @@ class GameWindow(mglw.WindowConfig):
         # Please read the documentation in the shader code itself
         # for citations
         self.prog['cam_near'].value = self.gamedata['cam_near']
-        self.prog['cam_dist'].value = 10.0
+        self.prog['cam_dist'].value = 9.0
         # Lighting
         self.prog['lighting_ambient'].value = 0.2
         self.prog['lighting_maxsc'].value = 1.15
@@ -96,7 +96,7 @@ class GameWindow(mglw.WindowConfig):
         # Distance fog
         self.fog_color = (0.2, 0.2, 0.2)
         self.prog['fog_color'].value = self.fog_color
-        self.prog['fog_attenuation_coef'].value = 2.9
+        self.prog['fog_attenuation_coef'].value = 3.1
         # Terrain and gravity
         self.gamedata.update({
             'player_height': 1.5,

@@ -46,6 +46,12 @@ cameraUpdates = Mixin(':camera-upd', {
     },
 }).use(control)
 
+lightFollowsPlayer = Mixin(':light-to-player', {
+    'shaderUpdates': lambda gamedata: {
+        'lighting_light_ctr': gamedata['cam_ctr'],
+    },
+})
+
 def frameMovement(gamedata, ftime):
     ctr, rot = gamedata['cam_ctr'], gamedata['cam_rot']
     dctr, drot = gamedata['d_cam_ctr'], gamedata['d_cam_rot']
@@ -236,5 +242,6 @@ movementWithKeys = Mixin(':camera-movement-all').use(
     followTranslation,
     followRotation,
     movement,
+    lightFollowsPlayer,
 )
 
