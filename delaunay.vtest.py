@@ -16,6 +16,8 @@ numVerts = 10
 
 unitSuperTri = [(-1, 1), (1, -1), (1, 1)]
 
+random.seed(9)
+
 def randUnit2():
     return (random.random(), random.random())
 
@@ -62,18 +64,32 @@ def testPointInCircumcircle_mouseMoved(app, event):
         (event.x, event.y),
         app.testTri,
     )
-    print(f'wasInCircumcircle={app.wasInCircumcircle}')
+    # print(f'wasInCircumcircle={app.wasInCircumcircle}')
 
 def testPointInCircumcircle_redrawAll(app, canvas):
     color = 'green' if app.wasInCircumcircle else 'red'
     canvas.create_polygon(*app.testTri, fill=color)
+    res = 10
+    for x in range(0, app.width, res):
+        for y in range(0, app.height, res):
+            if not pointInCircumcircle((x, y), app.testTri):
+                canvas.create_rectangle(
+                    x, y, x + res, y + res,
+                    fill='pink', width=0,
+                )
     drawExplanation(app, canvas)
 
 def testBoyerWatson_redrawAll(app, canvas):
+    count = 0
     for tri in app.triangulation:
+        count += 1
         for edge in edgesOf(tri):
-            print(sorted(edge))
-            canvas.create_line(*sorted(edge))
+            edge = [
+                [ int(coord * 500) + 50 for coord in vert ]
+                for vert in sorted(edge)
+            ]
+            canvas.create_line(*edge)
+    # print(f'triCount = {count}')
     for pt in app.points:
         pt = [ int(coord * 500) + 50 for coord in pt ]
         canvas.create_oval(

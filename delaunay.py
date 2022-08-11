@@ -86,9 +86,9 @@ def pointInCircumcircle(pt, tri):
     return det > 0
 
 def edgesOf(tri):
-    yield {tri[1], tri[2]}
-    yield {tri[0], tri[2]}
-    yield {tri[1], tri[2]}
+    yield frozenset([tri[1], tri[2]])
+    yield frozenset([tri[0], tri[2]])
+    yield frozenset([tri[0], tri[1]])
 
 # See citation at top of file
 def boyerWatson(points, supertri):
@@ -101,6 +101,27 @@ def boyerWatson(points, supertri):
             for tri in triangulation
             if pointInCircumcircle(point, tri)
         }
+        print(f'badTriangles={badTriangles}')
+        '''
+        polygon = set()
+        for badTri in badTriangles:
+            print('e')
+            print(list(edgesOf(badTri)))
+            edgeSet1 = set(edgesOf(badTri))
+            others = badTriangles.difference({badTri})
+            edgeSet2 = {
+                edge
+                for other in others
+                for edge in edgesOf(other)
+            }
+            print('- begin edgesets')
+            print(edgeSet1)
+            print('-')
+            print(edgeSet2)
+            print('- end edgesets')
+            if len(edgeSet1 & edgeSet2) == 0:
+                polygon.update(edgeSet1)
+        '''
         polygon = {
             frozenset(badEdge)
             for badTri in badTriangles
@@ -115,14 +136,22 @@ def boyerWatson(points, supertri):
         }
         print(f'polygon={polygon}')
         for badTri in badTriangles:
+            print('-', end=',')
             triangulation.dropTri(badTri)
         for edge in polygon:
             newTri = [point, *edge]
-            print('adding tri')
+            print('+', end=',')
             triangulation.addTri(newTri)
+    '''
+    connectedToSuper = []
     for tri in triangulation:
         for vert in tri:
             if vert in supertri:
-                triangulation.dropTri(tri)
+                connectedToSuper.append(tri)
+    for tri in connectedToSuper:
+        triangulation.dropTri(tri)
+    '''
+    print(f'total {len(triangulation.refs)}')
+    print([ i for i in triangulation ])
     return triangulation
 
