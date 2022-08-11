@@ -48,15 +48,16 @@ cameraUpdates = Mixin(':camera-upd', {
 def frameMovement(gamedata, ftime):
     ctr, rot = gamedata['cam_ctr'], gamedata['cam_rot']
     dctr, drot = gamedata['d_cam_ctr'], gamedata['d_cam_rot']
+    fac = ftime / (1/60)
     gamedata['cam_ctr'] = (
-        ctr[0] + dctr[0],
-        ctr[1] + dctr[1],
-        ctr[2] + dctr[2],
+        ctr[0] + (dctr[0] * fac),
+        ctr[1] + (dctr[1] * fac),
+        ctr[2] + (dctr[2] * fac),
     )
     gamedata['cam_rot'] = (
-        rot[0] + drot[0],
-        rot[1] + drot[1],
-        rot[2] + drot[2],
+        rot[0] + (drot[0] * fac),
+        rot[1] + (drot[1] * fac),
+        rot[2] + (drot[2] * fac),
     )
 
 movement = Mixin(':camera-movement', {
