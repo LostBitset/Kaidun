@@ -16,8 +16,6 @@ numVerts = 10
 
 unitSuperTri = [(-1, 1), (1, -1), (1, 1)]
 
-random.seed(9)
-
 def randUnit2():
     return (random.random(), random.random())
 

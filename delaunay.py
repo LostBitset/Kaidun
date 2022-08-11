@@ -142,7 +142,7 @@ def boyerWatson(points, supertri):
             newTri = [point, *edge]
             print('+', end=',')
             triangulation.addTri(newTri)
-    '''
+    # '''
     connectedToSuper = []
     for tri in triangulation:
         for vert in tri:
@@ -150,7 +150,7 @@ def boyerWatson(points, supertri):
                 connectedToSuper.append(tri)
     for tri in connectedToSuper:
         triangulation.dropTri(tri)
-    '''
+    # '''
     print(f'total {len(triangulation.refs)}')
     print([ i for i in triangulation ])
     return triangulation
