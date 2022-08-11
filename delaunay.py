@@ -92,6 +92,7 @@ def edgesOf(tri):
 
 # See citation at top of file
 def boyerWatson(points, supertri):
+    print('Starting boyerWatson...')
     triangulation = Triangulation()
     triangulation.addTri(supertri)
     for point in points:
@@ -100,6 +101,7 @@ def boyerWatson(points, supertri):
             for tri in triangulation
             if pointInCircumcircle(point, tri)
         }
+        print(f'#badTriangles is {len(badTriangles)}', end=' ')
         polygon = {
             badEdge
             for badTri in badTriangles
@@ -110,10 +112,12 @@ def boyerWatson(points, supertri):
                 for badEdge2 in edgesOf(badTri2)
             )
         }
+        print(f'polygon={polygon}')
         for badTri in badTriangles:
             triangulation.dropTri(badTri)
         for edge in polygon:
             newTri = [point, *edge]
+            print('adding tri')
             triangulation.addTri(newTri)
     for tri in triangulation:
         for vert in tri:
