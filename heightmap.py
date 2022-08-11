@@ -22,8 +22,9 @@ class Heightmap(object):
             return res
 
     def getValue(self, pos):
-        best, top3 = None, [None, None, None]
+        top3 = [None, None, None]
         for idx in range(0, 3):
+            best = None
             for edge in self.edges:
                 edge = edge.toDirectedND()
                 score = dist(edge.midpoint(), pos)
