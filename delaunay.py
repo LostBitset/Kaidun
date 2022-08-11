@@ -44,8 +44,6 @@ class Triangulation(object):
     # Convert member of self.refs
     # to the actual triangle
     def getTri(self, tri):
-        print(f'self.verts={self.verts}')
-        print(f'tri[0]={tri[0]}')
         return (
             self.toVerts[tri[0]],
             self.toVerts[tri[1]],
@@ -96,8 +94,6 @@ def edgesOf(tri):
 def boyerWatson(points, supertri):
     triangulation = Triangulation()
     triangulation.addTri(supertri)
-    print(triangulation.refs)
-    print(triangulation.verts)
     for point in points:
         badTriangles = {
             tri
