@@ -93,7 +93,7 @@ class WorldScene(Scene):
         return (
             '~worldGeometryRef',
             worldGeometry,
-            playerChunk[0] > 5,  # playerChunk,
+            playerChunk,
         )
 
     @classmethod
@@ -106,8 +106,7 @@ class WorldScene(Scene):
             )
         worldGeometry = geometryState[1]
         playerChunk = geometryState[2]
-        geometry = worldGeometry.geometryInChunk((0, 0, 0))
-        geometry = CubeScene.cube
+        geometry = worldGeometry.geometryInChunk(playerChunk)
         return geometry.placeAbsolute()
 
     @classmethod
