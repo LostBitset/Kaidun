@@ -86,7 +86,7 @@ class WorldScene(Scene):
     def geometryState(cls, gamedata):
         worldGeometry = gamedata['world_geometry']
         chunkSize = worldGeometry.ccfg.size
-        superchunk = chunkSize * 3
+        superchunk = chunkSize * 2
         playerChunk = (
             gamedata['cam_ctr'][0] // superchunk,
             gamedata['cam_ctr'][1] // superchunk,
@@ -112,8 +112,13 @@ class WorldScene(Scene):
             geometryState[2][0] * superchunk,
             geometryState[2][1] * superchunk,
         )
+        print('Calling geometryInChunk...', end='')
         geometry = worldGeometry.geometryInChunk(playerChunk)
-        return geometry.placeAbsolute()
+        print('done')
+        print('Placing geometry...', end='')
+        res = geometry.placeAbsolute()
+        print('done')
+        return res
 
     @classmethod
     def getController(cls, gamedata):
