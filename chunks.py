@@ -6,7 +6,7 @@ def euclidean2D(a, b):
     return hypot(a[0] - b[0], a[1] - b[1])
 
 defaultSize = 1
-defaultDist = 1
+defaultDist = 5
 
 class ChunkConfig(object):
     __slots__ = ('size', 'dist', 'metric')
