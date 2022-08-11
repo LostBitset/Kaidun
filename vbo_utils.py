@@ -1,5 +1,7 @@
 # Kaidun (by HktOverload)
 
+DEBUG_VBO_ACTIVITY = True
+
 class VertBufRef(object):
     __slots__ = 'buf', 'size'
 
@@ -15,21 +17,24 @@ class VertBufRef(object):
             raise Exception(err)
         # [: Citation https://moderngl.readthedocs.io/en/latest/reference/buffer.html :]
         self.buf.release()
-        print('> writing data to vbo@vram')
-        print('^ newData@cpu = ...')
+        if DEBUG_VBO_ACTIVITY:
+            print('> writing data to vbo@vram')
+            print('^ newData@cpu = ...')
         newSize = len(newData.tobytes())
-        print('> reallocating vbo@vram')
-        print(f'^ vbo size={self.size} -> size={newSize}')
+        if DEBUG_VBO_ACTIVITY:
+            print('> reallocating vbo@vram')
+            print(f'^ vbo size={self.size} -> size={newSize}')
         self.buf = alloc_fn(newSize)
-        print(f'^ vbo has repr {repr(self.buf)}')
         self.size = newSize
         self.buf.write(newData)
-        print('> write ok!')
+        if DEBUG_VBO_ACTIVITY:
+            print('> write ok!')
         if alloc_hook != None:
             alloc_hook()
-        print('> alloc_hook ok!')
-        print(f'^ alloc_hook = {alloc_hook}')
-        print('> reset finished')
+        if DEBUG_VBO_ACTIVITY:
+            print('> alloc_hook ok!')
+            print(f'^ alloc_hook = {repr(alloc_hook)[:30]}...')
+            print('> reset finished')
 
     @classmethod
     def makeAllocFn(cls, ctx):
