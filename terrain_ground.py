@@ -25,6 +25,7 @@ class GroundPlane(object):
         for chunk in self.ccfg.loadedAt((0, 0, 0)):
             for subchunk in chunk.subdivide(step):
                 start = subchunk.pos()
+                print(start)
                 start = (start[0], start[1], z)
                 corner1 = (start[0] + step, start[1], z)
                 corner2 = (start[0], start[1] + step, z)

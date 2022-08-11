@@ -49,13 +49,18 @@ class Chunk(object):
 
     def subdivide(self, resolution):
         x, y = 0, 0
+        xs, ys = [], []
         while x < self.size:
-            while y < self.size:
+            xs.append(x)
+            x += resolution
+        while y < self.size:
+            ys.append(y)
+            y += resolution
+        for x in xs:
+            for y in ys:
                 yield Chunk(
                     x + self.x,
                     y + self.y,
                     resolution,
                 )
-                x += resolution
-                y += resolution
 
