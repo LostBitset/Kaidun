@@ -1,12 +1,13 @@
 # Kaidun (by HktOverload)
 
-from terrain_graph_utils import distToSegment
+from terrain_graph_utils import dist, distToSegment
 
 class Heightmap(object):
     __slots__ = ('edges', 'memo')  # A list of EdgeIn2D objects
 
     def __init__(self, edges):
         self.edges = edges
+        print(self.edges)
         self.memo = dict()
 
     def get(self, pos):
@@ -21,12 +22,21 @@ class Heightmap(object):
             return res
 
     def getValue(self, pos):
+        best, top3 = None, [None, None, None]
+        for idx in range(0, 3):
+            for edge in self.edges:
+                edge = edge.toDirectedND()
+                score = dist(edge.midpoint(), pos)
+                if best == None or score < best:
+                    if edge not in top3:
+                        best = score
+                        top3[idx] = edge
         minDist = min(
             distToSegment(
                 edge.toDirectedND(),
                 pos,
             )
-            for edge in self.edges
+            for edge in top3
         )
         return max(0., min(1., minDist))
 
