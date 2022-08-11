@@ -20,7 +20,7 @@ class GroundPlane(object):
     # THE geometry ATTRIBUTE WILL BE None HERE!
     def getDefaultGeometry(self):
         # '''
-        z, step = 0, self.resolution
+        z, step = -1.0, self.resolution
         L = []
         for chunk in self.ccfg.loadedAt((0, 0, 0)):
             for subchunk in chunk.subdivide(step):
