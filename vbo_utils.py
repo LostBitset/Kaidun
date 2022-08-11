@@ -16,21 +16,20 @@ class VertBufRef(object):
         # [: Citation https://moderngl.readthedocs.io/en/latest/reference/buffer.html :]
         self.buf.release()
         print('> writing data to vbo@vram')
-        print('^ newData@cpu = begin')
-        print([ i for i in newData ])
-        print(newData.dtype)
-        print('^ end')
+        print('^ newData@cpu = ...')
         newSize = len(newData.tobytes())
-        if self.size != newSize:
-            print('> reallocating vbo@vram')
-            print(f'^ vbo size={self.size} -> size={newSize}')
-            self.buf = alloc_fn(newSize)
-            self.size = newSize
-        else:
-            alloc_hook = None
+        print('> reallocating vbo@vram')
+        print(f'^ vbo size={self.size} -> size={newSize}')
+        self.buf = alloc_fn(newSize)
+        print(f'^ vbo has repr {repr(self.buf)}')
+        self.size = newSize
         self.buf.write(newData)
+        print('> write ok!')
         if alloc_hook != None:
             alloc_hook()
+        print('> alloc_hook ok!')
+        print(f'^ alloc_hook = {alloc_hook}')
+        print('> reset finished')
 
     @classmethod
     def makeAllocFn(cls, ctx):
