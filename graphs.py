@@ -77,6 +77,11 @@ class DirectedEdgeIn2D(DirectedEdge):
             newcls = EdgeIn2D
         return super().asUndirected(newcls=newcls)
 
+    def midpoint(self):
+        res = cpu_linalg.add(self.src, self.dst)
+        res = cpu_linalg.sc(res, 2.)
+        return res
+
     # Get the heading as a normalized 2D vector
     def heading(self):
         res = cpu_linalg.add(
