@@ -86,14 +86,16 @@ class WorldScene(Scene):
     def geometryState(cls, gamedata):
         worldGeometry = gamedata['world_geometry']
         chunkSize = worldGeometry.ccfg.size
+        superchunk = chunkSize * 3
         playerChunk = (
-            gamedata['cam_ctr'][0] // chunkSize,
-            gamedata['cam_ctr'][1] // chunkSize,
+            gamedata['cam_ctr'][0] // superchunk,
+            gamedata['cam_ctr'][1] // superchunk,
         )
         return (
             '~worldGeometryRef',
             worldGeometry,
             playerChunk,
+            superchunk,
         )
 
     @classmethod
@@ -105,7 +107,11 @@ class WorldScene(Scene):
                 f'`{cls.__name__}` cannot have geometry state {r}'
             )
         worldGeometry = geometryState[1]
-        playerChunk = geometryState[2]
+        superchunk = geometryState[3]
+        playerChunk = (
+            geometryState[2][0] * superchunk,
+            geometryState[2][1] * superchunk,
+        )
         geometry = worldGeometry.geometryInChunk(playerChunk)
         return geometry.placeAbsolute()
 

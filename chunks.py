@@ -1,27 +1,20 @@
 # Kaidun (by HktOverload)
 
-from math import hypot
-
-def euclidean2D(a, b):
-    return hypot(a[0] - b[0], a[1] - b[1])
-
-defaultSize = 1
+defaultSize = 4
 defaultDist = 5
 
 class ChunkConfig(object):
-    __slots__ = ('size', 'dist', 'metric')
+    __slots__ = ('size', 'dist')
 
-    def __init__(self, size, dist, metric=euclidean2D):
+    def __init__(self, size, dist):
         self.size = size
         self.dist = dist
-        self.metric = metric
 
     @classmethod
     def default(cls):
         return cls(
             size=defaultSize,
             dist=defaultDist,
-            metric=euclidean2D,
         )
 
     def loadedAt(self, point):
