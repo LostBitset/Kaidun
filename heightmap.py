@@ -7,7 +7,7 @@ class Heightmap(object):
         self.edges = edges
 
     def get(self, pos):
-        raise NotImplementedError
+        return -1.0
 
 def fromGraph(graph):
     allEdges = set()

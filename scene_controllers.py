@@ -134,7 +134,7 @@ class PController(object):
     def get(self, x, setpoint):
         err = x - setpoint
         pComponent = self.kP * err
-        if abs(pComponent) < 0.03:
+        if abs(pComponent) < 0.01:
             pComponent = 0.0
         print(f'control/p ->> {pComponent}')
         return -pComponent
