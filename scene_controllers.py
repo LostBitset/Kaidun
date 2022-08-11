@@ -205,6 +205,17 @@ stopGracefully = Mixin(':stop-gracefully-rot', {
     'frame': frameStopGracefully,
 })
 
+# Taken from cmu_112_graphics
+def showTkWindow(root):
+    root.update()
+    root.deiconify()
+    root.lift()
+    root.focus()
+
+ensureShown = Mixin(':ensure-window-shown-tk', {
+    'frame': lambda gamedata, _: showTkWindow(gamedata['<wnd>']._tk)
+})
+
 movementWithKeys = Mixin(':camera-movement-all').use(
     startAndStop,
     stopGracefully,
@@ -214,5 +225,6 @@ movementWithKeys = Mixin(':camera-movement-all').use(
     followTranslation,
     followRotation,
     movement,
+    ensureShown,
 )
 

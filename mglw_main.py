@@ -66,6 +66,7 @@ class GameWindow(mglw.WindowConfig):
         from graphs import DirectedEdgeIn2D
         followEdge = DirectedEdgeIn2D((8.5, 4.0), (2.0, 2.0))
         self.gamedata.update({
+            '<wnd>': self.wnd,
             'cam_ctr': (8.5, 4.0, 0.5),
             'd_cam_ctr': zeroVec3,
             'cam_rot': (np.pi/2, 0.0, 0.0),
