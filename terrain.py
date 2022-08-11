@@ -2,6 +2,7 @@
 
 import graphs
 
+from scenes import unhexify
 from terrain_ground import GroundPlane
 
 def genTestGraph():
@@ -17,6 +18,6 @@ def genTestGraph():
 
 # Generate geometry from a the graph
 def fromGraph(graph):
-    res = GroundPlane()
+    res = GroundPlane(unhexify(0xDC7633))
     return res, res.assemble()
 

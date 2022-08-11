@@ -86,3 +86,6 @@ class Geometry(object):
         ))
         return allRank2.reshape((allRank2.size,))
 
+    def placeAbsolute(self):
+        return self.place((0, 0, 0))  # TODO use ZeroVec here
+

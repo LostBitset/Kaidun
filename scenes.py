@@ -98,7 +98,7 @@ class WorldScene(Scene):
                 f'`{cls.__name__}` cannot have geometry state {r}'
             )
         worldGeometry = geometryState[1]
-        return worldGeometry
+        return worldGeometry.placeAbsolute()
 
     @classmethod
     def getController(cls, gamedata):
