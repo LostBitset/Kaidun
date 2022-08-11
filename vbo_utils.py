@@ -26,9 +26,11 @@ class VertBufRef(object):
             print(f'^ vbo size={self.size} -> size={newSize}')
             self.buf = alloc_fn(newSize)
             self.size = newSize
-            if alloc_hook != None:
-                alloc_hook()
+        else:
+            alloc_hook = None
         self.buf.write(newData)
+        if alloc_hook != None:
+            alloc_hook()
 
     @classmethod
     def makeAllocFn(cls, ctx):
