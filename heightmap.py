@@ -33,7 +33,7 @@ class Heightmap(object):
                         top3[idx] = edge
         minDist = min(
             distToSegment(
-                edge.toDirectedND(),
+                edge,
                 pos,
             )
             for edge in top3
