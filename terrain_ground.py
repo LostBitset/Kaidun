@@ -20,7 +20,7 @@ class GroundPlane(WorldGeometryObject):
 
     # THE geometryFn ATTRIBUTE WILL BE None HERE!
     def getDefaultGeometry(self, playerChunk):
-        # '''
+        '''
         z, step = -1.0, self.resolution
         L = []
         for chunk in self.ccfg.loadedFrom(playerChunk):
@@ -39,7 +39,7 @@ class GroundPlane(WorldGeometryObject):
         '''
         import scenes
         tris = scenes.CubeScene.cube.tris
-        '''
+        # '''
         geom = Geometry(
             tris,
             FillWith(
@@ -50,5 +50,6 @@ class GroundPlane(WorldGeometryObject):
         return geom
 
     def geometryInChunk(self, playerChunk):
-        return (self.geometryFn)(playerChunk)
+        import scenes
+        return scenes.CubeScene.cube  # (self.geometryFn)(playerChunk)
 

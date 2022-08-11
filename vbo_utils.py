@@ -15,8 +15,15 @@ class VertBufRef(object):
             raise Exception(err)
         # [: Citation https://moderngl.readthedocs.io/en/latest/reference/buffer.html :]
         self.buf.release()
+        print('> writing data to vbo@vram')
+        print('^ newData@cpu = begin')
+        print([ i for i in newData ])
+        print(newData.dtype)
+        print('^ end')
         newSize = len(newData.tobytes())
         if self.size != newSize:
+            print('> reallocating vbo@vram')
+            print(f'^ vbo size={self.size} -> size={newSize}')
             self.buf = alloc_fn(newSize)
             self.size = newSize
             if alloc_hook != None:
