@@ -67,16 +67,21 @@ class Geometry(object):
     # See vbo_utils.py for other vertex buffer stuff
     def place(self, loc):
         L = []
+        print('< bake normals and shit >')
         for tri in self.tris:
-            normal = triNormal(tri)
+            normal = (0., 0., 1.)  # triNormal(tri)
             for i in range(0, 9, 3):
                 coord = tri[i:(i + 3)]
-                L.extend((
+                newCoord = (
                     coord[0] + loc[0],
                     coord[1] + loc[1],
                     coord[2] + loc[2],
-                ))
-                L.extend(normal)
+                )
+                for v in newCoord:
+                    L.append(v)
+                for v in normal:
+                    L.append(v)
+        print('< add aux to vbo >')
         geometryPart = np.array(L, dtype='f4')
         shapeRank2 = (len(geometryPart)//6, 6)
         geometryPart = geometryPart.reshape(shapeRank2)
@@ -84,8 +89,35 @@ class Geometry(object):
             geometryPart,
             self.aux,
         ))
+        print('< flatten and ret >')
         return allRank2.reshape((allRank2.size,))
 
+    # Place the geometry in the world
+    # This translates it from the tris 2D array
+    # and the aux 2D array to a 1D array that will
+    # be the new contents of the GPU vertex buffer
+    # See mglw_main.py for the format
+    # See vbo_utils.py for other vertex buffer stuff
     def placeAbsolute(self):
-        return self.place((0, 0, 0))  # TODO use ZeroVec here
+        L = []
+        print('< bake normals and shit >')
+        for tri in self.tris:
+            normal = (0., 0., 1.)  # triNormal(tri)
+            for i in range(0, 9, 3):
+                coord = tri[i:(i + 3)]
+                for v in coord:
+                    L.append(v)
+                for v in normal:
+                    L.append(v)
+        print('< add aux to vbo >')
+        geometryPart = np.array(L, dtype='f4')
+        shapeRank2 = (len(geometryPart)//6, 6)
+        geometryPart = geometryPart.reshape(shapeRank2)
+        allRank2 = np.hstack((
+            geometryPart,
+            self.aux,
+        ))
+        print('< flatten and ret >')
+        return allRank2.reshape((allRank2.size,))
+
 
