@@ -91,8 +91,11 @@ class WorldScene(Scene):
             dx = gamedata['drv_dx']
             dy = gamedata['drv_dy']
             angle = atan2(dy, dx)
-            angle = int(angle)
-            fac = 40.0
+            print(angle, end=',')
+            step = np.pi / 16
+            angle = int(angle / step) * step
+            print(angle)
+            fac = 10.0
             return (
                 pos[0] + (cos(angle) * fac),
                 pos[1] + (sin(angle) * fac),
