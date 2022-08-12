@@ -79,7 +79,7 @@ class DirectedEdgeIn2D(DirectedEdge):
 
     def midpoint(self):
         res = cpu_linalg.add(self.src, self.dst)
-        res = cpu_linalg.sc(res, 2.)
+        res = cpu_linalg.sc(res, .5)
         return res
 
     # Get the heading as a normalized 2D vector
@@ -89,6 +89,20 @@ class DirectedEdgeIn2D(DirectedEdge):
             self.dst,
         )
         res = cpu_linalg.norm(res)
+        return res
+
+    # t-values!
+    def atT(self, t):
+        res = cpu_linalg.ZeroVec
+        res = cpu_linalg.add(
+            res,
+            cpu_linalg.sc(self.src, 1. - t),
+        )
+        res = cpu_linalg.add(
+            res,
+            cpu_linalg.sc(self.dst, t),
+        )
+        res = cpu_linalg.sc(res, .5)
         return res
 
     # Check if the manhattan distance to a node is larger than the
