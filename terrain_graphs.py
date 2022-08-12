@@ -1,7 +1,8 @@
 # Kaidun (by HktOverload)
 
 import delaunay
-from graphs import Graph, EdgeIn2D
+import false_valley_checker
+import triangulations
 import terrain_graph_utils as u
 
 import random
@@ -13,10 +14,10 @@ def makeWorldGraph():
     superTri = ((-1, 1), (1, -1), (1, 1))
     triangulation = delaunay.boyerWatson(pts, superTri)
     print(triangulation)
-    scaled = ScaledTriangulation(triangulation)
-    while hasFalseValleys(scaled):
+    scaled = triangulations.ScaledView(triangulation)
+    while not false_valley_checker.ok(scaled):
         scaled.fac += 0.2
-    return graphOfTriangulation(scaled)
+    return triangulations.toGraph(scaled)
 
 def random1x1():
     return (
