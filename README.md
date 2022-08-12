@@ -3,21 +3,9 @@ A 3D game made in Python with moderngl
 
 ## Gameplay
 
-> All you know is that you were placed into cryopreservation against your own will,
-> that this planet was once a thriving metropolis instead of a hostile wasteland,
-> and of course, that you're awake now.
-
-- [ ] You're on a strange alien planet, with a complex network of interconnected mountains and flat valleys
-- [ ] The valleys are deep caverns that are practically impossible to escape from
-- [ ] You traverse the mountains (you can choose which path to take at forks)
-- [ ] Some ground is weak, you can tell based on how light the color of the soil is
-- [ ] Only reddish ground is perfectly safe, for everything else, avalanches are possible
-- [ ] These will send you tumbling into a deadly valley
-- [ ] When this happens, your space suit will use the last of its power to keep you alive
-- [ ] There isn't quite enough power for magic shields and remembering your recent progress, so you'll have to try again
-- [ ] Or you can just move on if you want, it's up to you, you can even come back later
-
-In other words, "What if temple run was a soulslike on a desolate alien planet?".
+The game mechanics are based off of Temple Run. In this version you fly over
+desert mountains on an alien planet, and try to collect artifacts without
+failing checkpoints.
 
 ## Complexity
 - [X] A simple 3D engine
@@ -33,17 +21,37 @@ In other words, "What if temple run was a soulslike on a desolate alien planet?"
         - [X] Bump mapping (finite-difference method)
         - [X] Procedural heightmaps for terrain surfaces
     - [X] Simple physics so you don't fall through the floor
+    - [X] Terrain organized into chunks, and generated from a heightmap
+    - [X] A chunk loading system
+- [ ] Following edges of a graph
+    - [X] Use t-values to determine position and derive heading
+    - [X] Randomly switch to possible new edges at the end
+    - [X] Rotation done using a P-controller
+    - [ ] Moving along the relative X axis
 - [ ] Procedural terrain generation
-    - [ ] Heightmaps based on Worley noise
-- [ ] Mostly realistic avalanches
-    - [ ] Deformation of existing terrain
-    - [ ] Persistence of terrain modification (deltas stored in save data)
+    - [X] Heightmaps derived from a graph where mountains are edges
+    - [X] A triangulation data structure
+    - [X] Delaunay Triangulation with Bowyer-Watson
+    - [X] Finding the incenter using barycentric coordinates
+    - [ ] Creating a random Delaunay Triangulation
+    - [ ] Expanding it until all incenters are far enough away from sides
+    - [ ] Conversion of triangulations into graphs
+- [ ] Artifacts
+    - [ ] Rendered without bump mapping
+    - [ ] Created and disappear properly
+    - [ ] Score saved to file
+    - [ ] Scores displayed in `cmu_112_graphics` window
+- [ ] Checkpoints
+    - [ ] Detect when checkpoints have been failed
+    - [ ] Change color when missed once
+    - [ ] If you miss twice, have gravity begin to act
+    - [ ] Restart when you fall down
 
 ## Requirements
 
 The following command installs everything you need (it works on Debian 11):
 
 ```sh
-python -m pip install numpy glcontext moderngl moderngl_window 
+python -m pip install numpy glcontext moderngl moderngl_window pyopengltk 
 ```
 
