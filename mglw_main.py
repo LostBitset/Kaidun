@@ -6,6 +6,7 @@ import numpy as np
 import moderngl_window as mglw
 import moderngl
 
+from checkpoints import Checkpoint
 import events
 import terrain
 import scenes as s
@@ -63,7 +64,10 @@ class GameWindow(mglw.WindowConfig):
         zeroVec3 = (0, 0, 0)
         followEdge = next( i for i in followGraph.edges() )
         followEdge = followEdge.toDirectedND()
-        print(followEdge)
+        print('initial followEdge set using toDirectedND')
+        print(f'^^^^^^^^^^^^^^^^^^ value: {followEdge}')
+        numCheckpoints = Checkpoint.gameCount
+        checkpoints = [ Checkpoint.random() for _ in range(numCheckpoints) ] 
         self.gamedata.update({
             '<wnd>': self.wnd,
             'cam_ctr': (followEdge.src[0], followEdge.src[1], 0.5),
@@ -78,6 +82,7 @@ class GameWindow(mglw.WindowConfig):
             'world_geometry': worldGeometry,
             'score': 0.0,
             'scoring_ts': time.time(),
+            'checkpoints': checkpoints,
         })
         # Everything after this point is a uniform for shader code
         # Please read the documentation in the shader code itself
