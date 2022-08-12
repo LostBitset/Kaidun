@@ -5,7 +5,6 @@ import numpy as np
 from math import copysign
 import random
 
-from cpu_geom import Geometry
 from terrain_graph_utils import dist
 
 class Checkpoints(object):
