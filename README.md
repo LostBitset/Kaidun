@@ -46,12 +46,11 @@ failing checkpoints.
     - [X] Creating a random Delaunay Triangulation
     - [X] Expanding it until all incenters are far enough away from sides
     - [X] Conversion of triangulations into graphs
-- [ ] Checkpoints
-    - [ ] Rendered without bump mapping
-    - [ ] Detect when checkpoints have been failed
-    - [ ] Change color when missed once
-    - [ ] If you miss twice, have gravity begin to act
-    - [ ] Restart when you fall down
+- [X] Checkpoints
+    - [X] Rendered without bump mapping
+    - [X] Rotated properly along all three rotation axes
+    - [X] Detect when checkpoints have been failed
+    - [X] Restart when you fall down
 
 ## Requirements
 
@@ -60,4 +59,6 @@ The following command installs everything you need (it works on Debian 11):
 ```sh
 python -m pip install numpy glcontext moderngl moderngl_window pyopengltk pynput
 ```
+
+Massive credit goes to the library authors for allowing this project to run at more than 2 FPS.
 
