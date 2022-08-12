@@ -3,18 +3,20 @@
 from terrain_graph_utils import dist, distToSegment
 
 class Heightmap(object):
-    __slots__ = ('edges', 'memo')  # A list of EdgeIn2D objects
+    __slots__ = ('edges', 'memo', 'triangulation')
+    # The property edges is a list of EdgeIn2D objects
 
-    def __init__(self, edges):
+    def __init__(self, edges, triangulation):
         self.edges = edges
         print(self.edges)
+        self.triangulation = triangulation
         self.memo = dict()
 
-    def get(self, pos, tri):
+    def get(self, pos):
         if pos in self.memo:
             return self.memo[pos]
         else:
-            res = self.getValue(pos, tri)
+            res = self.getValue(pos, getTri(pos))
             res -= 0.5
             res *= 2.0
             res -= 2.0
