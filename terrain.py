@@ -24,7 +24,7 @@ def makeGraph():
 def fromGraph(graph, triangulation):
     res = GroundPlane(
         unhexify(0xC2B280),
-        heightmap.fromGraph(graph),
+        heightmap.fromGraph(graph, triangulation),
     )
     return res
 

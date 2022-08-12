@@ -1,6 +1,7 @@
 # Kaidun (by HktOverload)
 
 from terrain_graph_utils import dist, distToSegment
+import triangulations
 
 class Heightmap(object):
     __slots__ = ('edges', 'memo', 'triangulation')
@@ -16,7 +17,10 @@ class Heightmap(object):
         if pos in self.memo:
             return self.memo[pos]
         else:
-            res = self.getValue(pos, getTri(pos))
+            res = self.getValue(
+                pos,
+                self.getTri(pos)
+            )
             res -= 0.5
             res *= 2.0
             res -= 2.0
@@ -67,9 +71,15 @@ class Heightmap(object):
         res = max(0., min(1., res))
         return res
 
-def fromGraph(graph):
+    def getTri(self, pos):
+        return triangulations.getCell(
+            self.triangulation,
+            pos
+        )
+
+def fromGraph(graph, triangulation):
     allEdges = set()
     for edges in graph.adjDict.values():
         allEdges.update(edges)
-    return Heightmap(list(allEdges))
+    return Heightmap(list(allEdges), triangulation)
 
