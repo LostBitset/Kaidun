@@ -102,7 +102,6 @@ class DirectedEdgeIn2D(DirectedEdge):
             res,
             cpu_linalg.sc(self.dst, t),
         )
-        res = cpu_linalg.sc(res, .5)
         return res
 
     # Check if the manhattan distance to a node is larger than the
