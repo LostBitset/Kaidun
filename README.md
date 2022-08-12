@@ -1,16 +1,23 @@
 # Kaidun
 A 3D game made in Python with moderngl
 
+## Gameplay in one sentence
+
+What if Temple Run was a flight simulator?
+
 ## Gameplay
 
 The game mechanics are inspired by Temple Run. In this version you fly over
 desert mountains on an alien planet, and try to travel as far as you can without
-failing checkpoints.
+failing checkpoints (shown as red triangles). You can use a and d to adjust the
+roll of your alien space-plane, and the try to match it with the roll of the
+checkpoint marker (the marker should appear as horizontal as possible). If you fail,
+the plane starts shaking and crashes. Start and stop by pressing the enter key.
 
 ## Running it
 
 - Just run `python main.py`
-    - Use the arrow keys to look around and z to jump
+    - Use the arrow keys to look around
     - Toggle following the mountains with the enter key
 - Files ending in `.test.py` are tests
 - Files ending in `.vtest.py` are "visual tests" for me to make sure things look right
@@ -47,10 +54,12 @@ failing checkpoints.
     - [X] Expanding it until all incenters are far enough away from sides
     - [X] Conversion of triangulations into graphs
 - [X] Checkpoints
+    - [X] Generation of checkpoints for each edge
     - [X] Rendered without bump mapping
     - [X] Rotated properly along all three rotation axes
     - [X] Detect when checkpoints have been failed
-    - [X] Restart when you fall down
+    - [X] Fall down and start camera shake when you fail
+    - [X] Restart when you crash
 
 ## Requirements
 
