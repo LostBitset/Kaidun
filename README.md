@@ -24,7 +24,16 @@ the plane starts shaking and crashes. Start and stop by pressing the enter key.
 - Files ending in `.vert` or `.frag` are OpenGL shaders
 - The `SAVEFILE.json` file is where your scores are stored (it's not tracked by git)
 
-## Complexity
+## Requirements
+The following command installs everything you need (it works on Debian 11):
+
+```sh
+python -m pip install numpy glcontext moderngl moderngl_window pyopengltk pynput
+```
+
+Massive credit goes to the library authors for allowing this project to run at more than 2 FPS.
+
+## Features
 - [X] A simple 3D engine
     - [X] Invokes ModernGL (an OpenGL interface) from `cmu_112_graphics`
     - [X] Scenes that define geometry and when to update it
@@ -60,14 +69,4 @@ the plane starts shaking and crashes. Start and stop by pressing the enter key.
     - [X] Detect when checkpoints have been failed
     - [X] Fall down and start camera shake when you fail
     - [X] Restart when you crash
-
-## Requirements
-
-The following command installs everything you need (it works on Debian 11):
-
-```sh
-python -m pip install numpy glcontext moderngl moderngl_window pyopengltk pynput
-```
-
-Massive credit goes to the library authors for allowing this project to run at more than 2 FPS.
 
