@@ -17,6 +17,17 @@ class DirectedEdge(object):
     def __repr__(self):
         return f'DEdge({self.src} -> {self.dst})'
 
+    def __eq__(self, other):
+        if not isinstance(other, self.__class__):
+            return False
+        return self.asTuple() == other.asTuple()
+
+    def __hash__(self):
+        return hash(self.asTuple())
+
+    def asTuple(self):
+        return (self.src, self.dst)
+
     def flip(self):
         return (self.__class__)(self.dst, self.src)
 
@@ -41,6 +52,14 @@ class Edge(object):
         suffix = ')'
         reprs = ( repr(i) for i in self.pts )
         return f'{prefix}{sep.join(reprs)}{suffix}'
+
+    def __eq__(self, other):
+        if not isinstance(other, self.__class__):
+            return False
+        return self.pts == other.pts
+
+    def __hash__(self):
+        return hash(self.pts)
 
     def towards(self, dest, newcls=DirectedEdge):
         src, dst = None, None

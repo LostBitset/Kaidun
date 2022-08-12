@@ -238,18 +238,17 @@ def frameStartAndStop(gamedata, ftime):
         print(f'| expected: {edge.dst}')
         print(f'| edge: {edge}')
         print(f'| ctr: {ctr}')
-        print('--- [[ edge.isBeyond(ctr) ]] CONTINUING...')
+        print('--- [[ t >= 1. ]] CONTINUING...')
         opts = graph.adjDict[edge.dst]
-        print('^^^ edge=', edge.asUndirected())
-        print('^^^ opts=', opts)
         opts.difference_update(edge.asUndirected())
         chosenEdge = random.choice(tuple(opts))
+        print(f'^^^ chosenEdge: {chosenEdge}')
         gamedata['follow_edge'] = chosenEdge.awayFrom(edge.dst)
         gamedata['follow_t'] = 0.0
         print('^^^ updating score...')
         scoring.updateScore(gamedata['scoring_ts'], gamedata['score'])
         gamedata['score'] = 0.0
-        print('ok')
+        print('^^^ all done')
 
 startAndStop = Mixin(':start-and-stop', {
     'handle': handleStartAndStop,
