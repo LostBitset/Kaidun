@@ -7,6 +7,14 @@ The game mechanics are inspired by Temple Run. In this version you fly over
 desert mountains on an alien planet, and try to travel as far as you can without
 failing checkpoints.
 
+## Running it
+
+- Just run `python main.py`
+- Files ending in `.test.py` are tests
+- Files ending in `.vtest.py` are "visual tests" for me to make sure things look right
+- Files ending in `.vert` or `.frag` are OpenGL shaders
+- The `SAVEFILE.json` file is where your scores are stored (it's not tracked by git)
+
 ## Complexity
 - [X] A simple 3D engine
     - [X] Invokes ModernGL (an OpenGL interface) from `cmu_112_graphics`
@@ -37,6 +45,7 @@ failing checkpoints.
     - [X] Expanding it until all incenters are far enough away from sides
     - [X] Conversion of triangulations into graphs
 - [ ] Checkpoints
+    - [ ] Rendered without bump mapping
     - [ ] Detect when checkpoints have been failed
     - [ ] Change color when missed once
     - [ ] If you miss twice, have gravity begin to act
