@@ -82,10 +82,29 @@ class CubeScene2(CubeScene):
             'origin': (3, 3, 3),
         }
 
+class CheckpointScene(Scene):
+
+    @classmethod
+    def geometryState(cls, gamedata):
+        pass  # TODO
+
+    @classmethod
+    def buildGeometry(cls, geometryState):
+        pass  # TODO
+
+    @classmethod
+    def getController(cls, gamedata):
+        raise Exception(
+            '''
+            {cls.__name__} does not specify a controller
+            (It is intended to be used in a scene group)
+            '''
+        )
+
 class WorldScene(Scene):
 
     @classmethod
-    def getPlayerViewCenter(self, gamedata):
+    def getPlayerViewCenter(cls, gamedata):
         pos = gamedata['cam_ctr']
         if 'drv_dx' in gamedata:
             dx = gamedata['drv_dx']
