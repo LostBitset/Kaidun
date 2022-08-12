@@ -19,7 +19,7 @@ def readSavefile():
     except:
         with open(SAVEFILE, 'w') as f:
             f.write(SAVEFILE_EMPTY)
-        return SAVEFILE_EMPTY
+        return SAVEFILE_EMPTY_OBJ
 
 def writeSavefile(data):
     dataAsJSON = json.dumps(data)
