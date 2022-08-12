@@ -70,6 +70,22 @@ class ScaledView(object):
         for triRef in self.triangulation.refs:
             yield self.getTri(triRef)
 
+def edgeTuples(tri):
+    yield (tri[1], tri[2])
+    yield (tri[0], tri[2])
+    yield (tri[0], tri[1])
+
 def toGraph(triangulation):
-    pass  # TODO
+    res = Graph()
+    verts = set()
+    for tri in triangulation:
+        for edge in edgeTuples(tri):
+            for vert in edge:
+                if vert not in verts:
+                    verts.add(vert)
+                    res.addNode(vert)
+            res.addEdge(
+                EdgeIn2D(edge[0], edge[1])
+            )
+    return res
 
