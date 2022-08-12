@@ -81,9 +81,9 @@ class GameWindow(mglw.WindowConfig):
         # Please read the documentation in the shader code itself
         # for citations
         self.prog['cam_near'].value = self.gamedata['cam_near']
-        self.prog['cam_dist'].value = 59.0
+        self.prog['cam_dist'].value = 10.0
         # Lighting
-        self.prog['lighting_ambient'].value = 0.2
+        self.prog['lighting_ambient'].value = 0.1
         self.prog['lighting_maxsc'].value = 1.15
         self.prog['lighting_light_ctr'] = (2.0, 2.0, 2.0)
         self.prog['lighting_light_brightness'] = 100.0
