@@ -126,9 +126,14 @@ jumping = Mixin(':jumping-event', {
 def frameGravity(gamedata, ftime):
     ctr = list(gamedata['cam_ctr'])
     dctr = list(gamedata['d_cam_ctr'])
-    if ctr[2] > 0:
-        dctr[2] -= 9.8 * (ftime ** 2)
+    thresh = 0
+    if gamedata['falling_from_the_sky']:
+        thresh = -0.9
+    if ctr[2] > thresh:
+        dctr[2] -= 2.9 * (ftime ** 2)
     elif dctr[2] < 0:
+        if gamedata['falling_from_the_sky']:
+            destroyWindow()
         dctr[2] = 0
         ctr[2] = 0
     gamedata['cam_ctr'] = tuple(ctr)
@@ -193,6 +198,9 @@ def setFollowRotation(gamedata, ftime):
             0.,
             atan2(y, x) + (np.pi / 2),
         ]
+        if gamedata['falling_from_the_sky']:
+            for i in range(len(setpoints)):
+                setpoints[i] += (random.random() - 0.5) / 10.
         for i in range(3):
             if i in gamedata.get('keys_control_rot_axes', set()):
                 continue
@@ -247,6 +255,7 @@ def frameStartAndStop(gamedata, ftime):
     ctr = gamedata['cam_ctr']
     edge = gamedata['follow_edge']
     if gamedata['follow_t'] > 1.0:
+        gamedata['falling_from_the_sky'] = True
         '''
         gamedata['following_event'] = gamedata['is_following']
         gamedata['is_following'] = False

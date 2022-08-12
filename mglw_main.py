@@ -82,6 +82,7 @@ class GameWindow(mglw.WindowConfig):
             'score': 0.0,
             'scoring_ts': time.time(),
             'checkpoints': checkpoints,
+            'falling_from_the_sky': False,
         })
         # Everything after this point is a uniform for shader code
         # Please read the documentation in the shader code itself
