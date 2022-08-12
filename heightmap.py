@@ -1,7 +1,9 @@
 # Kaidun (by HktOverload)
 
-from terrain_graph_utils import dist, minSideDist
+from terrain_graph_utils import minSideDist
 import triangulations
+
+import random
 
 class Heightmap(object):
     __slots__ = ('edges', 'memo', 'triangulation')
@@ -21,6 +23,8 @@ class Heightmap(object):
                 pos,
                 self.getTri(pos)
             )
+            res += random.random() / 15.
+            res = min(1., max(0., res))
             res -= 0.5
             res *= 2.0
             res -= 2.0

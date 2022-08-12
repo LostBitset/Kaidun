@@ -86,7 +86,7 @@ class GameWindow(mglw.WindowConfig):
         self.prog['lighting_ambient'].value = 0.1
         self.prog['lighting_maxsc'].value = 1.15
         self.prog['lighting_light_ctr'] = (2.0, 2.0, 2.0)
-        self.prog['lighting_light_brightness'] = 100.0
+        self.prog['lighting_light_brightness'] = 150.0
         # Lighting / Surface info
         # Information about albedo values for planets in the solar system:
         # [: Citation https://astronomy.swin.edu.au/cosmos/a/Albedo :]
