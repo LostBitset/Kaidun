@@ -2,9 +2,12 @@
 
 import numpy as np
 
-from math import copysign
+from math import atan2, copysign
 import random
 
+from cpu_geom import Geometry, FillWith
+import cpu_linalg
+from color_utils import unhexify
 from terrain_graph_utils import dist
 
 class Checkpoints(object):
@@ -67,7 +70,25 @@ class Checkpoint(object):
 
     def assemble(self, edge):
         pos = edge.atT(self.t)
-        import scenes as s
-        return s.CubeScene.buildGeometry({'origin':(*pos, 1)})
-
+        sx, sy = 0.2, 0.4
+        z = 0
+        (x, y) = edge.heading()
+        theta = atan2(y, x)
+        theta += 3*np.pi/2
+        verts = [(-sx, 0, z), (sx, 0, z), (0, sy, z)]
+        verts = [
+            cpu_linalg.rotMat(theta, self.roll, 0.) * i
+            for i in verts
+        ]
+        tri = [ j for i in verts for j in i ]
+        tri = [tri]
+        geom = Geometry(
+            np.array(tri, dtype='f4'),
+            FillWith(
+                *unhexify(0xFF0000),
+                0.0,
+                dtype='f4',
+            ),
+        )
+        return geom.place((*pos, +0.25))
 

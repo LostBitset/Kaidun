@@ -5,6 +5,7 @@ from math import sin, cos, atan2
 
 import numpy as np
 
+from color_utils import unhexify
 from checkpoints import Checkpoints
 from cpu_geom import Geometry, FillWith
 import scene_controllers as c
@@ -25,15 +26,6 @@ class Scene(abc.ABC):
     @abc.abstractmethod
     def getController(cls, gamedata):
         pass
-
-def unhexify(x):
-    r = x >> 0o20 & 0xFF
-    g = x >> 0o10 & 0xFF
-    b = x >> 0o00 & 0xFF
-    r /= 0xFF
-    g /= 0xFF
-    b /= 0xFF
-    return (r, g, b)
 
 class CubeScene(Scene, abc.ABC):
     cube = Geometry(
