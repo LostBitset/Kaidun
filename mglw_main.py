@@ -158,8 +158,11 @@ class GameWindow(mglw.WindowConfig):
             [
                 (
                     self.vbr.buf,  # TARGET
-                    '3f 3f 3f',    # FORMAT
-                    'vert', 'drv_surf_normal', 'aux_rgb',
+                    '3f 3f 3f f',    # FORMAT
+                    'vert',
+                    'drv_surf_normal',
+                    'aux_rgb',
+                    'bumpmapping_amt',
                 )
             ]
         )

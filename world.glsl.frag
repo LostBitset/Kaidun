@@ -16,6 +16,7 @@ in vec3 ideferred_bumpmapping_finite_diff_y_proj_v;
 in float fog_visibility_frac;
 in vec3 fog_component_rgb_partial;
 in vec3 position_3d;
+flat in float fwd_bumpmapping_amt;
 
 out vec3 color;
 
@@ -118,7 +119,11 @@ float deferred_component_bumpmapping_phong_lambertian() {
     vec3 aligned_normal = normalize(
         ideferred_phong_aligned_normal_nonunit
     );
-    bumpmapping_perturb_normal(aligned_normal);
+    // Either do it or don't
+    // This is fine for now
+    if (fwd_bumpmapping_amt > 0.5) {
+        bumpmapping_perturb_normal(aligned_normal);
+    }
     return lambertian_component_phong(to_i, aligned_normal);
 }
 

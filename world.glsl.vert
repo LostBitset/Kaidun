@@ -15,6 +15,7 @@
 in vec3 vert;
 in vec3 drv_surf_normal;
 in vec3 aux_rgb;
+in float bumpmapping_amt;
 
 out vec3 vert_color;
 out float illum;
@@ -28,6 +29,8 @@ out vec3 ideferred_bumpmapping_finite_diff_y_proj_v;
 out float fog_visibility_frac;				// See fog_attenuation_coef for citation
 out vec3 fog_component_rgb_partial;
 out vec3 position_3d;
+// For now just only either do bump mapping or don't
+flat out float fwd_bumpmapping_amt;
 
 uniform vec3 cam_ctr;
 uniform float cam_yaw;					// See camspace_rot for citation
@@ -183,6 +186,7 @@ void main() {
         ideferred_bumpmapping_finite_diff_x_proj_u,
         ideferred_bumpmapping_finite_diff_y_proj_v
     );
+    fwd_bumpmapping_amt = bumpmapping_amt;
 
     float fog_amt = distance_fog_amt(z);
     fog_component_rgb_partial = distance_fog_rgb_partial(fog_amt);
