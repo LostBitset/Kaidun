@@ -33,8 +33,8 @@ failing checkpoints.
     - [X] Delaunay Triangulation with Bowyer-Watson
     - [X] Finding the incenter using barycentric coordinates
     - [X] Creating a random Delaunay Triangulation
-    - [ ] Expanding it until all incenters are far enough away from sides
-    - [ ] Conversion of triangulations into graphs
+    - [X] Expanding it until all incenters are far enough away from sides
+    - [X] Conversion of triangulations into graphs
 - [ ] Artifacts
     - [ ] Rendered without bump mapping
     - [ ] Created and disappear properly
