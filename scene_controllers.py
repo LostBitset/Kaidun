@@ -240,6 +240,8 @@ def frameStartAndStop(gamedata, ftime):
         print(f'| ctr: {ctr}')
         print('--- [[ edge.isBeyond(ctr) ]] CONTINUING...')
         opts = graph.adjDict[edge.dst]
+        print('^^^ edge=', edge.asUndirected())
+        print('^^^ opts=', opts)
         opts.difference_update(edge.asUndirected())
         chosenEdge = random.choice(tuple(opts))
         gamedata['follow_edge'] = chosenEdge.awayFrom(edge.dst)
@@ -277,11 +279,15 @@ movementWithKeys = Mixin(':camera-movement-all').use(
     startAndStop,
     stopGracefully,
     rotationKeys,
-    jumping,
     gravity,
     followTranslation,
     followRotation,
     movement,
     lightFollowsPlayer,
 )
+
+# jumping isn't actually used
+# it was just to test the gravity impl
+# the alien plane-thing can spin really fast
+# but it can't jump
 
