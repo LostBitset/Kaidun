@@ -144,28 +144,29 @@ class PController(object):
             pComponent = 0.0
         return -pComponent
 
-followRotationController = PController(0.05)
+followRotationController = PController(1.0)
 
 def setFollowRotation(gamedata, ftime):
     if not gamedata['is_following']:
         return
-    rot = gamedata['cam_rot']
-    drot = list(gamedata['d_cam_rot'])
-    edge = gamedata['follow_edge']
-    [y, x] = edge.heading()
-    setpoints = [
-        np.pi / 2,
-        0,
-        -atan2(y, x),
-    ]
-    for i in range(3):
-        if i in gamedata.get('keys_control_rot_axes', set()):
-            continue
-        drot[i] = followRotationController.get(
-            rot[i],
-            setpoints[i],
-        )
-    gamedata['d_cam_rot'] = tuple(drot)
+    if 'drv_dx' in gamedata and 'drv_dy' in gamedata:
+        rot = gamedata['cam_rot']
+        drot = list(gamedata['d_cam_rot'])
+        x = gamedata['drv_dx']
+        y = gamedata['drv_dy']
+        setpoints = [
+            np.pi / 2,
+            0,
+            atan2(y, x) + (np.pi / 2),
+        ]
+        for i in range(3):
+            if i in gamedata.get('keys_control_rot_axes', set()):
+                continue
+            drot[i] = followRotationController.get(
+                rot[i],
+                setpoints[i],
+            )
+        gamedata['d_cam_rot'] = tuple(drot)
 
 followRotation = Mixin(':camera-rot-follow', {
     'frame': setFollowRotation,
@@ -182,9 +183,13 @@ def setFollowTranslation(gamedata, ftime):
     else:
         target = edge.atT(gamedata['follow_t'])
         ctr = list(gamedata['cam_ctr'])
+        dx = target[0] - ctr[0]
+        dy = target[1] - ctr[1]
         ctr[0] = target[0]
         ctr[1] = target[1]
         gamedata['cam_ctr'] = tuple(ctr)
+        gamedata['drv_dx'] = dx
+        gamedata['drv_dy'] = dy
         gamedata['follow_t'] += tspeed
 
 followTranslation = Mixin(':camera-tr-follow', {
