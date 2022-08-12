@@ -7,6 +7,10 @@ class Checkpoints(object):
     def __init__(self, items):
         self.items = items
 
+    @classmethod
+    def selectForEdge(cls, edge):
+        pass  # TODO
+
 class Checkpoint(object):
     __slots__ = ('t', 'roll')
 
