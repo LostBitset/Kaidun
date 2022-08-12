@@ -10,6 +10,7 @@ from checkpoints import Checkpoints
 import events
 import terrain
 import scene_groups as g
+import scoring
 from vbo_utils import VertBufRef
 
 '''
@@ -84,6 +85,9 @@ class GameWindow(mglw.WindowConfig):
             'checkpoints': checkpoints,
             'falling_from_the_sky': False,
         })
+        # Set the saved score to zero
+        scoringTimestamp = self.gamedata['scoring_ts']
+        scoring.updateScore(scoringTimestamp, 0)
         # Everything after this point is a uniform for shader code
         # Please read the documentation in the shader code itself
         # for citations
