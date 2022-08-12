@@ -81,8 +81,8 @@ def drawScoreInfo(app, canvas):
     ])
     canvas.create_text(
         app.width - 15, app.height - 15, anchor='se',
-        text=text, font='Monospace 40 bold',
-        fill='white',
+        text=text, font='Monospace 45 bold',
+        fill='#AAAAAA',
     )
 
 def maxSafe(L):
