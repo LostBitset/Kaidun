@@ -1,7 +1,7 @@
 # Kaidun (by HktOverload)
 
 defaultSize = 4
-defaultDist = 3
+defaultDist = 4
 
 class ChunkConfig(object):
     __slots__ = ('size', 'dist')
