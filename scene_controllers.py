@@ -255,7 +255,11 @@ def frameStartAndStop(gamedata, ftime):
     ctr = gamedata['cam_ctr']
     edge = gamedata['follow_edge']
     if gamedata['follow_t'] > 1.0:
+        '''
+        # Always fall from the sky at transitions
+        # (for testing falling)
         gamedata['falling_from_the_sky'] = True
+        '''
         '''
         gamedata['following_event'] = gamedata['is_following']
         gamedata['is_following'] = False
@@ -303,20 +307,26 @@ ensureShown = Mixin(':ensure-window-shown-tk', {
     'frame': lambda gamedata, _: showTkWindow(gamedata['<wnd>']._tk)
 })
 
-rollMatchingThreshold = 0.25
+rollMatchingThreshold = 0.5
 
 def frameRollMatching(gamedata, ftime):
     t = gamedata['follow_t']
     target = None
     for checkpoint in gamedata['checkpoints']:
         if t > checkpoint.t:
-            if abs(checkpoint.t - t) < 0.05:
+            if abs(checkpoint.t - t) < 0.01:
                 target = checkpoint
     if target == None:
         return
-    roll = gamedata['cam_rot'][2]
+    roll = -gamedata['cam_rot'][1]
+    # roll -= np.pi/2
+    print(f'{target.roll} <~~ {roll}')
     if abs(target.roll - roll) > rollMatchingThreshold:
         gamedata['falling_from_the_sky'] = True
+
+rollMatching = Mixin(':roll-matching', {
+    'frame': frameRollMatching,
+})
 
 movementWithKeys = Mixin(':camera-movement-all').use(
     startAndStop,
@@ -327,6 +337,7 @@ movementWithKeys = Mixin(':camera-movement-all').use(
     followRotation,
     movement,
     lightFollowsPlayer,
+    rollMatching,
 )
 
 # jumping isn't actually used
