@@ -68,5 +68,6 @@ class Checkpoint(object):
     def assemble(self, edge):
         pos = edge.atT(self.t)
         import scenes as s
-        return s.CubeScene.buildGeometry({'origin':pos})
+        return s.CubeScene.buildGeometry({'origin':(*pos, 1)})
+
 

@@ -100,7 +100,7 @@ class CheckpointScene(Scene):
                 It must be an instance of Checkpoints
                 '''
             )
-        return geometryState.asGeometry().placeAbsolute()
+        return geometryState.asGeometry()
 
     @classmethod
     def getController(cls, gamedata):
