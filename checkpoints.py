@@ -50,7 +50,7 @@ class Checkpoints(object):
 
     def asGeometry(self):
         return np.hstack([
-            checkpoint.assemble(self.edge).placeAbsolute()
+            checkpoint.assemble(self.edge)
             for checkpoint in self.items
         ])
 
@@ -66,5 +66,7 @@ class Checkpoint(object):
         return f'{c}(t={self.t}, roll={self.roll})'
 
     def assemble(self, edge):
-        pass  # TODO
+        pos = edge.atT(self.t)
+        import scenes as s
+        return s.CubeScene.buildGeometry({'origin':pos})
 

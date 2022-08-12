@@ -74,11 +74,12 @@ class Geometry(object):
     # See mglw_main.py for the format
     # See vbo_utils.py for other vertex buffer stuff
     def place(self, loc):
-        if loc in self.relMemo:
-            return self.relMemo[loc]
+        locTuple = tuple(loc)
+        if locTuple in self.relMemo:
+            return self.relMemo[locTuple]
         else:
             res = self.placeInternal(loc)
-            self.relMemo[loc] = res
+            self.relMemo[locTuple] = res
             return res
 
     def placeInternal(self, loc):
