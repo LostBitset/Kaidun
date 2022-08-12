@@ -1,12 +1,13 @@
 # Kaidun (by HktOverload)
 
-import graphs
-
 import heightmap
 from scenes import unhexify
 from terrain_ground import GroundPlane
+from terrain_graphs import makeWorldGraph
 
-def genTestGraph():
+def makeGraph():
+    # BEGIN TEMP
+    import graphs
     res = graphs.Graph()
     a, b, c = (0.0, 0.0), (10.0, -2.0), (2.0, -8.0)
     for i in (a, b, c):
@@ -16,6 +17,8 @@ def genTestGraph():
     res.addEdge(edgecls(b, c))
     res.addEdge(edgecls(c, a))
     return res
+    # END TEMP
+    return makeWorldGraph()
 
 # Generate terrain geometry from a the graph
 def fromGraph(graph):
