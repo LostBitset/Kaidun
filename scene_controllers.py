@@ -153,7 +153,7 @@ class PController(object):
             pComponent = 0.0
         if self.max != None:
             if abs(pComponent) > self.max:
-                return copysign(self.max, pComponent)
+                return -copysign(self.max, pComponent)
         return -pComponent
 
 # A variant of the proprtional controller that doesn't go the
@@ -165,8 +165,8 @@ class AnglePController(PController):
         adj = abs(x - setpoint)
         if adj > np.pi:
             return super().get(
-                (x + (3*np.pi)) % (2*np.pi),
-                (setpoint + (3*np.pi)) % (2*np.pi),
+                (x + (3*np.pi)) % (2*np.pi - 10**-5),
+                (setpoint + (3*np.pi)) % (2*np.pi - 10**-5),
             )
         else:
             return super().get(
@@ -189,7 +189,7 @@ def setFollowRotation(gamedata, ftime):
         y = gamedata['drv_dy']
         setpoints = [
             np.pi / 2,
-            np.pi,
+            0.,
             atan2(y, x) + (np.pi / 2),
         ]
         for i in range(3):
