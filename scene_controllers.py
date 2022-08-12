@@ -165,8 +165,8 @@ class AnglePController(PController):
         adj = abs(x - setpoint)
         if adj > np.pi:
             return super().get(
-                (x + (15*np.pi)) % (2*np.pi),
-                (setpoint + (15*np.pi)) % (2*np.pi),
+                (x + (3*np.pi)) % (2*np.pi),
+                (setpoint + (3*np.pi)) % (2*np.pi),
             )
         else:
             return super().get(
