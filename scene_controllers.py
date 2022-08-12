@@ -5,7 +5,7 @@ import numpy as np
 from math import atan2
 import random
 
-import cpu_linalg
+import terrain_graph_utils
 from mix import Mixin
 
 # This seems (at least to me) a lot like the Haskell liftA2 function
@@ -173,8 +173,10 @@ followRotation = Mixin(':camera-rot-follow', {
 })
 
 def setFollowTranslation(gamedata, ftime):
-    tspeed = 0.01
+    tspeed = 0.09
+    tspeed *= ftime * 30
     edge = gamedata['follow_edge']
+    tspeed /= terrain_graph_utils.dist(edge.src, edge.dst)
     if not gamedata['is_following']:
         dctr = list(gamedata['d_cam_ctr'])
         dctr[0] = 0
