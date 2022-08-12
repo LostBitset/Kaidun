@@ -73,18 +73,18 @@ movement = Mixin(':camera-movement', {
 }).use(cameraUpdates)
 
 def handleRotation(gamedata, event):
-    rspeed = 0.05
-    posKeys = ['up', 'o', 'left']
-    negKeys = ['down', 'p', 'right']
+    rspeed = [0.05, 0.01, 0.05]
+    posKeys = ['up', 'a', 'left']
+    negKeys = ['down', 'd', 'right']
     if 'keys_control_rot_axes' not in gamedata:
         gamedata['keys_control_rot_axes'] = set()
     drot = list(gamedata['d_cam_rot'])
     for ax in range(3):
         if event.isKeypress(posKeys[ax]):
-            drot[ax] += rspeed
+            drot[ax] += rspeed[ax]
             gamedata['keys_control_rot_axes'].add(ax)
         elif event.isKeypress(negKeys[ax]):
-            drot[ax] -= rspeed
+            drot[ax] -= rspeed[ax]
             gamedata['keys_control_rot_axes'].add(ax)
         else:
             isRelease = False
