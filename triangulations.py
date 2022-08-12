@@ -1,6 +1,7 @@
 # Kaidun (by HktOverload)
 
 import cpu_linalg
+from graphs import Graph, EdgeIn2D
 
 # During Bowyer-Watson, only three
 # extra vertices are ever added, so
@@ -68,4 +69,7 @@ class ScaledView(object):
     def __iter__(self):
         for triRef in self.triangulation.refs:
             yield self.getTri(triRef)
+
+def toGraph(triangulation):
+    pass  # TODO
 
