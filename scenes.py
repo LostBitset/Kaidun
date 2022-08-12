@@ -47,6 +47,7 @@ class CubeScene(Scene, abc.ABC):
         ), dtype='f4'),
         FillWith(
             *unhexify(0xDC7633),
+            0.0,
             dtype='f4'
         ),
     )
