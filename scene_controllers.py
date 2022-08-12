@@ -153,16 +153,16 @@ class AnglePController(PController):
         adj = abs(x - setpoint)
         if adj > np.pi:
             return super().get(
-                x + np.pi,
-                setpoint + np.pi,
+                (x + (3*np.pi)) % (2*np.pi),
+                (setpoint + (3*np.pi)) % (2*np.pi),
             )
         else:
-            return super.get(
+            return super().get(
                 x,
                 setpoint,
             )
 
-followRotationController = AnglePController(1.0)
+followRotationController = AnglePController(0.4)
 
 def setFollowRotation(gamedata, ftime):
     if not gamedata['is_following']:
