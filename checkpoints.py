@@ -34,7 +34,7 @@ class Checkpoints(object):
         for i in range(numSteps):
             signSource = random.random() - 0.5
             roll += copysign(stepRoll, signSource)
-            if abs(roll) > (2. * np.pi):
+            if abs(roll) > np.pi:
                 roll = copysign(0.4, signSource)
             if i in indices:
                 L.append(
