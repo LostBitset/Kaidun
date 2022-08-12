@@ -5,6 +5,7 @@ import numpy as np
 from math import copysign
 import random
 
+from cpu_geom import Geometry
 from terrain_graph_utils import dist
 
 class Checkpoints(object):
@@ -48,6 +49,12 @@ class Checkpoints(object):
         print('--- end checkpoints ---')
         return res
 
+    def asGeometry(self):
+        return np.hstack([
+            checkpoint.assemble(self.edge).placeAbsolute()
+            for checkpoint in self.items
+        ])
+
 class Checkpoint(object):
     __slots__ = ('t', 'roll')
 
@@ -58,4 +65,7 @@ class Checkpoint(object):
     def __repr__(self):
         c = self.__class__.__name__
         return f'{c}(t={self.t}, roll={self.roll})'
+
+    def assemble(self, edge):
+        pass  # TODO
 
