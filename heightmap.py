@@ -40,7 +40,10 @@ class Heightmap(object):
             )
             for edge in top3
         )
+        skipThresh = 0.5
         res = minDist
+        if minDist < skipThresh + 0.1:
+            return 1.0
         '''
         res = 1.0
         for edge in self.edges:
