@@ -1,6 +1,7 @@
 # Kaidun (by HktOverload)
 
 import numpy as np
+from pynput import keyboard as kb
 
 from math import atan2, copysign
 import random
@@ -236,6 +237,9 @@ def handleStartAndStop(gamedata, event):
     if event.isKeypress('enter'):
         gamedata['is_following'] ^= True
         gamedata['following_event'] = True
+
+def destroyWindow():
+    kb.Controller().press(kb.Key.esc)
 
 def frameStartAndStop(gamedata, ftime):
     # print(f't={gamedata["follow_t"]}')

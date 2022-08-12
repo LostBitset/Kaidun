@@ -58,6 +58,6 @@ failing checkpoints.
 The following command installs everything you need (it works on Debian 11):
 
 ```sh
-python -m pip install numpy glcontext moderngl moderngl_window pyopengltk 
+python -m pip install numpy glcontext moderngl moderngl_window pyopengltk pynput
 ```
 
