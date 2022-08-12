@@ -40,6 +40,8 @@ class Heightmap(object):
                         best = score
                         top3[idx] = edge
         '''
+        if tri == None:
+            return 0.0
         minDist = min(
             distToSegment(
                 edge,
