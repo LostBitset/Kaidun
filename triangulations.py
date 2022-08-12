@@ -89,3 +89,21 @@ def toGraph(triangulation):
             )
     return res
 
+# Formula for conversion into barycentric coorinates found here:
+# [: Citation https://stackoverflow.com/questions/13300904/determine-whether-point-lies-inside-triangle :]
+def toBarycentric(tri, x):
+    a, b, c = tri[0], tri[1], tri[2]
+    alpha = ((b[1]-c[1])*(x[0]-c[0])) + ((c[0]-b[0])*(x[1]-c[1]))
+    alpha /= ((b[1]-c[1])*(a[0]-c[0])) + ((c[0]-b[0])*(a[1]-c[1]))
+    beta = ((c[1]-a[1])*(x[0]-c[0])) + ((a[0]-c[0])*(x[1]-c[1]))
+    beta /= ((b[1]-c[1])*(a[0]-c[0])) + ((c[0]-b[0])*(a[1]-c[1]))
+    gamma = 1. - alpha - beta
+    return alpha, beta, gamma
+
+# See toBarycentric function for citation and where I got this useful routine
+def insideTri(tri, x):
+    barycentric = toBarycentric(tri, x)
+    return all(
+        baryCoord > 0 for baryCoord in barycentric
+    )
+
