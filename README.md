@@ -4,7 +4,7 @@ A 3D game made in Python with moderngl
 ## Gameplay
 
 The game mechanics are inspired by Temple Run. In this version you fly over
-desert mountains on an alien planet, and try to collect artifacts without
+desert mountains on an alien planet, and try to travel as far as you can without
 failing checkpoints.
 
 ## Complexity
