@@ -172,18 +172,20 @@ followRotation = Mixin(':camera-rot-follow', {
 })
 
 def setFollowTranslation(gamedata, ftime):
-    dctr = list(gamedata['d_cam_ctr'])
-    tspeed = 0.1
+    tspeed = 0.01
     edge = gamedata['follow_edge']
     if not gamedata['is_following']:
+        dctr = list(gamedata['d_cam_ctr'])
         dctr[0] = 0
         dctr[1] = 0
+        gamedata['d_cam_ctr'] = tuple(dctr)
     else:
-        heading = edge.heading()
-        heading = cpu_linalg.sc(heading, tspeed)
-        dctr[0] = heading[0]
-        dctr[1] = heading[1]
-    gamedata['d_cam_ctr'] = tuple(dctr)
+        target = edge.atT(gamedata['follow_t'])
+        ctr = list(gamedata['cam_ctr'])
+        ctr[0] = target[0]
+        ctr[1] = target[1]
+        gamedata['cam_ctr'] = tuple(ctr)
+        gamedata['follow_t'] += tspeed
 
 followTranslation = Mixin(':camera-tr-follow', {
     'frame': setFollowTranslation,
@@ -195,10 +197,11 @@ def handleStartAndStop(gamedata, event):
         gamedata['following_event'] = True
 
 def frameStartAndStop(gamedata, ftime):
+    print(f't={gamedata["follow_t"]}')
     gamedata['following_event'] = False
     ctr = gamedata['cam_ctr']
     edge = gamedata['follow_edge']
-    if edge.isBeyond(ctr):
+    if gamedata['follow_t'] > 1.0:
         '''
         gamedata['following_event'] = gamedata['is_following']
         gamedata['is_following'] = False
@@ -213,6 +216,7 @@ def frameStartAndStop(gamedata, ftime):
         opts.difference_update(edge.asUndirected())
         chosenEdge = random.choice(tuple(opts))
         gamedata['follow_edge'] = chosenEdge.awayFrom(edge.dst)
+        gamedata['follow_t'] = 0.0
 
 startAndStop = Mixin(':start-and-stop', {
     'handle': handleStartAndStop,
