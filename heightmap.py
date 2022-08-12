@@ -22,7 +22,7 @@ class Heightmap(object):
             return res
 
     def getValue(self, pos):
-        '''
+        # '''
         top3 = [None, None, None]
         for idx in range(0, 3):
             best = None
@@ -47,7 +47,7 @@ class Heightmap(object):
             for vert in edge:
                 if dist(vert, pos) < 3.0:
                     res = 0.0
-        # '''
+        '''
         res = max(0., min(1., res))
         res = 1. - res
         return res
