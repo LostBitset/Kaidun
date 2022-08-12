@@ -27,15 +27,15 @@ class Checkpoints(object):
         numSteps = 10 * cls.count
         step = 1. / numSteps
         stepDistance = dist(edge.src, edge.dst)
-        radsPerMeter = 0.005
+        radsPerMeter = 0.002
         stepRoll = stepDistance * radsPerMeter
         roll = 0.0
         indices = {
-            random.randrange(0, numSteps)
+            random.randrange(10, numSteps)
             for _ in range(cls.count)
         }
         L = []
-        for i in range(numSteps):
+        for i in range(10, numSteps):
             signSource = random.random() - 0.5
             roll += copysign(stepRoll, signSource)
             if abs(roll) > np.pi:
