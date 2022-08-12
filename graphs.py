@@ -94,6 +94,7 @@ class DirectedEdgeIn2D(DirectedEdge):
     # Check if the manhattan distance to a node is larger than the
     # manhattan distance between the nodes
     def isBeyond(self, coord):
+        coord = (coord[0], coord[1])
         toSrc = manhattan(self.src, coord)
         toDst = manhattan(self.dst, coord)
         between = manhattan(self.src, self.dst)
