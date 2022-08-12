@@ -23,11 +23,12 @@ failing checkpoints.
     - [X] Simple physics so you don't fall through the floor
     - [X] Terrain organized into chunks, and generated from a heightmap
     - [X] A chunk loading system
-- [X] Following edges of a graph
+- [ ] Following edges of a graph
     - [X] Use t-values to determine position and derive heading
     - [X] Randomly switch to possible new edges at the end
     - [X] Rotation done using a P-controller
-- [ ] Procedural terrain generation
+    - [ ] Keeps track of how far you've traveled
+- [X] Procedural terrain generation
     - [X] Heightmaps derived from a graph where mountains are edges
     - [X] A triangulation data structure
     - [X] Delaunay Triangulation with Bowyer-Watson
@@ -35,11 +36,6 @@ failing checkpoints.
     - [X] Creating a random Delaunay Triangulation
     - [X] Expanding it until all incenters are far enough away from sides
     - [X] Conversion of triangulations into graphs
-- [ ] Artifacts
-    - [ ] Rendered without bump mapping
-    - [ ] Created and disappear properly
-    - [ ] Score saved to file
-    - [ ] Scores displayed in `cmu_112_graphics` window
 - [ ] Checkpoints
     - [ ] Detect when checkpoints have been failed
     - [ ] Change color when missed once
