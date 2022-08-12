@@ -10,19 +10,19 @@ class Heightmap(object):
         print(self.edges)
         self.memo = dict()
 
-    def get(self, pos):
+    def get(self, pos, tri):
         if pos in self.memo:
             return self.memo[pos]
         else:
-            res = self.getValue(pos)
+            res = self.getValue(pos, tri)
             res -= 0.5
             res *= 2.0
             res -= 2.0
             self.memo[pos] = res
             return res
 
-    def getValue(self, pos):
-        # '''
+    def getValue(self, pos, tri):
+        '''
         top3 = [None, None, None]
         for idx in range(0, 3):
             best = None
@@ -33,12 +33,13 @@ class Heightmap(object):
                     if edge not in top3:
                         best = score
                         top3[idx] = edge
+        '''
         minDist = min(
             distToSegment(
                 edge,
                 pos,
             )
-            for edge in top3
+            for edge in tri
         )
         skipThresh = 0.5
         res = minDist

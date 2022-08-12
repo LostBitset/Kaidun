@@ -57,8 +57,8 @@ class GameWindow(mglw.WindowConfig):
         )
         self.updateVAO()
         # World geometry
-        followGraph = terrain.makeGraph()
-        worldGeometry = terrain.fromGraph(followGraph)
+        triangulation, followGraph = terrain.makeGraph()
+        worldGeometry = terrain.fromGraph(followGraph, triangulation)
         # Camera
         zeroVec3 = (0, 0, 0)
         followEdge = next( i for i in followGraph.edges() )

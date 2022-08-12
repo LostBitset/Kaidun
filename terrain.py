@@ -21,7 +21,7 @@ def makeGraph():
     # END TEMP
 
 # Generate terrain geometry from a the graph
-def fromGraph(graph):
+def fromGraph(graph, triangulation):
     res = GroundPlane(
         unhexify(0xC2B280),
         heightmap.fromGraph(graph),
