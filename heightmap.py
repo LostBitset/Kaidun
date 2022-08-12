@@ -50,7 +50,7 @@ class Heightmap(object):
         '''
         res = max(0., min(1., res))
         res = 1. - res
-        res *= 2.
+        res *= 2.1
         for edge in self.edges:
             for vert in edge:
                 distance = dist(vert, pos)
