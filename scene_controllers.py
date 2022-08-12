@@ -130,7 +130,7 @@ def frameGravity(gamedata, ftime):
     if gamedata['falling_from_the_sky']:
         thresh = -0.9
     if ctr[2] > thresh:
-        dctr[2] -= 2.9 * (ftime ** 2)
+        dctr[2] -= 1.2 * (ftime ** 2)
     elif dctr[2] < 0:
         if gamedata['falling_from_the_sky']:
             destroyWindow()
@@ -302,6 +302,21 @@ def showTkWindow(root):
 ensureShown = Mixin(':ensure-window-shown-tk', {
     'frame': lambda gamedata, _: showTkWindow(gamedata['<wnd>']._tk)
 })
+
+rollMatchingThreshold = 0.25
+
+def frameRollMatching(gamedata, ftime):
+    t = gamedata['follow_t']
+    target = None
+    for checkpoint in gamedata['checkpoints']:
+        if t > checkpoint.t:
+            if abs(checkpoint.t - t) < 0.05:
+                target = checkpoint
+    if target == None:
+        return
+    roll = gamedata['cam_rot'][2]
+    if abs(target.roll - roll) > rollMatchingThreshold:
+        gamedata['falling_from_the_sky'] = True
 
 movementWithKeys = Mixin(':camera-movement-all').use(
     startAndStop,
