@@ -8,11 +8,12 @@ import random
 from terrain_graph_utils import dist
 
 class Checkpoints(object):
-    __slots__ = ('items',)
+    __slots__ = ('items', 'edge')
     count = 10
 
-    def __init__(self, items):
+    def __init__(self, items, edge):
         self.items = items
+        self.edge = edge
 
     def __iter__(self):
         for checkpoint in self.items:
@@ -40,7 +41,7 @@ class Checkpoints(object):
                 L.append(
                     Checkpoint(i * step, roll)
                 )
-        res = cls(L)
+        res = cls(L, edge)
         print('--- new checkpoints ---')
         for checkpoint in res:
             print(f'| ~> {checkpoint}')

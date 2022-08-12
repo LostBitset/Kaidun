@@ -5,6 +5,7 @@ import numpy as np
 from math import atan2, copysign
 import random
 
+from checkpoints import Checkpoints
 from mix import Mixin
 import terrain_graph_utils
 import scoring
@@ -261,7 +262,9 @@ def frameStartAndStop(gamedata, ftime):
         print('^^^ updating score...')
         scoring.updateScore(gamedata['scoring_ts'], gamedata['score'])
         gamedata['score'] = 0.0
-        print('^^^ all done')
+        print('^^^ all done, starting checkpoint generation...')
+        newEdge = gamedata['follow_edge']
+        gamedata['checkpoints'] = Checkpoints.selectForEdge(newEdge)
 
 startAndStop = Mixin(':start-and-stop', {
     'handle': handleStartAndStop,
