@@ -71,9 +71,9 @@ class ScaledView(object):
             yield self.getTri(triRef)
 
 def edgeTuples(tri):
-    yield (tri[1], tri[2])
-    yield (tri[0], tri[2])
-    yield (tri[0], tri[1])
+    yield (tuple(tri[1]), tuple(tri[2]))
+    yield (tuple(tri[0]), tuple(tri[2]))
+    yield (tuple(tri[0]), tuple(tri[1]))
 
 def toGraph(triangulation):
     res = Graph()
