@@ -27,7 +27,7 @@ class Checkpoints(object):
         numSteps = 10 * cls.count
         step = 1. / numSteps
         stepDistance = dist(edge.src, edge.dst)
-        radsPerMeter = 0.05
+        radsPerMeter = 0.005
         stepRoll = stepDistance * radsPerMeter
         roll = 0.0
         indices = {
