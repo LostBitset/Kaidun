@@ -117,13 +117,17 @@ float atan2(in vec2 v) {
     return atan(v.y, v.x);
 }
 
-// Based on information at:
+// Derived from information at:
 // [: Citation https://en.wikipedia.org/wiki/Cosine_similarity :]
 float angle3(in vec3 a, in vec3 b) {
     float cosine_distance = dot(a, b) / (length(a) * length(b));
     return acos(cosine_distance);
 }
 
+// Oren-nayar reflectance
+// Done with Gouraud shading to save compute
+// Most of this came from these very helpful slides:
+// [: Citation http://www.cs.cmu.edu/afs/cs/academic/class/16823-s16/www/pdfs/appearance-modeling-5.pdf :]
 float get_icom_oren_nayar(in float illum) {
     vec3 to_i = normalize(lighting_light_ctr - vert);
     vec3 to_r = normalize(cam_ctr - vert);
@@ -148,6 +152,7 @@ void update_illum_ambient(inout float illum) {
     illum = clamp(illum + lighting_ambient, 0.0, lighting_maxsc);
 }
 
+// [: Citation https://en.wikipedia.org/wiki/Light_scattering_by_particles :]
 float distance_fog_amt(in float current_zbuffer) {
     float contrast = exp(-fog_attenuation_coef * current_zbuffer);
     return 1.0 - contrast;
@@ -197,3 +202,4 @@ void main() {
     gl_Position = vec4(pos, z, 1.0);
     position_3d = vert;
 }
+
