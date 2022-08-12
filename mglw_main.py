@@ -76,6 +76,8 @@ class GameWindow(mglw.WindowConfig):
             'is_following': False,
             'follow_t': 0.0,
             'world_geometry': worldGeometry,
+            'score': 0.0,
+            'scoring_ts': time.time(),
         })
         # Everything after this point is a uniform for shader code
         # Please read the documentation in the shader code itself

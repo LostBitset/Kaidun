@@ -5,8 +5,9 @@ import numpy as np
 from math import atan2
 import random
 
-import terrain_graph_utils
 from mix import Mixin
+import terrain_graph_utils
+import scoring
 
 # This seems (at least to me) a lot like the Haskell liftA2 function
 # That's where it got this name
@@ -242,6 +243,10 @@ def frameStartAndStop(gamedata, ftime):
         chosenEdge = random.choice(tuple(opts))
         gamedata['follow_edge'] = chosenEdge.awayFrom(edge.dst)
         gamedata['follow_t'] = 0.0
+        print('^^^ updating score...')
+        scoring.updateScore(gamedata['scoring_ts'], gamedata['score'])
+        gamedata['score'] = 0.0
+        print('ok')
 
 startAndStop = Mixin(':start-and-stop', {
     'handle': handleStartAndStop,
