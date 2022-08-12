@@ -23,11 +23,11 @@ failing checkpoints.
     - [X] Simple physics so you don't fall through the floor
     - [X] Terrain organized into chunks, and generated from a heightmap
     - [X] A chunk loading system
-- [ ] Following edges of a graph
+- [X] Following edges of a graph
     - [X] Use t-values to determine position and derive heading
     - [X] Randomly switch to possible new edges at the end
     - [X] Rotation done using a P-controller
-    - [ ] Keeps track of how far you've traveled
+    - [X] Keeps track of how far you've traveled
 - [X] Procedural terrain generation
     - [X] Heightmaps derived from a graph where mountains are edges
     - [X] A triangulation data structure

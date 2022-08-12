@@ -212,6 +212,7 @@ def setFollowTranslation(gamedata, ftime):
         gamedata['drv_dx'] = dx
         gamedata['drv_dy'] = dy
         gamedata['follow_t'] += tspeed
+        gamedata['score'] += ftime
 
 followTranslation = Mixin(':camera-tr-follow', {
     'frame': setFollowTranslation,
