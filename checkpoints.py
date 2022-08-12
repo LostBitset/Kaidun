@@ -3,6 +3,8 @@
 from math import copysign
 import random
 
+from terrain_graph_utils import dist
+
 class Checkpoints(object):
     __slots__ = ('items',)
     count = 3
@@ -13,7 +15,7 @@ class Checkpoints(object):
     @classmethod
     def selectForEdge(cls, edge, numSteps=10):
         step = 1. / numSteps
-        stepDistance = edge.length()
+        stepDistance = dist(edge.src, edge.dst)
         radsPerMeter = 1.0
         stepRoll = stepDistance * radsPerMeter
         roll = 0.0
@@ -21,15 +23,17 @@ class Checkpoints(object):
             random.randrange(0, numSteps)
             for _ in range(cls.count)
         }
-        res = []
+        L = []
         for i in range(numSteps):
             if i in indices:
-                res.append(
+                L.append(
                     Checkpoint(i * step, roll)
                 )
             signSource = random.random() - 0.5
             roll += copysign(stepRoll, signSource)
-        return cls(res)
+        res = cls(L)
+        print(f'~> new checkpoints: {res}')
+        return res
 
 class Checkpoint(object):
     __slots__ = ('t', 'roll')
