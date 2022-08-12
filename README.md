@@ -32,7 +32,7 @@ failing checkpoints.
     - [X] A triangulation data structure
     - [X] Delaunay Triangulation with Bowyer-Watson
     - [X] Finding the incenter using barycentric coordinates
-    - [ ] Creating a random Delaunay Triangulation
+    - [X] Creating a random Delaunay Triangulation
     - [ ] Expanding it until all incenters are far enough away from sides
     - [ ] Conversion of triangulations into graphs
 - [ ] Artifacts
