@@ -206,8 +206,9 @@ def frameStartAndStop(gamedata, ftime):
         graph = gamedata['follow_graph']
         print('--- REACHED END OF EDGE ---')
         print(f'| expected: {edge.dst}')
-        print(f'| got: {gamedata["cam_ctr"]}')
-        print('--- CONTINUING...')
+        print(f'| edge: {edge}')
+        print(f'| ctr: {ctr}')
+        print('--- [[ edge.isBeyond(ctr) ]] CONTINUING...')
         opts = graph.adjDict[edge.dst]
         opts.difference_update(edge.asUndirected())
         chosenEdge = random.choice(tuple(opts))

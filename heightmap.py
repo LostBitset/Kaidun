@@ -22,6 +22,7 @@ class Heightmap(object):
             return res
 
     def getValue(self, pos):
+        '''
         top3 = [None, None, None]
         for idx in range(0, 3):
             best = None
@@ -39,7 +40,14 @@ class Heightmap(object):
             )
             for edge in top3
         )
-        return max(0., min(1., minDist))
+        res = minDist
+        '''
+        res = 0.0
+        for edge in self.edges:
+            for vert in edge:
+                if dist(vert, pos) < 3.0:
+                    res = 1.0
+        return max(0., min(1., res))
 
 def fromGraph(graph):
     allEdges = set()
