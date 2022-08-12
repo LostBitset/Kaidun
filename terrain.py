@@ -6,6 +6,7 @@ from terrain_ground import GroundPlane
 from terrain_graphs import makeWorldGraph
 
 def makeGraph():
+    return makeWorldGraph()
     # BEGIN TEMP
     import graphs
     res = graphs.Graph()
@@ -18,7 +19,6 @@ def makeGraph():
     res.addEdge(edgecls(c, a))
     return res
     # END TEMP
-    return makeWorldGraph()
 
 # Generate terrain geometry from a the graph
 def fromGraph(graph):
