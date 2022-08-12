@@ -84,13 +84,32 @@ class CubeScene2(CubeScene):
 class WorldScene(Scene):
 
     @classmethod
+    def getPlayerViewCenter(self, gamedata):
+        pos = gamedata['cam_ctr']
+        if 'drv_dx' in gamedata:
+            dx = gamedata['drv_dx']
+            dy = gamedata['drv_dy']
+            resolution = 1000
+            dx = int(dx * resolution) / resolution
+            dy = int(dy * resolution) / resolution
+            fac = 40.0
+            return (pos[0] + 10., pos[1] + 10.)
+            return (
+                pos[0] + (dx * fac),
+                pos[1] + (dy * fac),
+            )
+        else:
+            return (pos[0], pos[1])
+
+    @classmethod
     def geometryState(cls, gamedata):
         worldGeometry = gamedata['world_geometry']
         chunkSize = worldGeometry.ccfg.size
         superchunk = chunkSize * 1
+        playerViewPos = cls.getPlayerViewCenter(gamedata)
         playerChunk = (
-            gamedata['cam_ctr'][0] // superchunk,
-            gamedata['cam_ctr'][1] // superchunk,
+            playerViewPos[0] // superchunk,
+            playerViewPos[1] // superchunk,
         )
         return (
             '~worldGeometryRef',
