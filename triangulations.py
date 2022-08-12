@@ -1,5 +1,7 @@
 # Kaidun (by HktOverload)
 
+import cpu_linalg
+
 # During Bowyer-Watson, only three
 # extra vertices are ever added, so
 # this is (I think) more memory efficient
@@ -55,11 +57,13 @@ class ScaledView(object):
         self.fac = 1.
 
     def getTri(self, tri):
-        return (
-            self.triangulation.toVerts[tri[0]] * self.fac,
-            self.triangulation.toVerts[tri[1]] * self.fac,
-            self.triangulation.toVerts[tri[2]] * self.fac,
-        )
+        return [
+            cpu_linalg.sc(
+                self.triangulation.toVerts[tri[ax]],
+                self.fac,
+            )
+            for ax in range(3)
+        ]
 
     def __iter__(self):
         for triRef in self.triangulation.refs:

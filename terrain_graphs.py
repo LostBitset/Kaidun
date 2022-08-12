@@ -17,6 +17,7 @@ def makeWorldGraph():
     scaled = triangulations.ScaledView(triangulation)
     while not false_valley_checker.ok(scaled):
         scaled.fac += 0.2
+    print(f'makeWorldGraph> FOUND SCALE FACTOR: {scaled.fac}')
     return triangulations.toGraph(scaled)
 
 def random1x1():
@@ -25,7 +26,7 @@ def random1x1():
         random.random(),
     )
 
-def sample1x1(nodeCount, thresh=0.01):
+def sample1x1(nodeCount, thresh=0.07):
     extras = nodeCount
     pts = [
         random1x1()
