@@ -202,7 +202,7 @@ def handleStartAndStop(gamedata, event):
         gamedata['following_event'] = True
 
 def frameStartAndStop(gamedata, ftime):
-    print(f't={gamedata["follow_t"]}')
+    # print(f't={gamedata["follow_t"]}')
     gamedata['following_event'] = False
     ctr = gamedata['cam_ctr']
     edge = gamedata['follow_edge']
