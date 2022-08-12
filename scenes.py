@@ -5,6 +5,7 @@ from math import sin, cos, atan2
 
 import numpy as np
 
+from checkpoints import Checkpoints
 from cpu_geom import Geometry, FillWith
 import scene_controllers as c
 
@@ -86,10 +87,19 @@ class CheckpointScene(Scene):
 
     @classmethod
     def geometryState(cls, gamedata):
-        pass  # TODO
+        return gamedata['checkpoints']
 
     @classmethod
     def buildGeometry(cls, geometryState):
+        if not isinstance(geometryState, Checkpoints):
+            raise Exception(
+                '''
+                In {cls.__name__}, geometryState is:
+                {geometryState}
+                (type {type(geometryState)})
+                It must be an instance of Checkpoints
+                '''
+            )
         pass  # TODO
 
     @classmethod
