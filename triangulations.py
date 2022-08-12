@@ -107,3 +107,11 @@ def insideTri(tri, x):
         baryCoord > 0 for baryCoord in barycentric
     )
 
+# Get the triangle which a given point is inside of
+# (from a triangulation)
+def getCell(triangulation, pt):
+    for tri in triangulation:
+        if insideTri(tri, pt):
+            return tri
+    return None
+
