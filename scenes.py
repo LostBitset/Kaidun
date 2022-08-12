@@ -1,6 +1,7 @@
 # Kaidun (by HktOverload)
 
 import abc
+from math import sin, cos, atan2
 
 import numpy as np
 
@@ -89,14 +90,12 @@ class WorldScene(Scene):
         if 'drv_dx' in gamedata:
             dx = gamedata['drv_dx']
             dy = gamedata['drv_dy']
-            resolution = 1000
-            dx = int(dx * resolution) / resolution
-            dy = int(dy * resolution) / resolution
+            angle = atan2(dy, dx)
+            angle = int(angle)
             fac = 40.0
-            return (pos[0] + 10., pos[1] + 10.)
             return (
-                pos[0] + (dx * fac),
-                pos[1] + (dy * fac),
+                pos[0] + (cos(angle) * fac),
+                pos[1] + (sin(angle) * fac),
             )
         else:
             return (pos[0], pos[1])
