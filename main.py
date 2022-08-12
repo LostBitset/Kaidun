@@ -5,6 +5,7 @@ import time
 from cmu_112_graphics import ImageTk, runApp
 
 import mglw_main
+import scoring
 
 # Center the window given a WindowConfig object
 # This must be a tkinter window
@@ -33,11 +34,17 @@ def startMGLWRoot(app, maxTimeWithoutGLRoot=0.1):
             lambda wincls: mglwRootLoadHook(app, wincls)
         ),
     )
+    print('!! mglw_main.main is finished !!')
+    reenterHook(app)
+
+def reenterHook(app):
+    updateScores(app)
 
 def appStarted(app):
     # See citation for mglwCenterTkWindow function
     app._root.eval('tk::PlaceWindow . center')
     app.mode = 'splashScreen'
+    updateScores(app)
 
 def splashScreen_keyPressed(app, event):
     if event.key == 'Enter':
@@ -65,6 +72,38 @@ def splashScreen_redrawAll(app, canvas):
             app.height//2,
             image=app.splashScreenImage,
         )
+    drawScoreInfo(app, canvas)
+
+def drawScoreInfo(app, canvas):
+    text = '\n'.join([
+        f'Latest Score: {app.latestScore}',
+        f'Best Score: {app.bestScore}',
+    ])
+    canvas.create_text(
+        app.width - 15, app.height - 15, anchor='se',
+        text=text, font='Monospace 40 bold',
+        fill='white',
+    )
+
+def maxSafe(L):
+    if len(L) == 0:
+        return None
+    return max(L)
+
+def updateScores(app):
+    scores = scoring.readSavefile()['scores']
+    highestScore = maxSafe(scores.values())
+    if highestScore != None:
+        highestScore = int(highestScore * 10)
+    else:
+        highestScore = 0
+    latestTimestamp = maxSafe(scores.keys())
+    if latestTimestamp == None:
+        latestScore = 0
+    else:
+        latestScore = int(scores[latestTimestamp] * 10)
+    app.latestScore = latestScore
+    app.bestScore = highestScore
 
 def deferToGL(app):
     app.mglwReturnMode = app.mode
