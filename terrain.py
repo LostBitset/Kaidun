@@ -20,7 +20,7 @@ def genTestGraph():
 # Generate terrain geometry from a the graph
 def fromGraph(graph):
     res = GroundPlane(
-        unhexify(0xDC7633),
+        unhexify(0xC2B280),
         heightmap.fromGraph(graph),
     )
     return res
