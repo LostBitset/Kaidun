@@ -119,3 +119,9 @@ def group(*classes, controller=None):
 
 TwoCubes = group(s.CubeScene1, s.CubeScene2, controller=c.movementWithKeys)
 
+GameWorld = group(
+    s.CheckpointScene,
+    s.WorldScene,
+    controller=c.movementWithKeys,
+)
+

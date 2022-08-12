@@ -100,7 +100,7 @@ class CheckpointScene(Scene):
                 It must be an instance of Checkpoints
                 '''
             )
-        pass  # TODO
+        return CubeScene.buildGeometry({'origin':(0,0,0)})
 
     @classmethod
     def getController(cls, gamedata):
