@@ -10,6 +10,8 @@ failing checkpoints.
 ## Running it
 
 - Just run `python main.py`
+    - Use the arrow keys to look around and z to jump
+    - Toggle following the mountains with the enter key
 - Files ending in `.test.py` are tests
 - Files ending in `.vtest.py` are "visual tests" for me to make sure things look right
 - Files ending in `.vert` or `.frag` are OpenGL shaders
