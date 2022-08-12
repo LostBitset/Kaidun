@@ -159,6 +159,11 @@ float distance_fog_visibility_frac(in float fog_amt) {
 }
 
 void main() {
+    // Perspective transform
+    // [: Citation https://en.wikipedia.org/wiki/Camera_matrix :]
+    // [: Citation https://en.wikipedia.org/wiki/3D_projection#Mathematical_formula :]
+    // [: Citation https://staff.fnwi.uva.nl/r.vandenboomgaard/IPCV20172018/LectureNotes/MATH/homogenous.html :]
+    // [: Citation http://www.songho.ca/math/homogeneous/homogeneous.html :]
     vec3 v = vert;
     camspace(v);
     vec2 pos = v.xy / v.z;
