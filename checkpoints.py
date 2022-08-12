@@ -25,6 +25,7 @@ class Checkpoints(object):
     @classmethod
     def selectForEdge(cls, edge):
         numSteps = 10 * cls.count
+        numSteps -= 10
         step = 1. / numSteps
         stepDistance = dist(edge.src, edge.dst)
         radsPerMeter = 0.002
