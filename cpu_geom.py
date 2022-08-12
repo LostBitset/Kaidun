@@ -36,7 +36,7 @@ class FillWith(object):
         )
 
 class Geometry(object):
-    __slots__ = ('tris', 'aux')
+    __slots__ = ('tris', 'aux', 'absMemo', 'relMemo')
 
     def __init__(self, tris, aux):
         self.tris = tris
@@ -44,6 +44,8 @@ class Geometry(object):
             self.aux = aux.make(len(tris) * 3)
         else:
             self.aux = aux
+        self.absMemo = None
+        self.relMemo = dict()
 
     # Overload the | operator to merge geometry,
     # just like the union for sets
@@ -59,6 +61,12 @@ class Geometry(object):
             )),
         )
 
+    # CALL THIS IF YOU EVER MUTATE THE GEOMETRY
+    # (it resets all of the data used for memoization
+    def resetM(self):
+        self.absMemo = None
+        self.relMemo = dict()
+
     # Place the geometry in the world
     # This translates it from the tris 2D array
     # and the aux 2D array to a 1D array that will
@@ -66,6 +74,14 @@ class Geometry(object):
     # See mglw_main.py for the format
     # See vbo_utils.py for other vertex buffer stuff
     def place(self, loc):
+        if loc in self.relMemo:
+            return self.relMemo[loc]
+        else:
+            res = self.placeInternal(loc)
+            self.relMemo[loc] = res
+            return res
+
+    def placeInternal(self, loc):
         L = []
         for tri in self.tris:
             normal = (0., 0., 1.)  # triNormal(tri)
@@ -96,6 +112,14 @@ class Geometry(object):
     # See mglw_main.py for the format
     # See vbo_utils.py for other vertex buffer stuff
     def placeAbsolute(self):
+        if self.absMemo != None:
+            return self.absMemo
+        else:
+            res = self.placeAbsoluteInternal()
+            self.absMemo = res
+            return res
+
+    def placeAbsoluteInternal(self):
         L = []
         for tri in self.tris:
             normal = (0., 0., 1.)  # triNormal(tri)
