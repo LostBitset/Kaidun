@@ -2,7 +2,7 @@
 
 import numpy as np
 
-from math import atan2
+from math import atan2, copysign
 import random
 
 from mix import Mixin
@@ -72,8 +72,14 @@ movement = Mixin(':camera-movement', {
     'frame': frameMovement,
 }).use(cameraUpdates)
 
+rspeed = [0.05, 0.02, 0.05]
+
+rspeedController = [
+    rspeed[ax] if ax == 1 else None
+    for ax in range(3)
+]
+
 def handleRotation(gamedata, event):
-    rspeed = [0.05, 0.01, 0.05]
     posKeys = ['up', 'a', 'left']
     negKeys = ['down', 'd', 'right']
     if 'keys_control_rot_axes' not in gamedata:
@@ -133,16 +139,20 @@ gravity = Mixin(':gravity', {
 # A proportional controller (like PID but only P)
 # [: Citation https://eng.libretexts.org/Bookshelves/Industrial_and_Systems_Engineering/Book%3A_Chemical_Process_Dynamics_and_Controls_(Woolf)/09%3A_Proportional-Integral-Derivative_(PID)_Control/9.02%3A_P%2C_I%2C_D%2C_PI%2C_PD%2C_and_PID_control :]
 class PController(object):
-    __slots__ = ('kP',)
+    __slots__ = ('kP', 'max')
 
-    def __init__(self, kP):
+    def __init__(self, kP, maxD):
         self.kP = kP
+        self.max = maxD
 
     def get(self, x, setpoint):
         err = x - setpoint
         pComponent = self.kP * err
         if abs(pComponent) < 0.01:
             pComponent = 0.0
+        if self.max != None:
+            if abs(pComponent) > self.max:
+                return copysign(self.max, pComponent)
         return -pComponent
 
 # A variant of the proprtional controller that doesn't go the
@@ -163,7 +173,10 @@ class AnglePController(PController):
                 setpoint,
             )
 
-followRotationController = AnglePController(0.4)
+followRotationControllers = [
+    AnglePController(0.4, speed)
+    for speed in rspeedController
+]
 
 def setFollowRotation(gamedata, ftime):
     if not gamedata['is_following']:
@@ -175,13 +188,13 @@ def setFollowRotation(gamedata, ftime):
         y = gamedata['drv_dy']
         setpoints = [
             np.pi / 2,
-            0,
+            np.pi,
             atan2(y, x) + (np.pi / 2),
         ]
         for i in range(3):
             if i in gamedata.get('keys_control_rot_axes', set()):
                 continue
-            drot[i] = followRotationController.get(
+            drot[i] = followRotationControllers[i].get(
                 rot[i],
                 setpoints[i],
             )
