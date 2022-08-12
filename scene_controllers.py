@@ -144,7 +144,25 @@ class PController(object):
             pComponent = 0.0
         return -pComponent
 
-followRotationController = PController(1.0)
+# A variant of the proprtional controller that doesn't go the
+# wrong direction half the time when used with angles
+# (in radians)
+class AnglePController(PController):
+
+    def get(self, x, setpoint):
+        adj = abs(x - setpoint)
+        if adj > np.pi:
+            return super().get(
+                x + np.pi,
+                setpoint + np.pi,
+            )
+        else:
+            return super.get(
+                x,
+                setpoint,
+            )
+
+followRotationController = AnglePController(1.0)
 
 def setFollowRotation(gamedata, ftime):
     if not gamedata['is_following']:
