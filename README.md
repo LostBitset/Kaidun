@@ -3,7 +3,7 @@ A 3D game made in Python with moderngl
 
 ## Gameplay
 
-The game mechanics are based off of Temple Run. In this version you fly over
+The game mechanics are inspired by Temple Run. In this version you fly over
 desert mountains on an alien planet, and try to collect artifacts without
 failing checkpoints.
 
@@ -23,11 +23,10 @@ failing checkpoints.
     - [X] Simple physics so you don't fall through the floor
     - [X] Terrain organized into chunks, and generated from a heightmap
     - [X] A chunk loading system
-- [ ] Following edges of a graph
+- [X] Following edges of a graph
     - [X] Use t-values to determine position and derive heading
     - [X] Randomly switch to possible new edges at the end
     - [X] Rotation done using a P-controller
-    - [ ] Moving along the relative X axis
 - [ ] Procedural terrain generation
     - [X] Heightmaps derived from a graph where mountains are edges
     - [X] A triangulation data structure
