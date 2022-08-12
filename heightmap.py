@@ -1,6 +1,6 @@
 # Kaidun (by HktOverload)
 
-from terrain_graph_utils import dist, distToSegment
+from terrain_graph_utils import dist, minSideDist
 import triangulations
 
 class Heightmap(object):
@@ -42,17 +42,13 @@ class Heightmap(object):
         '''
         if tri == None:
             return 0.0
-        minDist = min(
-            distToSegment(
-                edge,
-                pos,
-            )
-            for edge in tri
-        )
-        skipThresh = 0.5
+        minDist = minSideDist(tri, pos)
         res = minDist
+        '''
+        skipThresh = 0.5
         if minDist < skipThresh + 0.1:
             return 1.0
+        '''
         '''
         res = 1.0
         for edge in self.edges:
@@ -62,6 +58,7 @@ class Heightmap(object):
         '''
         res = max(0., min(1., res))
         res = 1. - res
+        '''
         res *= 2.1
         for edge in self.edges:
             for vert in edge:
@@ -71,6 +68,7 @@ class Heightmap(object):
                     fac = (thresh - distance) / thresh
                     res *= 1. + (0.5 * fac)
         res = max(0., min(1., res))
+        '''
         return res
 
     def getTri(self, pos):
