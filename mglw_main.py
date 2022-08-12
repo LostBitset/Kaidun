@@ -6,7 +6,7 @@ import numpy as np
 import moderngl_window as mglw
 import moderngl
 
-from checkpoints import Checkpoint
+from checkpoints import Checkpoints
 import events
 import terrain
 import scenes as s
@@ -66,8 +66,7 @@ class GameWindow(mglw.WindowConfig):
         followEdge = followEdge.toDirectedND()
         print('initial followEdge set using toDirectedND')
         print(f'^^^^^^^^^^^^^^^^^^ value: {followEdge}')
-        numCheckpoints = Checkpoint.gameCount
-        checkpoints = [ Checkpoint.random() for _ in range(numCheckpoints) ] 
+        checkpoints = Checkpoints.selectForEdge(followEdge)
         self.gamedata.update({
             '<wnd>': self.wnd,
             'cam_ctr': (followEdge.src[0], followEdge.src[1], 0.5),
